@@ -1,0 +1,9 @@
+<% show_hash(:property).each do |k,v| %>
+    <p>
+      <strong><%= k %>:</strong> <%= @property.send(v) %>
+    </p>
+<% end %>
+
+<% if current_user.admin? %>
+    <%= link_to 'Edit', edit_property_path(@property) %> | <%= link_to 'Back', properties_path %>
+<% end %>

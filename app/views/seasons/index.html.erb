@@ -1,0 +1,26 @@
+<h1>Listing Seasons</h1>
+
+<table>
+  <tr>
+    <% [:name, :subject, :pre_text, :post_text, :property_char_limit, :unsent_email].each do |field| %>
+        <th><%= field.to_s.titleize %></th>
+    <% end %>
+    <th>Commands</th>
+  </tr>
+  <% @seasons.each do |season| %>
+      <tr <%= season.enabled ? '' : "style='font-style: italic;'" %>>
+        <% [:name, :subject, :pre_text, :post_text, :property_char_limit, :unsent_email].each do |field| %>
+            <td><%= season.send(field) %></td>
+        <% end %>
+        <td>
+          <%= link_to 'Send Emails', send_season_path(:id => season.id) %><br />
+          <%= season.enabled ? link_to('Disable Season', disable_season_path(:id => season.id)) : link_to('Enable Season', enable_season_path(:id => season.id)) %><br />
+          <%= link_to 'Show', season %> <%= link_to 'Edit', edit_season_path(season) %> <%= season.can_destroy ? link_to('Destroy', season, :confirm => 'Are you sure?', :method => :delete) : '' %>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+<p>
+  <%= link_to 'New Season', new_season_path %>
+</p>

@@ -1,0 +1,21 @@
+<% show_hash(:client).each do |k,v| %>
+    <p>
+      <strong><%= k %>:</strong> <%= @client.send(v) %>
+    </p>
+<% end %>
+<p>
+  <strong>Surveys:</strong> - (<%= link_to 'Create New Survey', new_cif_path(:client_id => @client.id) %>)<br />
+  <% @client.cifs.each do |cif| %>
+      <%= link_to "#{cif.property} - #{cif.start_date.to_s(:shortdate)} to #{cif.end_date.to_s(:shortdate)}", cif %> - <%= cif.status %><br />
+  <% end %>
+</p>
+<p>
+  <strong>Emails:</strong> - (<%= link_to 'Create New Email', new_thank_you_card_path(:client_id => @client.id) %>)<br />
+  <% @client.thank_you_cards.each do |tyc| %>
+      <%= tyc.season %> - Created at: <%= tyc.created_at.to_s(:date_time12) %> - <%= tyc.status %><br />
+  <% end %>
+</p>
+
+<p>
+  <%= link_to 'Edit', edit_client_path(@client) %> | <%= link_to 'Back', clients_path %>
+</p>

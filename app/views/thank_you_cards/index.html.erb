@@ -1,0 +1,49 @@
+<h1>Listing Emails</h1>
+
+<p>
+  Restrict Emails:
+</p>
+<ul>
+  <li>Which Properties?
+    <ul>
+      <%= scope_filter('all', "All Emails") %>
+      <%= scope_filter('mine', "Direct") %>
+      <% if current_user.supervisor_properties.size > 0 %>
+          <li><%= scope_filter('subord', "Subordinate Departments") %>
+          <li><%= scope_filter('subandmine', "Subordinate and Direct") %>
+      <% end %>
+    </ul>
+  </li>
+  <li>Which Emails?
+    <ul>
+      <%= restrict_filter('awaiting', 'Unsent') %>
+      <%= restrict_filter('sent', 'Sent') %>
+      <%= restrict_filter('all', 'All') %>
+    </ul>
+  </li>
+</ul>
+
+<%= paginate @thank_you_cards %>
+
+<table>
+  <tr>
+    <th>Client</th>
+    <th>Template</th>
+    <th>Last Updated</th>
+    <th>Greeting</th>
+    <th>Date Email Sent</th>
+    <th>Commands</th>
+  </tr>
+  <% @thank_you_cards.each do |tyc| %>
+      <tr>
+        <td><%= link_to tyc.client %></td>
+        <td><%= tyc.prop_season.gsub(/ for /,' for<br />') %></td>
+        <td><%= tyc.updated_at.to_s(:date_time12) %></td>
+        <td><%= tyc.greeting %></td>
+        <td><%= tyc.sent_at ? tyc.sent_at.to_s(:date_time12) : 'Not sent yet' %></td>
+        <td><%= link_to 'View Email', view_email_path(:id => tyc.id, :passcode => tyc.passcode) %><br />
+          <% if tyc.sent_at.nil? %><%= link_to('Edit', edit_thank_you_card_path(tyc)) %> <%= link_to 'Destroy', tyc, :confirm => 'Are you sure?', :method => :delete %><% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>

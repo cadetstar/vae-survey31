@@ -1,0 +1,23 @@
+<% if user.enabled %>
+  <tr class="<%= cycle('odd', 'even') %>">
+<% else %>
+  <tr class="disabled">
+<% end %>
+  <td><%= user.username %> <%= link_to 'Edit', edit_user_registration_path(user) %></td>
+  <td><%= user.name_std %></td>
+  <td><%= user.email %></td>
+  <td><%= user.enabled ? 'yes' : 'no' %> &nbsp;
+    <% unless user == current_user %>
+      <% if user.enabled %>
+        <%= link_to('disable', url_for(:controller => "users/registrations", :action => :destroy, :method => :delete, :id => user.id)) %>
+      <% else %>
+        <%= link_to('enable', enable_user_path(:id => user.id)) %>
+      <% end %>
+    <% end %>
+  </td>
+  <td><%= t = (user.current_sign_in_at || user.last_sign_in_at)
+            t.nil? ? 'Never signed in' : t.getlocal.to_s(:date_time12) %>
+  </td>
+  <td><%= user.roles.join(", ") %></td>
+</tr>
+

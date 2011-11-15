@@ -1,0 +1,25 @@
+<h1>Listing Contacts</h1>
+
+<%= filter_helper(:client) %>
+
+<%= paginate @clients %>
+
+<table>
+  <tr>
+    <% [:name, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
+        <th><%= sort_helper(:client, field) %></th>
+    <% end %>
+    <th>Commands</th>
+  </tr>
+  <% @clients.each do |client| %>
+      <tr>
+        <% [:name, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
+            <td><%= client.send(field) %></td>
+        <% end %>
+        <td>
+          <%= link_to 'Create Email', new_thank_you_card_path(:client_id => client.id) %><br />
+          <%= link_to 'Show', client %> <%= link_to 'Edit', edit_client_path(client) %> <% if current_user.admin? %><%= link_to 'Destroy', client, :confirm => 'Are you sure?', :method => :delete %><% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>

@@ -1,0 +1,15 @@
+<h2>Edit Client</h2>
+<div>
+  <% form_for @client do |f| %>
+      <div>Company:<br /><%= @client.company %></div>
+      <div>Property:<br /><%= @client.property %></div>
+      <div><%= f.label :first_name %><br /><%= f.text_field :first_name %></div>
+      <div><%= f.label :last_name %><br /><%= f.text_field :last_name %></div>
+      <div><%= f.label :salutation %><br /><%= f.text_field :salutation %></div>
+      <div><%= f.label :email %><br /><%= f.email_field :email %></div>
+      <div><%= f.label :phone %><br /><%= f.telephone_field :phone %></div>
+      <div><%= f.label :r2_client_id %><br /><%= f.text_field :r2_client_id %></div>
+      <div><%= f.submit 'Update Client' %></div>
+  <% end %>
+</div>
+<%= link_to "Back", clients_path %>

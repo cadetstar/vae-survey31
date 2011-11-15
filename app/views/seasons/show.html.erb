@@ -1,0 +1,18 @@
+<% show_hash(:season).each do |k,v| %>
+    <p>
+      <strong><%= k %>: </strong><br /><%= @season.send(v) %>
+    </p>
+<% end %>
+
+<p>
+  <strong>Properties:</strong><br />
+</p>
+<ul>
+  <% @season.properties.each do |property| %>
+      <li><%= property %></li>
+  <% end %>
+</ul>
+
+<p>
+  <%= link_to 'Edit', edit_season_path(@season) %> | <%= link_to 'Back', seasons_path %>
+</p>

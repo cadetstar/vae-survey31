@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  code: MyString
+  r2_code: MyString
+  name: MyString
+  manager_id: 1
+  supervisor_id: 1
+  group_id: 1
+  cif_include: false
+  cif_form: MyString
+
+two:
+  code: MyString
+  r2_code: MyString
+  name: MyString
+  manager_id: 1
+  supervisor_id: 1
+  group_id: 1
+  cif_include: false
+  cif_form: MyString

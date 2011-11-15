@@ -1,0 +1,20 @@
+<h1>Groups</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Properties</th>
+    <th>Commands</th>
+  </tr>
+  <% @groups.each do |group| %>
+      <tr>
+        <td><%= group %></td>
+        <td><%= group.properties.collect{|r| "#{r.code} - #{r.name}"}.join("<br />") %></td>
+        <td><%= link_to 'Edit', edit_group_path(group) %>
+          <% if current_user.admin? and group.properties.size == 0 %>
+              <%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>

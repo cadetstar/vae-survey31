@@ -1,0 +1,16 @@
+<h2>All Users</h2>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Enabled?</th>
+    <th>Last Logged On</th>
+    <th>Roles</th>
+  </tr>
+    <%= render :partial => 'user', :collection => @users %>
+</table>
+
+<p>
+<%= link_to 'New User', new_user_registration_path %>
+</p>

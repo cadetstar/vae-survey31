@@ -1,0 +1,17 @@
+<div>
+  <% form_for @season do |f| %>
+      <div><%= f.label :name %><br /><%= f.text_field :name %></div>
+      <div><%= f.label :subject %><br /><%= f.text_field :subject, :class => "long_field" %></div>
+      <div><%= f.label :pre_text %><br /><%= f.text_field :pre_text, :class => "long_field" %></div>
+      <div><%= f.label :post_text %><br /><%= f.text_field :post_text, :class => "long_field" %></div>
+      <div><%= f.label :property_char_limit %><br /><%= f.number_field :property_char_limit %></div>
+      <div><%= f.label :property_ids, "Properties for Season" %><br /><%= f.select :property_ids, Property.list_for_select(current_user), {:multiple => true} %></div>
+      <div><%= f.label :email_template, "Email Template for HTML Emails (this should not need to be edited." %></div>
+      <%= token_helper %>
+      <div><%= f.text_area :email_template, :class => "long_field" %></div>
+      <div><%= f.label :email_template_plain, "Email Template for Plaintext Emails (this should be updated for this season." %></div>
+      <%= token_helper %>
+      <div><%= f.text_area :email_template, :class => "long_field" %></div>
+      <div><%= f.submit 'Update Season' %></div>
+  <% end %>
+</div>

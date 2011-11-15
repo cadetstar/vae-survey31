@@ -1,0 +1,291 @@
+body
+{
+  background-color: #EFEFEF;
+}
+
+table
+{
+  width: 100%;
+  border: solid 2px black;
+  empty-cells: show;
+  border-collapse: collapse;
+
+  th
+  {
+    text-align: center;
+    border: 1px black solid;
+    border-bottom: 2px black solid;
+  }
+  td
+  {
+    text-align: center;
+    border: 1px black solid;
+  }
+}
+
+li.sorted
+{
+  padding: 0;
+  margin: 0;
+}
+ul.sorted
+{
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+table.logheader
+{
+  border: none;
+  width: 100%;
+
+  td
+  {
+    border: none;
+  }
+}
+
+
+tr.disabled
+{
+  background-color: #9F9F9F;
+}
+
+tr.odd
+{
+  background-color: #DFDFFF;
+}
+
+tr.even
+{
+  background-color: #FFFFFF;
+}
+
+div.survey
+{
+  width: 100%;
+  text-align: center;
+}
+
+table.survey
+{
+  width: 70%;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+
+  tr
+  {
+    border: none;
+  }
+
+  td
+  {
+    border: none;
+    padding: 2px;
+
+    .question
+    {
+      width: 60%;
+      text-align: right;
+    }
+    .headerleft
+    {
+      width: 60%;
+      text-align: left;
+      font-weight: bold;
+      font-size: 14pt;
+      border-bottom: solid black 2px;
+    }
+    .headerright
+    {
+      width: 40%;
+      text-align: right;
+      font-size: 10pt;
+      border-bottom: solid black 2px;
+    }
+    .answer
+    {
+      width: 40%;
+      text-align: left;
+      padding-left: 5px;
+    }
+    .response
+    {
+      width: 5%;
+      text-align: center;
+      padding-left: 5px;
+    }
+    .respgraph
+    {
+      width: 35%;
+      text-align: left;
+      background-color: grey;
+    }
+  }
+}
+table.report
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+table.report td
+{
+  width: 33%;
+  vertical-align: bottom;
+}
+
+.Tooltip {
+  background: transparent url(/images/dark-pointer.png) no-repeat scroll 10px bottom;
+  font-size: 14px;
+  line-height: 16px;
+  margin-left: -5px;
+  padding: 0 5px;
+  position: absolute;
+  z-index: 100;
+  left: 0;
+}
+
+.Tooltip span {
+  background-color:#525252;
+  color:#FFFFFF;
+  display:block;
+  margin-bottom:4px;
+  padding:4px 5px;
+  white-space:nowrap;
+}
+
+
+table.info
+{
+  width: 60%;
+  min-width: 400px;
+  border: solid 2px red;
+  empty-cells: show;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.info th
+{
+  text-align: center;
+  border: 1px red solid;
+  border-bottom: 2px red solid;
+}
+table.info td
+{
+  text-align: center;
+  border: 1px red solid;
+  width: 50%;
+}
+
+tr.nosend
+{
+  background-color: #000000;
+  color: #FFFFFF;
+}
+
+tr.nosend a:link
+{
+  color: #EEEEEE;
+}
+
+tr.nosend a:visited
+{
+  color: #FFFFDD;
+}
+
+div.properties
+{
+  float: left;
+  text-align: center;
+  width: 100%;
+  min-width: 100%;
+}
+div.propindiv
+{
+  min-width: 33%;
+  width: 33%;
+  height: 1.5em;
+  float: left;
+}
+
+span.reporttabhead
+{
+  font-size: 18pt;
+}
+span.reportscores
+{
+  font-size: 16pt;
+}
+#flash_error {
+    color: red;
+}
+
+#flash_notice {
+    color: green;
+}
+
+$dpwidth: 300px;
+$corner_offset: 5px;
+
+@mixin corner-base {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    position: absolute;
+    top: 0;
+}
+
+.ui-datepicker {
+    background-color: #9c9b9b;
+    width: $dpwidth;
+
+    .ui-datepicker-prev {
+            @include corner-base;
+            left: $corner_offset;
+        }
+
+    .ui-datepicker-next {
+            @include corner-base;
+            right: $corner_offset;
+        }
+
+    .ui-datepicker-title {
+        text-align: center;
+        width: 100%;
+    }
+
+    td {
+        font-weight: bold;
+        width: $dpwidth / 7;
+    }
+}
+
+.user_signup {
+    div {
+        position: relative;
+        padding-top: 15px;
+    }
+}
+
+.public_header {
+    width: 100%;
+    text-align:center;
+}
+
+.property_form {
+    div {position: relative; padding-top: 15px;}
+}
+
+.long_field {
+    width: 300px;
+}
+
+.thank_you_card {
+    width: 100%;
+    text-align: center;
+}

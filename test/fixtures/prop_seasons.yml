@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  property_id: 1
+  season_id: 1
+  property_pre_text: MyText
+  property_post_text: MyText
+  property_signoff: MyText
+
+two:
+  property_id: 1
+  season_id: 1
+  property_pre_text: MyText
+  property_post_text: MyText
+  property_signoff: MyText

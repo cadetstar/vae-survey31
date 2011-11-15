@@ -1,0 +1,11 @@
+<% if user_signed_in? %>
+    <p>This is how the email will appear to the client:</p>
+    <hr />
+<% end %>
+<div class="thank_you_card">
+  <%= image_tag "cards/card_#{@thank_you_card.id}.jpg" %>
+</div>
+<% if user_signed_in? %>
+    <hr />
+    <p><%= link_to 'Back to Emails', thank_you_cards_path %> | <%= link_to 'Back to Clients', clients_path %> | <%= link_to 'Edit Email', edit_thank_you_card_path(@thank_you_card) %></p>
+<% end %>

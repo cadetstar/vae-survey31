@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VAE Customer Survey Program</title>
+  <%= favicon_link_tag %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tag %>
+
+</head>
+<body>
+<% if user_signed_in? %>
+    <table class="logheader">
+      <tr>
+        <td style="width: 20%;"><b>Thank You &<br />Holiday Cards</b></td>
+        <td rowspan="2" style="width: 10%;"><%= image_tag 'high5.png', :height => '89' %></td>
+        <td rowspan="2" colspan="2" style="width: 40%; vertical-align: middle;"><%= image_tag 'interface01.jpg', :width => '400' %></td>
+        <td rowspan="2" style="width: 10%;"><%= image_tag 'high5.png', :height => '89' %></td>
+        <td style="width: 20%;"><b>Customer Service Program</b></td>
+      </tr>
+      <tr>
+        <td><%= link_to image_tag('button-templates.jpg'), prop_seasons_path %></td>
+        <td><%= link_to image_tag('button-reports.jpg'), root_path %></td>
+      </tr>
+      <tr>
+        <td rowspan="2"><%= link_to image_tag('button-emails.jpg'), thank_you_cards_path %></td>
+        <td style="width: 15%;">Logged in as:<br><%= current_user.username %></td>
+        <td style="width: 15%;"><%= link_to 'Change Password', edit_user_password_path %></td>
+        <td style="width: 15%"><% if current_user.admin? %><%= link_to 'Administer Users', users_path %><% else %> &nbsp; <% end %></td>
+        <td style="width: 15%;"><%= link_to 'Log Out', destroy_user_session_path %></td>
+        <td rowspan="2"><%= link_to image_tag('button-surveys.jpg'), cifs_path %></td>
+      </tr>
+      <tr>
+        <% if current_user.admin? %>
+            <td><%= link_to image_tag('button-seasons.jpg'), seasons_path %></td>
+            <td><%= link_to image_tag('button-company.jpg'), companies_path %></td>
+            <td><%= link_to image_tag('button-client.jpg'), clients_path %></td>
+            <td><%= link_to image_tag('button-properties.jpg'), properties_path %></td>
+        <% else %>
+            <td colspan="2"><%= link_to image_tag('button-company.jpg'), companies_path %></td>
+            <td colspan="2"><%= link_to image_tag('button-client.jpg'), clients_path %></td>
+        <% end %>
+      </tr>
+    </table>
+<% else %>
+    <table class="logheader">
+      <tr>
+        <td style="width: 20%;"><%= image_tag 'high5.png', :height => '89' %></td>
+        <td colspan="2" style="width: 60%; vertical-align: middle;"><%= image_tag 'interface01.jpg', :width => '400' %></td>
+        <td style="width: 20%;"><%= image_tag 'high5.png', :height => '89' %></td>
+      </tr>
+      <tr>
+        <td> &nbsp; </td>
+        <td style="width: 30%;"><%= link_to 'Log In', new_user_session_path %></td>
+        <td style="width: 30%;"><%= link_to 'Forgot Password?', new_user_password_path %></td>
+        <td> &nbsp; </td>
+      </tr>
+    </table>
+<% end %>
+
+<% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, :id => "flash_#{name}" %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

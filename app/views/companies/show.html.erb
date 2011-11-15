@@ -1,0 +1,17 @@
+<% show_hash(:company).each do |k,v| %>
+    <p>
+      <strong><%= k %>: </strong><%= @company.send(v) %>
+    </p>
+<% end %>
+
+<p>
+  <strong>Contacts:</strong> (<%= link_to 'Create New Contact', new_client_path(:company_id => @company.id) %>)<br />
+</p>
+<ul>
+  <% @company.clients.each do |client| %>
+      <li><%= link_to client %></li>
+  <% end %>
+</ul>
+
+
+<%= link_to 'Edit', edit_company_path(@company) %> | <%= link_to 'Back', companies_path %>

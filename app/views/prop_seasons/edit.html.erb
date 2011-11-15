@@ -1,0 +1,8 @@
+<div>
+  <% form_for @prop_season do |f| %>
+      <% [:property_pre_text, :property_post_text, :property_signoff].each do |field| %>
+          <div><%= f.label field %><br /><%= f.text_area field, :class => "long_field" %></div>
+      <% end %>
+      <div><%= f.submit 'Update Template' %></div>
+  <% end %>
+</div>

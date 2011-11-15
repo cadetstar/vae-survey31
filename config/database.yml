@@ -1,0 +1,32 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: vae-survey31_development
+  pool: 5
+  username: root
+  password: projecte
+  host: localhost
+  port: 5435
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: vae-survey31_test
+  pool: 5
+  username: root
+  password: projecte
+  host: localhost
+  port: 5435
+
+production:
+  adapter: postgresql
+  encoding: utf8
+  reconnect: false
+  database: vae-survey31_production
+  pool: 5
+  username: root
+  password: projecte
+  host: localhost
+  port: 5435

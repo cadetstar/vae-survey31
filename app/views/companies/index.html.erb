@@ -1,0 +1,31 @@
+<h1>Companies</h1>
+<p><%= link_to 'New Company', new_company_path %></p>
+<%= filter_helper(:company) %>
+
+<div>
+  <%= paginate @companies %>
+</div>
+
+<table>
+  <tr>
+    <th><%= sort_helper(:company, :name) %></th>
+    <th><%= sort_helper(:company, :property) %></th>
+    <th><%= sort_helper(:company, :address_line_1) %></th>
+    <th><%= sort_helper(:company, :address_line_2) %></th>
+    <th><%= sort_helper(:company, :city) %></th>
+    <th><%= sort_helper(:company, :state) %></th>
+    <th><%= sort_helper(:company, :zip) %></th>
+    <th>Commands</th>
+  </tr>
+  <% @companies.each do |company| %>
+      <tr>
+        <% [:name, :property, :address_line_1, :address_line_2, :city, :state, :zip].each do |field| %>
+            <td><%= company.send(field) %></td>
+        <% end %>
+        <td><%= link_to "Create New Contact", new_client_path(:company_id => company.id) %><br />
+          <%= link_to 'Show', company %>
+          <%= link_to 'Edit', edit_company_path(company) %>
+        </td>
+      </tr>
+  <% end %>
+</table>

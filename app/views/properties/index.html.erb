@@ -1,0 +1,34 @@
+<h1>Listing Properties</h1>
+
+<p>
+  <%= link_to 'Reporting Groups', groups_path %>
+</p>
+
+<table>
+  <tr>
+    <th>Property Code</th>
+    <th>Property Name</th>
+    <th>Manager</th>
+    <th>Supervisor</th>
+    <th>CIF Include</th>
+    <th>CIF Group</th>
+    <th>CIF Form</th>
+    <th>Send Surveys?</th>
+    <th>Commands</th>
+  </tr>
+  <% @properties.each do |property| %>
+      <tr>
+        <td><%= property.code %></td>
+        <td><%= property.name %></td>
+        <td><%= property.manager %></td>
+        <td><%= property.supervisor %></td>
+        <td><%= property.cif_include ? 'Yes' : 'No' %></td>
+        <td><%= property.group %></td>
+        <td><%= property.cif_form %></td>
+        <td><%= property.send_surveys? ? 'Yes' : 'No' %></td>
+        <td><%= link_to 'Show', property %> <%= link_to 'Edit', edit_property_path(property) %> <%= link_to 'Destroy', property, :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+  <% end %>
+</table>
+
+<%= link_to 'New Property', new_property_path %>
