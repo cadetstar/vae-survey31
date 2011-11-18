@@ -29,11 +29,11 @@ class ApplicationController < ActionController::Base
     end
 
     if params[:property_id]
-      session[controller_sym][:property_id] = params[:property_id]
+      session[controller_sym][:property_id] = params[:property_id].to_i
     end
 
     if params[:sort_by]
-      session[:sorters][controller_sym][:field] = params[:sort_by]
+      session[:sorters][controller_sym][:field] = params[:sort_by].to_sym
       session[:sorters][controller_sym][:order] = params[:sort_order]
     end
 

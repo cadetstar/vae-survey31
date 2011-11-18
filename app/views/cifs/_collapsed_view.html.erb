@@ -1,0 +1,74 @@
+<table>
+  <tr>
+    <th><%= sort_helper(:cif, :client) %></th>
+    <th><%= sort_helper(:cif, :company) %></th>
+    <th><%= sort_helper(:cif, :property) %></th>
+    <th><%= sort_helper(:cif, :start_date, "Dates") %></th>
+    <th>Quick Status</th>
+    <th><%= sort_helper(:cif, :sent_at) %></th>
+    <th>Commands</th>
+  </tr>
+  <% @cifs.each do |cif| %>
+      <tr <%= cif_class(cif) %>>
+        <td>
+          <%= link_to cif.client %><br /><%= cif.client.email %><%= raw(cif.client.multiple_surveys? ? '<br /><Client has multiple surveys within the month.' : '') %>
+        </td>
+        <td>
+          <%= link_to cif.company %><br /><%= cif.company.full_address %>
+        </td>
+        <td><%= cif.property %></td>
+        <td><%= "#{cif.start_date.to_s(:date_time12)} - #{cif.end_date.to_s(:date_time12)}" %></td>
+        <td id="cif_notes_<%= cif.id %>"><%= render :partial => "notes", :locals => {:cif => cif} %></td>
+        <td title="<%= cif.get_tooltip(current_user) %>">
+          <% unless cif.sent_at %>
+              <% if current_user.admin? %>
+                  <%= link_to 'Review Survey', review_survey_path(:id => cif.id) %><br /><br />
+                  <% if cif.flagged? %>
+                      <%= link_to 'Send Survey', send_survey_path(:id => cif.id), :confirm => "This survey was flagged by #{cif.flagger} on #{(cif.flagged_until - 7.days).to_s(:date_time12)}.\n\nAre you sure you want to send this survey?", :remote => true %>
+                  <% else %>
+                      <%= link_to 'Send Survey', send_survey_path(:id => cif.id) %>
+                  <% end %><br /><br />
+                  <%= link_to 'Capture CIF', capture_survey_path(:id => cif.id), :remote => true %>
+              <% else %>
+                  Unsent
+              <% end %>
+          <% else %>
+              <%= cif.cif_captured ? "<strong>Captured</strong><br />" : "" %><%= cif.sent_at.to_s(:date_time12) %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'View', cif %><br />
+          <% if current_user.admin? %>
+              <% unless cif.sent_at %>
+                  <%= link_to 'Edit', edit_cif_path(cif) %>
+                  <%= link_to 'Delete', cif, :confirm => 'Are you sure?', :method => :delete %>
+              <% else %>
+                  Cannot be deleted.
+              <% end %><br />
+              <% if cif.count_survey %>
+                  <%= link_to 'Omit Survey from Results', declude_survey_path(:id => cif.id) %>
+              <% else %>
+                  <%= link_to 'Include Survey in Results', include_survey_path(:id => cif.id) %>
+              <% end %>
+          <% else %>
+              <% if @season and @season.enabled %>
+                  <% unless cif.thank_you_card %>
+                      <%= link_to '<strong>Generate Thank You Email</strong>', new_thank_you_card_path(:client_id => cif.client_id, :cif => cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, cif.property_id)) %>
+                  <% else %>
+                      <%= link_to '<strong>Thank You Email</strong>', view_tyc_path(:id => cif.thank_you_card_id, :passcode => cif.thank_you_card.passcode) %>
+                  <% end %>
+                  <% unless cif.sent_at %>
+                      <%= link_to '<br />Edit', edit_cif_path(cif) %>
+                  <% else %>
+                      <%= link_to 'Edit', edit_cif_path(cif) %>
+                  <% end %>
+              <% end %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+<script type="text/javascript">
+    $("td[title]").tooltip();
+</script>

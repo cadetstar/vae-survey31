@@ -1,0 +1,30 @@
+<h1>View CIFs</h1>
+<div>
+  <%= cif_restrictor %>
+</div>
+
+<% if current_user.admin? %>
+    <div>
+      <% if session[:cifs][:collapse] %>
+          <%= link_to 'Expand', cifs_path(:collape => false) %>
+      <% else %>
+          <%=  link_to 'Collapse', cifs_path(:collapse => true) %>
+      <% end %>
+    </div>
+<% end %>
+
+<div>
+  <% form_tag cifs_path, :method => :get do %>
+      <%=  select_tag :property, options_for_select([['All Properties', '0']] + Property.list_for_select(current_user), session[:cifs][:property_id]) %>
+      Dates: <%= date_field_tag :start_date, session[:cifs][:start_date] %> to <%= date_field_tag :end_date, session[:cifs][:end_date] %>
+      <%=  submit_tag 'Filter' %>
+  <% end %>
+</div>
+
+<%=  paginate @cifs %>
+
+<% if session[:cifs][:collapse] %>
+    <%= render :partial => "collapsed_view" %>
+<% else %>
+    <%= render :partial => "expanded_view" %>
+<% end %>

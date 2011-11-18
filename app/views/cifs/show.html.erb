@@ -1,0 +1,71 @@
+<div class="survey_center">
+  <p>
+    <%= @cif.completed_at ? 'Completed Survey' : (@cif.sent_at ? 'Pending Survey' : 'Survey Awaiting Appproval') %>
+  </p>
+
+  <p>
+    <strong>Property:</strong><br />
+    <%= @cif.property %>
+  </p>
+
+  <p>
+    <strong>Company:</strong><br />
+    <%= @cif.company %>
+  </p>
+
+  <p>
+    <strong>Event:</strong><br />
+    <%= @cif.location %><br />
+    <%= @cif.description_of_dates %>
+  </p>
+
+  <p>
+    <strong>Internal Notes:</strong><br />
+    <%= @cif.notes %>
+  </p>
+
+  <p>
+    <strong>Created by:</strong><br />
+    <%= @cif.creator %>
+  </p>
+
+  <p>
+    <strong>Approved by:</strong><br />
+    <%= @cif.approver || 'Not yet approved' %>
+  </p>
+
+  <p>
+    <strong>Sent survey at:</strong><br />
+    <%= @cif.sent_at || 'Not yet sent' %>
+  </p>
+
+  <p>
+    <strong>Survey first accessed at:</strong><br />
+    <%= @cif.clicked_at || 'Not yet accessed' %>
+  </p>
+
+  <p>
+    <strong>Survey completed at:</strong><br />
+    <%= @cif.completed_at || 'Not yet completed' %>
+  </p>
+
+  <% if @season.enabled %>
+      <% if @cif.thank_you_card %>
+          <p>
+            <%= link_to '<strong>Thank You Email</strong>', view_tyc_path(:id => @cif.thank_you_card_id, :passcode => @cif.thank_you_card.passcode) %>
+          </p>
+      <% else %>
+          <p>
+            <%= link_to '<strong>Generate Thank You Email</strong>', new_thank_you_card_path(:client_id => @cif.client_id, :cif => @cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, @cif.property_id)) %>
+          </p>
+      <% end %>
+  <% end %>
+
+  <%= get_results(@cif) %>
+
+  <% if current_user.admin? %>
+      <p>
+        <%= link_to 'Resend Survey', resend_survey_path(:id => @cif.id) %>
+      </p>
+  <% end %>
+</div>

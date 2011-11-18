@@ -10,6 +10,8 @@ gem 'kaminari'
 gem 'devise'
 
 gem 'prawn'
+gem 'delayed_job'
+gem 'spreadsheet'
 gem 'chronic'
 
 # Gems used only for assets and not required

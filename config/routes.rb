@@ -6,10 +6,25 @@ VaeSurvey31::Application.routes.draw do
 
   root :to => "cifs#home"
 
-  match '/seasons/:id/enable', :to => 'seasons#enable', :as => 'enable_season'
-  match '/seasons/:id/disable', :to => 'seasons#disable', :as => 'disable_season'
-  match '/seasons/:id/send', :to => 'seasons#send', :as => 'send_season'
-  match '/thank_you_cards/:id/view', :to => 'thank_you_cards#view', :as => 'view_tyc'
+  match 'reports', :to => 'reports#index', :as => 'reports'
+  match 'reports/request', :to => 'reports#request', :as => 'request_report'
+  match 'reports/pulse', :to => 'reports#pulse', :as => 'pulse'
+  match 'reports/get', :to => 'reports#report', :as => 'get_report'
+
+  match 'seasons/:id/enable', :to => 'seasons#enable', :as => 'enable_season'
+  match 'seasons/:id/disable', :to => 'seasons#disable', :as => 'disable_season'
+  match 'seasons/:id/send', :to => 'seasons#send', :as => 'send_season'
+  match 'thank_you_cards/:id/:passcode/view', :to => 'thank_you_cards#view', :as => 'view_tyc'
+
+  match 'cifs/include', :to => 'cifs#include', :as => 'include_survey'
+  match 'cifs/declude', :to => 'cifs#declude', :as => 'declude_survey'
+  match 'surveys/access/:id/:passcode', :to => 'cifs#access', :as => 'access_survey'
+  match 'surveys/fill', :to => 'cifs#fill', :as => 'fill_survey'
+  match 'cifs/flag', :to => 'cifs#flag', :as => 'flag_survey'
+  match 'cifs/send', :to => 'cifs#send', :as => 'send_survey'
+  match 'cifs/capture', :to => 'cifs#capture', :as => 'capture_survey'
+  match 'cifs/review', :to => 'cifs#review', :as => 'review_survey'
+  match 'cifs/resend', :to => 'cifs#resend', :as => 'resend_survey'
 
   resources :companies, :except => :destroy
   resources :clients, :except => :create

@@ -1,0 +1,15 @@
+<div>
+  Processing report, please wait.  <span id="results"></span>
+</div>
+
+<script type="text/javascript">
+    function enqueueToPulse() {
+        setTimeout(callToPulse, 5000);
+    }
+
+    function callToPulse() {
+    <%= remote_function :url => pulse_path(:id => @r.id) %>
+    }
+
+    enqueueToPulse();
+</script>

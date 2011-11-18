@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
     "#{self.last_name}, #{self.first_name}"
   end
 
+  def receive_flags?
+    !self.do_not_receive_flagged
+  end
+
   def roles=(roles)
     self.roles_mask = (roles & ROLES).map {|r| 2**ROLES.index(r)}.sum
   end

@@ -1,0 +1,62 @@
+<div class='<%= @cif.sendable? ? 'active_cif' : 'inactive_cif' %>'>
+  <p class="header">
+    <strong>Property:</strong><br />
+    <%= @cif.property %>
+  </p>
+
+  <p>
+    <strong>Client</strong><br />
+    <%= link_to @cif.company, edit_company_path(@cif.company) %><br />
+    <%= @cif.company.full_address %>
+    <%= link_to @cif.client, edit_client_path(@cif.client) %><br />
+    <%+ @cif.client.email %>
+  </p>
+  <p>
+    <strong>Event:</strong><br />
+    <%= @cif.location %><br />
+    <%= @cif.description_of_dates %>
+  </p>
+  <p class="notes">
+    <strong>Internal Notes:</strong><br />
+    <%= @cif.notes %>
+  </p>
+
+  <p>
+    <strong>Created by:</strong><br />
+    <%= @cif.creator %> on <%= @cif.created_at.to_s(:date_time12) %>
+  </p>
+
+  <% if @cif.sendable? %>
+      <p>
+        <% if @cif.flagged? %>
+            Flagged by <%= @cif.flagger %> until <%= @cif.flagged_until.to_s(:date_time12) %>.<br /><br />
+        <% end %>
+        <%= form_tag flag_survey_path(:id => @cif.id) do %>
+            Flag Comment: <%= text_field_tag :comment, @cif.flag_comment, :size => 200 %>
+            <% submit_tag 'Flag Survey' %>
+        <% end %>
+      </p>
+
+      <table class="survey_center">
+        <tr>
+          <td style='width: 50%;text-align: center;border: none;'>
+            <% if @cif.flagged? %>
+                <%= link_to 'Send Survey', send_survey_path(:id => @cif.id), :confirm => "This survey was flagged by #{@cif.flagged} on #{(@cif.flagged_until - 7.days).to_s(:date_time12)}.\n\nAre you sure you want to send this survey?" %>
+            <% else %>
+                <%= link_to 'Send Survey', send_survey_path(:id => @cif.id) %>
+            <% end %>
+          </td>
+          <td style='width: 50%;text-align: center;border: none;'>
+            <%= link_to 'Capture CIF and do <strong>NOT</strong> Send Survey', capture_survey_path(:id => @cif.id) %>
+          </td>
+        </tr>
+      </table>
+  <% else %>
+      <p class="survey_center">
+        <%= link_to 'Capture CIF and do <strong>NOT</strong> Send Survey', capture_survey_path(:id => @cif.id) %>
+      </p>
+  <% end %>
+
+  <%= link_to 'Back', cifs_path %>
+</div>
+

@@ -7,6 +7,10 @@ module ApplicationHelper
     end
   end
 
+  def cif_restrictor
+    %w(Unsent Flagged Sent Captured Completed All).reject{|c| session[:cifs][:status] == c}.collect{|c| link_to c, cifs_path(:status => c.downcase)}
+  end
+
   def restrict_filter(filter_name, descriptor)
     if session[:thank_you_cards][:restrict] != filter_name
       "<li>#{link_to descriptor, thank_you_cards_path(:restrict => filter_name)}</li>"
@@ -62,10 +66,27 @@ module ApplicationHelper
     end
   end
 
-  def sort_helper(model_sym, field_sym)
+  def sort_helper(model_sym, field_sym, title = nil)
+    title ||= field_sym.to_s.titleize
     session[:sorters] ||= {}
     session[:sorters][model_sym] ||= {}
-    link_to field_sym.to_s.titleize, url_for({:controller => model_sym.to_s.pluralize, :action => :index, :sort_by => field_sym, :sort_order => (session[:sorters][model_sym][:field] == field_sym ? (session[:sorters][model_sym][:order] == 'ASC' ? 'DESC' : 'ASC') : 'ASC')})
+    link_to title, url_for({:controller => model_sym.to_s.pluralize, :action => :index, :sort_by => field_sym, :sort_order => (session[:sorters][model_sym][:field] == field_sym ? (session[:sorters][model_sym][:order] == 'ASC' ? 'DESC' : 'ASC') : 'ASC')})
+  end
+
+  def cif_class(cif)
+    unless cif.sendable?
+      "class='nosend'"
+    else
+      if cif.flagged?
+        if cif.has_been_updated
+          "class='updated_flagged'"
+        else
+          "class='flagged'"
+        end
+      else
+        ''
+      end
+    end
   end
 end
 
@@ -78,6 +99,19 @@ module ActionView
           <script type="text/javascript">
           $(document).ready(function(ev) {
             $("##{tag.match(/id="([^"]+)"/)[1]}").datepicker({showOtherMonths: true, selectOtherMonths: true});
+          })
+          </script>
+        OUTPUT
+      end
+    end
+
+    module FormTagHelper
+      def date_field_tag(name, value = nil, options = {})
+        raw <<-OUTPUT
+        #{tag :input, { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys)}
+          <script type="text/javascript">
+          $(document).ready(function(ev) {
+            $("##{sanitize_to_id(name)}").datepicker({showOtherMonths: true, selectOtherMonths: true});
           })
           </script>
         OUTPUT

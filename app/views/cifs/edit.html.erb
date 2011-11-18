@@ -1,0 +1,21 @@
+<%= form_for @cif do |f| %>
+    <%= f.error_messages %>
+
+    <p><% unless @cif.sent_at %>
+          <%= link_to @cif.client, edit_client_path(@cif.client) %><br /><%= link_to @cif.company, edit_company_path(@cif.company) %>
+      <% else %>
+          <%= link_to @cif.client %><br /><%= link_to @cif.company %>
+      <% end %>
+      <%= @cif.client.try(:email) %>
+    </p>
+
+    <p><%= f.label :start_date %><br /><%= f.date_field :start_date %></p>
+
+    <p><%= f.label :end_date %><br /><%= f.date_field :end_date %></p>
+
+    <p><%= f.label :location %><br /><%= f.text_field :location %></p>
+
+    <p><%= f.label :notes, 'Internal Notes' %><br /><%= f.text_area :notes %></p>
+
+    <p><%= f.submit "Update" %></p>
+<% end %>

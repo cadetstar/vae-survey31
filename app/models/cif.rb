@@ -15,6 +15,7 @@ class Cif < ActiveRecord::Base
   validates_presence_of :start_date, :end_date, :client_id
 
   before_create :set_defaults
+  before_save :calculate_average_score
 
   attr_accessible :answers, :client_comments, :number_of_meetings, :next_meeting, :please_contact, :submittor, :contact_info,
                   :overall_satisfaction, :as => :public
@@ -29,13 +30,40 @@ class Cif < ActiveRecord::Base
     # TODO: Write this!
   end
 
+  def caring_users
+    ([self.property.manager] + self.property.users).uniq
+  end
+
+  def notify_users_about_flag
+    # TODO: Write this!
+    responses = {}
+    responses[:notice] = []
+    responses[:error] = []
+    self.caring_users.each do |user|
+      if user.receive_flags?
+        begin
+          SurveyMailer.flagged_survey(self, user).deliver
+        rescue Net::SMTPFatalError => e
+          responses[:error] << "A permanent error occured while sending the flag message to '#{user.name_std}'. Please check the e-mail address.<br/>Error is: #{e}<br />"
+          TrackLogger.log "An attempt was made to email #{user.name_std} for CIF #{self.id}, but failed due to an SMTP fatal error."
+        rescue Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError => e
+          responses[:error] << "An error occured while sending the flag message to '#{user.name_std}'. Please check the e-mail address.<br/>Error is: #{e}<br />"
+          TrackLogger.log "An attempt was made to email #{user.name_std} for CIF #{self.id}, but failed due to an SMTP general error."
+        else
+          TrackLogger.log "An email has been sent to #{user} for CIF #{self.id}."
+        end
+      end
+    end
+    responses
+  end
+
   def set_defaults
     self.passcode = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join)[0..10]
     self.client_submittor = (self.client || "Unknown")
 
     if !self.location.blank?
       if self.location.upcase == self.location or self.location.downcase == self.location
-        self.location = self.location.split.collect{|c| c.capitalize}.join(" ")
+        self.location = self.location.titleize
       end
       self.location = "The #{self.location}" unless self.location[0..2].downcase == 'the'
     end
@@ -45,6 +73,7 @@ class Cif < ActiveRecord::Base
     self.completed_at = nil
     self.answers = {}
     self.overall_satisfaction = 0
+    self.count_survey = true
   end
 
   def flagged?
@@ -67,10 +96,10 @@ class Cif < ActiveRecord::Base
     !self.property.do_not_send_surveys_for_property and !self.notes.to_s.downcase.include?('dns')
   end
 
-  def average_score
+  def calculate_average_score
     valid_answers = self.answers.select{|k,v| v.to_i > 0}.values
 
-    valid_answers.size > 0 ? valid_answers.sum.to_f / valid_answers.size : 0
+    self.average_score = (valid_answers.size > 0 ? valid_answers.sum.to_f / valid_answers.size : 0)
   end
 
   def status
@@ -87,5 +116,37 @@ class Cif < ActiveRecord::Base
         "Survey completed on #{self.completed_at.to_s(:date_time12)} with a score of #{sprintf('%.2f', self.average_score)}"
       end
     end
+  end
+
+  def get_tooltip(user)
+    if user.admin?
+      if self.flagged?
+        if self.flag_comment.blank?
+          'No Flag Comment'
+        else
+          self.flag_comment.truncate(20)
+        end
+      end
+    end
+  end
+
+  def formatted_end_date
+    self.end_date.to_s(:shortdate)
+  end
+
+  def formatted_completed_date
+    self.completed_at.to_s(:shortdate)
+  end
+
+  def formatted_average_score
+    sprintf('%.2f', self.average_score)
+  end
+
+  def date_format
+    self.cif_form == 'vae_french' ? :french : :shortdate
+  end
+
+  def description_of_dates
+    self.end_date >= (self.start_date + 1.day) ? "from #{self.start_date.to_s(self.date_format)} to #{self.end_date.to_s(self.date_format)}" : "on #{self.start_date.to_s(self.date_format)}"
   end
 end

@@ -1,0 +1,19 @@
+<h1 class="survey_center"><%= get_title(@cif.cif_form) %></h1>
+
+<%= get_intro_text(@cif.cif_form) %>
+
+<p class="survey_info">
+  <%= @cif.company %><br />
+  <%= @cif.client %><br />
+  <%= @cif.location %><br />
+  <%= @cif.description_of_dates %>
+</p>
+
+<%= form_for @cif, :url => fill_survey_path(:id => @cif.id) do |f| %>
+    <div class="survey">
+      <table class="survey">
+        <%= print_questions(f, @cif.cif_form) %>
+        <tr><td><%= f.submit (@cif.cif_form == 'vae_french' ? 'Valider' : 'Complete Survey') %></td></tr>
+      </table>
+    </div>
+<% end %>

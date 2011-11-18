@@ -1,0 +1,3 @@
+page << "if (document.getElementById('cif_notes_#{@cif.id}')) {"
+page.replace_html "cif_notes_#{@cif.id}", :partial => "notes", :locals => {:cif => @cif}
+page << "}"

@@ -1,0 +1,25 @@
+<%= form_tag request_report_path do %>
+    <div>
+      Report Type:<br /><%= select_tag :type, options_for_select(Report::TYPES) %>
+    </div>
+    <div>
+      Properties:<br />
+      <%= select_tag :properties, options_for_select(Property.list_for_select(current_user)), :multiple => true %>
+    </div>
+    <div>
+      Start Date:<br />
+      <%= date_field_tag :start_date %>
+    </div>
+    <div>
+      End Date:<br />
+      <%= date_field_tag :end_date %>
+    </div>
+    <div>
+      Type of Report (only used for Property Questions report):<br />
+      <%= radio_button_tag :download, false %> In Browser<br />
+      <%= radio_button_tag :download, true %> Download<br />
+    </div>
+    <div>
+      <%= submit_tag :submit %>
+    </div>
+<% end %>

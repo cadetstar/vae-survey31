@@ -57,7 +57,11 @@ class ThankYouCardsController < ApplicationController
       return
     end
 
-    @thank_you_card = ThankYouCard.create(:client_id => @client.id)
+    @thank_you_card = ThankYouCard.create(:client_id => @client.id, :cif_id => params[:cif], :prop_season_id => params[:property])
+
+    if @cif = Cif.find_by_id(params[:cif_id])
+      @cif.update_attribute(:thank_you_card_id, @thank_you_card.id)
+    end
   end
 
   def edit

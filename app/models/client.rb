@@ -24,4 +24,8 @@ class Client < ActiveRecord::Base
   def update_property
     self.property_id = self.company.property_id
   end
+
+  def multiple_surveys?
+    self.cifs.where(:end_date => (1.month.ago..Time.now)).count > 1
+  end
 end

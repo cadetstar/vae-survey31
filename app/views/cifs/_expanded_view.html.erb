@@ -1,0 +1,60 @@
+<table>
+  <tr>
+    <th>View CIF</th>
+    <% {:client => 'Client', :property => 'Property', :end_date => 'Dates', :created_at => 'Created', :sent_at => 'Sent at', :clicked_at =>  'Accessed at', :completed_at => 'Completed at', :overall_satisfaction => 'Overall Satisfaction'}.each do |k,v| %>
+        <th><%= sort_helper(:cifs, v, k) %></th>
+    <% end %>
+    <th>Commands</th>
+  </tr>
+  <% @cifs.each do |cif| %>
+      <tr <%= cif_class(cif) %>>
+        <td><%= link_to 'View', cif %></td>
+        <td><%= link_to cif.client %><br /><%= link_to cif.company %><%= cif.client.cifs.length > 1 ? '<br />Client has multiple surveys' : '' %></td>
+        <td><%= cif.property %></td>
+        <td><%= "#{cif.start_date.to_s(:shortdate)} - #{cif.end_date.to_s(:end_date)}" %></td>
+        <td><%= cif.creator %><br /><%= cif.created_at.to_s(:date_time12) %></td>
+        <td>
+          <% if cif.sent_at %>
+              <%= (cif.cif_captured ? "<b>Captured</b><br />" : "") + cif.sent_at.to_s(:date_time12) %>
+          <% else %>
+              <% if current_user.admin? %>
+                  <%= link_to 'Unsent', review_survey_path(:id => cif.id) %>
+              <% else %>
+                  Unsent
+              <% end %>
+          <% end %>
+        </td>
+        <td><%= cif.clicked_at ? cif.clicked_at.to_s(:date_time12) : 'Not yet accessed' %></td>
+        <td><%= cif.completed_at ? cif.completed_at.to_s(:date_time12) : 'Not yet completed' %></td>
+        <td><%= sprintf('%.2f', cif.overall_satisfaction.to_f) %></td>
+        <td>
+          <% if current_user.admin? %>
+              <% if cif.sent_at %>
+                  Cannot be deleted.
+              <% else %>
+                  <%= link_to 'Edit', edit_cif_path(cif) %>
+                  <%= link_to 'Destroy', cif, :method => :delete, :confirm => 'Are you sure?' %>
+              <% end %><br />
+              <% if cif.count_survey %>
+                  <%= link_to 'Omit Survey from Results', declude_survey_path(:id => cif.id) %>
+              <% else %>
+                  <%= link_to 'Include Survey in Results', include_survey_path(:id => cif.id) %>
+              <% end %>
+          <% else %>
+              <% if @season.enabled %>
+                  <% unless cif.thank_you_card %>
+                      <%= link_to 'Generate Thank You Email', new_thank_you_card_path(:client_id => cif.client_id, :cif_id => cif.id) %>
+                  <% else %>
+                      <%= link_to 'Thank You Email', view_tyc_path(:id => cif.thank_you_card_id, :passcode => cif.thank_you_card.passcode) %>
+                  <% end %>
+                  <% unless cif.sent_at %>
+                      <%= link_to '<br />Edit', edit_cif_path(cif) %>
+                  <% end %>
+              <% else %>
+                  <%= link_to 'Edit', edit_cif_path(cif) %>
+              <% end %>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>
