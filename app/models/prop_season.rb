@@ -19,11 +19,13 @@ class PropSeason < ActiveRecord::Base
   end
 
   validate do |ps|
+    if self.season
       [:property_pre_text, :property_post_text, :property_signoff].each do |field|
         if self.send(field).to_s.length > self.season.property_char_limit
           ps.errors.add "#{field.titleize} cannot be longer than #{self.season.property_char_limit} characters."
         end
       end
+    end
   end
 
 end
