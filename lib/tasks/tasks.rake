@@ -69,6 +69,7 @@ task :mssql_convert => :environment do
     data = old_connection.select_all("SELECT * from #{table} order by ID")
 
     data.each do |row|
+      puts "Converting #{table} - #{row[0]}"
       new_data = {}
       new_columns.each_with_index do |nc,i|
         if nc == 'answers'
