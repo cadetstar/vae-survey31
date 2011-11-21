@@ -8,6 +8,8 @@ class Season < ActiveRecord::Base
   before_destroy :can_destroy
   before_create :set_templates
 
+  serialize :template
+
   TEMPLATE_MAIN = <<-MAIN
 <html>
 <head>
@@ -72,5 +74,61 @@ Visual Aids Electronics
   def set_templates
     self.email_template = TEMPLATE_MAIN
     self.email_template_plain = TEMPLATE_PLAIN
+  end
+
+  def fonts
+    self.template[:fonts]
+  end
+
+  def fonts=(vals)
+    unless vals.is_a? Array
+      vals = [vals]
+    end
+    self.template[:fonts] = vals
+  end
+
+  def styles
+    self.template[:styles]
+  end
+
+  def styles=(vals)
+    if vals.is_a? Hash
+      self.template[:styles] = vals
+    end
+  end
+
+  def style_text
+    styles.collect do |k,v|
+      "#{k.to_s}|#{v.collect{|a,b| "#{a}~#{b}"}.join("|")}"
+    end.join(/\r\n/)
+  end
+
+  def style_text=(text)
+    data = {}
+    text.gsub!(/\r/)
+    text.split(/\n/).each do |line|
+      if line.match(/|/)
+        vals = line.split(/|/)
+        vals.reject!{|v| v.blank?}
+        data[vals[0].to_sym] = {}
+        vals[1..-1].each do |entry|
+          if entry.match(/~/)
+            kv = entry.split(/~/)
+            if kv.size == 2
+              data[vals[0].to_sym][kv[0].to_sym] = (kv[1].to_i.to_s == kv[1] ? kv[1].to_i : kv[1])
+            end
+          end
+        end
+      end
+    end
+    styles = data
+  end
+
+  def body
+    self.template[:body]
+  end
+
+  def body=(val)
+    self.template[:body] = val.to_s
   end
 end

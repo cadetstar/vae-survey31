@@ -42,6 +42,10 @@ task :mssql_convert => :environment do
                  'key_score' => 'overall_satisfaction',
                  'flagged_by' => 'flagger_id',
                  'client_emp_comments' => 'employee_comments'
+      },
+      'propseasons' => {'prop_pre_text' => 'property_pre_text',
+                        'prop_post_text' => 'property_post_text',
+                        'prop_signoff' => 'property_signoff'
       }
   }
 
