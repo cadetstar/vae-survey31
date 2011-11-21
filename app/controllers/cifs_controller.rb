@@ -79,7 +79,7 @@ class CifsController < ApplicationController
     @cifs = @cifs.page(session[:cifs][:page_id])
   end
 
-  def send
+  def send_survey
     unless @cif = Cif.find_by_id(params[:id])
       unless @cif.client.email
         @message = 'Client has no email address configured, cannot send survey.'
