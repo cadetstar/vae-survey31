@@ -92,8 +92,8 @@ task :mssql_convert => :environment do
 
   SKIPS = %w(schema_migrations offlinereports sessions permissions roles)
 
-#  old_connection.tables.each do |table|
-  %w(cifs propseasons).each do |table|
+  old_connection.tables.each do |table|
+  #%w(cifs propseasons).each do |table|
     next if SKIPS.include? table
 
     klass = Class.new(ActiveRecord::Base)
@@ -123,13 +123,35 @@ task :mssql_convert => :environment do
       end
 
       puts "Converting #{table} - #{row['id']}"
-      new_model.create! do |m|
-        new_data.each do |k,v|
-          m.send("#{k}=",v)
+      unless new_model.find_by_id(row['id'])
+        new_model.create! do |m|
+          new_data.each do |k,v|
+            m.send("#{k}=",v)
+          end
         end
       end
 
       new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
     end
+  end
+
+  klass = Class.new(ActiveRecord::Base)
+  klass.class_eval do
+    set_table_name 'permissions'
+    establish_connection(Rails.configuration.database_configuration["mssql"])
+  end
+
+  role_mapper = {1 => 'administrator', 2 => 'email_admin'}
+
+  User.all.each do |user|
+    valid = []
+    klass.find_all_by_user_id(user.id).each do |k|
+      if j = role_mapper[k['role_id'].to_i]
+        valid << j
+      end
+    end
+    valid.uniq!
+    user.roles = valid
+    user.save
   end
 end
