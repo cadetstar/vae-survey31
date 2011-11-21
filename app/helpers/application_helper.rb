@@ -29,11 +29,48 @@ module ApplicationHelper
       <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
       <div name='body' style='display: none;'>
         <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
-        %CID% - CID token for image.  Used in the HTML form.  Should not be modified.
-        %FULL_SALUTATION% - The client's full name with salutation
-        %PLAIN_TEXT_INSERT% - Plain text version of the fields for a thank you card.
-        %PROPERTY_SIGNOFF% - The signoff for the property
+        %CID% - CID token for image.  Used in the HTML form.  Should not be modified.<br />
+        %FULL_SALUTATION% - The client's full name with salutation<br />
+        %PLAIN_TEXT_INSERT% - Plain text version of the fields for a thank you card.<br />
+        %PROPERTY_SIGNOFF% - The signoff for the property<br />
         %GREETING_URL% - The url where a recipient can view their greeting card image.
+      </div>
+    </div>
+    OUTPUT
+  end
+
+  def system_fonts
+    Dir.glob("C:/Windows/Fonts/*").collect{|f| f.gsub("C:/Windows/fonts/",'')}
+  end
+
+  def template_tokens
+    <<-OUTPUT
+    <div>
+      <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
+      <div name='body' style='display: none;'>
+        <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
+          %PADnum% - Add num padding<br />
+          %PROP_POST_PADnum% - Insert the property post text and pad, if text is present<br />
+          %PROP_POST% - Insert the property post text<br />
+          %PROP_PRE_PADnum% - Insert the property pre text and pad, if text is present<br />
+          %PROP_PRE% - Insert the property pre text<br />
+          %PROP_GREETING_PADnum% - Insert the greeting from the thank you card and pad, if text is present<br />
+          %PROP_GREETING% - Insert the greeting from the thank you card<br />
+          %SEASON_PRE_PADnum% - Insert the season pre text and pad, if text is present<br />
+          %SEASON_PRE% - Insert the season pre text<br />
+          %SEASON_POST_PADnum% - Insert the season post text and pad, if text is present<br />
+          %SEASON_POST% - Insert the season post text<br />
+          %CLIENT_SALUTATION_PADnum% - Inserts the clients full name and pads, if text is present<br />
+          %CLIENT_SALUTATION% - Inserts the clients full name<br />
+              <br />
+              %ALIGN_CENTER% - Aligns text for that line centered<br />
+          %ALIGN_LEFT% - Aligns text for that line to the left<br />
+          %ALIGN_RIGHT% - Aligns text for that line to the right<br />
+          %SIZE_num% - Sets font size for that line to num<br />
+          %AT_num1_num2% - Sets whatever else is on that line at position [num1,num2]<br />
+          %IMAGE[filename|width|height]% - Inserts an image<br />
+          <br />
+          ~START_BLOCK(num1,num2,num3,num4)~...~END_BLOCK~ - Inserts a bounding box of size num1xnum2 at [num3,num4]
       </div>
     </div>
     OUTPUT

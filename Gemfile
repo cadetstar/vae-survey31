@@ -14,7 +14,7 @@ gem 'prawn'
 gem 'delayed_job'
 gem 'spreadsheet'
 gem 'chronic'
-gem 'activerecord-sqlserver-adapter'
+#gem 'activerecord-sqlserver-adapter'
 
 # Gems used only for assets and not required
 # in production environments by default.

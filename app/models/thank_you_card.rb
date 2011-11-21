@@ -13,8 +13,6 @@ class ThankYouCard < ActiveRecord::Base
 
   attr_accessible :client_id, :prop_season_id, :greeting, :sent_at
 
-  serialize :template
-
   def status
     unless self.sent_at
       'Email Not Sent Yet'
@@ -29,7 +27,15 @@ class ThankYouCard < ActiveRecord::Base
 
   def update_pdf_and_jpeg
     pdf = Prawn::Document.new
-    translate_body(pdf, self.body)
+    self.season.fonts.each do |font|
+      pdf.font font
+    end
+
+    if self.season.styles
+      pdf.styles self.season.styles
+    end
+
+    translate_body(pdf, self.season.body)
 
     filename = "files/pdfs/#{self.id}.pdf"
     pdf.render_file filename
@@ -81,32 +87,4 @@ class ThankYouCard < ActiveRecord::Base
     end
   end
 
-  def fonts
-    self.template[:fonts]
-  end
-
-  def fonts=(vals)
-    unless vals.is_a? Array
-      vals = [vals]
-    end
-    self.template[:fonts] = vals
-  end
-
-  def styles
-    self.template[:styles]
-  end
-
-  def styles=(vals)
-    if vals.is_a? Hash
-      self.template[:styles] = vals
-    end
-  end
-
-  def body
-    self.template[:body]
-  end
-
-  def body=(val)
-    self.template[:body] = val.to_s
-  end
 end
