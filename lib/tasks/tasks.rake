@@ -128,6 +128,9 @@ task :mssql_convert => :environment do
         end
       end
 
+      if new_table == 'thank_you_cards'
+        new_model.skip_callback(:save, :after, :update_pdf_and_jpeg)
+      end
       puts "Converting #{table} - #{row['id']}"
       unless new_model.find_by_id(row['id'])
         new_model.create! do |m|
@@ -137,6 +140,9 @@ task :mssql_convert => :environment do
         end
       end
 
+      if new_table == 'thank_you_cards'
+        new_model.set_callback(:save, :after, :update_pdf_and_jpeg)
+      end
       new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
     end
   end

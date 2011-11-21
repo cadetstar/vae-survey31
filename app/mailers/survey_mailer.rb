@@ -44,30 +44,41 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def flagged_survey(cif, user)
-
+    load_settings 'vaecorp'
+    mail(:to => user.email, :subject => '[VAE Survey Site] A survey has been flagged.') do |format|
+      format.html {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false)}<br /><br />Note from administrator:<br />#{@cif.flagged_comment}"}
+      format.text {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false)}\n\nNote from administrator:\n#{@cif.flagged_comment}"}
+    end
   end
 
   def survey_response(cif, user)
-
+    load_settings 'vaecorp'
+    mail(:to => user.email, :subject => "[VAE Survey Site] A survey has been received for #{cif.property}")
   end
 
   def thank_you_email(manager, tyc)
     setup_remote_email(manager, tyc)
     insert_inline_image(tyc)
 
-    part :content_type => "text/html", :body => parse_email_template(tyc.season.email_template, tyc)
-    part "text/plain" do |r|
-      r.body = parse_email_template(tyc.season.email_template_plain, tyc)
-      r.transfer_encoding = 'base64'
+    mail do |format|
+      format.text { render :text => parse_email_template(tyc.season.email_template, tyc)}
+      format.html { render :text => parse_email_template(tyc.season.email_template_plain, tyc)}
     end
   end
 
   def general_message(user, subject, body)
-
+    load_settings 'vaecorp'
+    mail(:to => user.email, :subject => subject) do |format|
+      format.html {render :text => body}
+      format.text {render :text => body}
+    end
   end
 
   def season_sent(user, name, number, list)
-
+    mail(:to => user.email, :subject => "[VAE Survey System] Sent Emails Summary for #{name}") do |format|
+      format.html {render :text => "<p>I have finished sending a set of emails for the #{name} season.  Total emails sent: #{number}</p><p>#{list.join("<br />")}</p>"}
+      format.text {render :text => "I have finished sending a set of emails for the #{name} season.  Total emails sent: #{number}\n\n#{list.join(/\n/)}"}
+    end
   end
 
   protected
@@ -91,7 +102,6 @@ class SurveyMailer < ActionMailer::Base
 
   def insert_inline_image(tyc)
     attachments.inline["card#{tyc.id}.jpg"] = File.read(File.join(Rails.root.to_s,'files','images',"#{tyc.id}.jpg"))
-
   end
 
   def parse_email_template(body, tyc)

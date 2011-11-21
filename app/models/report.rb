@@ -107,7 +107,7 @@ class Report < ActiveRecord::Base
     end
 
     self.filename = "Summary_of_Comments_#{Time.now.to_s(:file_date)}.pdf"
-    pdf.render_file(File.join(Rails.root.to_s, 'files', self.filename))
+    pdf.render_file(File.join(Rails.root.to_s, 'files', 'reports', self.filename))
 
     self.completed = true
     self.save
@@ -140,7 +140,7 @@ class Report < ActiveRecord::Base
     end
 
     self.filename = "Detail_#{Time.now.to_s(:file_date)}.xls"
-    book.write(File.join(Rails.root.to_s, 'files', self.filename))
+    book.write(File.join(Rails.root.to_s, 'files', 'reports', self.filename))
 
     self.completed = true
     self.save
@@ -203,7 +203,7 @@ class Report < ActiveRecord::Base
     perform_for_time_period(end_date.at_beginning_of_year, end_date, groups, column_index, sheet, :year, offset, "#{end_date.strftime("%Y")}")
 
     self.filename = "Summary_#{Time.now.to_s(:file_date)}.xls"
-    book.write(File.join(Rails.root.to_s, 'files', self.filename))
+    book.write(File.join(Rails.root.to_s, 'files', 'reports', self.filename))
 
     self.completed = true
     self.save
@@ -364,7 +364,7 @@ class Report < ActiveRecord::Base
 
       filename = "PQ_#{Time.now.to_s(:file_date)}.xls"
 
-      book.write(File.join("#{Rails.root}", 'files', filename))
+      book.write(File.join("#{Rails.root}", 'files', 'reports', filename))
 
       self.filename = filename
     else
