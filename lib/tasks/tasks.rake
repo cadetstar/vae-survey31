@@ -92,7 +92,9 @@ task :mssql_convert => :environment do
 
   SKIPS = %w(schema_migrations offlinereports sessions permissions roles)
 
-  old_connection.tables.each do |table|
+  tables = %w(assignments cif_aggregates cifs clients companies properties propseasons roles seasons thankyous users)
+
+  tables.each do |table|
   #%w(cifs propseasons).each do |table|
     next if SKIPS.include? table
 
