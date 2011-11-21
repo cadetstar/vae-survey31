@@ -59,7 +59,7 @@ class Cif < ActiveRecord::Base
 
   def set_defaults
     self.passcode = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join)[0..10]
-    self.client_submittor = (self.client || "Unknown")
+    self.submittor ||= "Unknown"
 
     if !self.location.blank?
       if self.location.upcase == self.location or self.location.downcase == self.location
