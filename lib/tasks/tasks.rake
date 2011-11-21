@@ -89,7 +89,8 @@ task :mssql_convert => :environment do
                   'activation_code' => -1,
                   'activated_at' => -1,
                   'password_reset_code' => -1,
-                  'receive_flagged' => 'do_not_receive_flagged'
+                  'receive_flagged' => 'do_not_receive_flagged',
+                  'crypted_password' => 'encrypted_password'
       }
   }
 
