@@ -47,43 +47,42 @@ task :mssql_convert => :environment do
 
   SKIPS = %w(schema_migrations offlinereports sessions)
 
-  old_connection = ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration["mssql"])
-
 #  old_connection.tables.each do |table|
   %w(cifs propseasons).each do |table|
     next if SKIPS.include? table
 
+    klass = Class.new(ActiveRecord::Base)
+    klass.class_eval do
+      set_table_name table
+      establish_connection(Rails.configuration.database_configuration["mssql"])
+    end
+
     new_table = TABLE_MAP[table] || table
     new_model = new_table.classify.constantize
 
-    columns = old_connection.columns(table).collect{|c| c.name}
-    new_columns = []
-    if j = COLUMN_MAP[table]
-      columns.each do |c|
-        new_columns << j[c] || c
-      end
-    else
-      new_columns = columns
-    end
-
-    data = old_connection.select_all("SELECT * from #{table} order by ID")
-
-    data.each do |row|
-      puts "Converting #{table} - #{row[0]}"
+    klass.all.each do |row|
       new_data = {}
-      new_columns.each_with_index do |nc,i|
-        if nc == 'answers'
-          nc ||= {}
-          nc[columns[i].gsub(/question/,'')] = row[i]
+      row.attributes.each do |k,v|
+        if COLUMN_MAP[table]
+          if COLUMN_MAP[table][k] == 'answers'
+            new_data['answers'] ||= {}
+            new_data['answers'][k.gsub(/question/,'').to_i] = v
+          else
+            new_data[COLUMN_MAP[table][k]||k] = v
+          end
         else
-          new_data[nc] = row[i]
+          new_data[k] = v
         end
       end
+
+      puts "Converting #{table} - #{row['id']}"
       new_model.create! do |m|
         new_data.each do |k,v|
           m.send("#{k}=",v)
         end
       end
+
     end
+
   end
 end
