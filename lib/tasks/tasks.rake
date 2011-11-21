@@ -131,6 +131,9 @@ task :mssql_convert => :environment do
 
       if new_table == 'thank_you_cards'
         new_model.skip_callback(:save, :after, :update_pdf_and_jpeg)
+      elsif new_table == 'users'
+        new_data['password'] = 'vaecorp'
+        new_data['password_confirmation'] = 'vaecorp'
       end
       puts "Converting #{table} - #{row['id']}"
       unless new_model.find_by_id(row['id'])
