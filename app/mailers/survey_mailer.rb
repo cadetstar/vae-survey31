@@ -25,7 +25,29 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def survey_email(cif)
+    case cif.property.cif_form
+      when 'csi'
+        load_settings('conferencesystems')
+        @subject = "CSI's Services at Your Recent Event"
+      when 'vae_french'
+        load_settings('vaecorp')
+        @subject = 'Votre reunion recente'
+      else
+        load_settings('vaecorp')
+        @subject = "VAE's Services at Your Recent Event"
+    end
+    @recipients = "#{cif.client.email}"
+    @sent_on = Time.now
+    @content_type = "multipart/related"
 
+    @from = "#{cif.property.manager} <#{cif.property.manager.email}>"
+
+    part "text/plain" do |r|
+      r.body = render_message("survey_email_#{cif.cif_form}_plain", :cif => cif)
+      r.transfer_encoding = 'base64'
+    end
+
+    part :content_type => "text/html", :body => render_message("survey_email_#{cif.cif_form}_html", :cif => cif)
   end
 
   def flagged_survey(cif, user)
