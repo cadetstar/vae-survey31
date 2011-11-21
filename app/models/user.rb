@@ -71,6 +71,10 @@ class User < ActiveRecord::Base
     !self.inactive?
   end
 
+  def enabled=(val)
+    self.inactive = !val
+  end
+
   def active_for_authentication?
     self.enabled
   end
