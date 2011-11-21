@@ -4,4 +4,7 @@ log/*.log
 tmp/
 .sass-cache/
 .idea
+db/schema.rb
+Gemfile
+Gemfile.lock
 .idea/*
