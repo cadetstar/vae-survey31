@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   ROLES = %w(administrator email_admin)
 
-  named_scope :with_role, lambda {|role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"}}
+  scope :with_role, lambda {|role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"}}
 
   def self.list_for_select
     User.order("last_name, first_name").all.collect{|u| [u, u.id]}
