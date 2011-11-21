@@ -6,10 +6,6 @@ class PropSeason < ActiveRecord::Base
 
   before_destroy :prevent_if_thank_you_cards
 
-  validates_length_of :property_pre_text, :max => (self.season.try(:property_char_limit) || 200), :too_long => "Pre Text cannot be longer than #{self.season} characters"
-  validates_length_of :property_post_text, :max => (self.season.try(:property_char_limit) || 200), :too_long => "Post Text cannot be longer than #{self.season} characters"
-  validates_length_of :property_signoff, :max => (self.season.try(:property_char_limit) || 200), :too_long => "Signoff cannot be longer than #{self.season} characters"
-
   def prevent_if_thank_you_cards
     self.thank_you_cards.size == 0
   end
@@ -20,6 +16,14 @@ class PropSeason < ActiveRecord::Base
 
   def ps_std
     "#{self.property} for #{self.season}"
+  end
+
+  def validate do |ps|
+      [:property_pre_text, :property_post_text, :property_signoff].each do |field|
+        if self.send(field).to_s.length > self.season.property_char_limit
+          ps.errors.add "#{field.titleize} cannot be longer than #{self.season.property_char_limit} characters."
+        end
+      end
   end
 
 end
