@@ -77,6 +77,7 @@ Visual Aids Electronics
   end
 
   def fonts
+    self.template ||= {}
     self.template[:fonts]
   end
 
@@ -84,15 +85,18 @@ Visual Aids Electronics
     unless vals.is_a? Array
       vals = [vals]
     end
+    self.template ||= {}
     self.template[:fonts] = vals
   end
 
   def styles
+    self.template ||= {}
     self.template[:styles]
   end
 
   def styles=(vals)
     if vals.is_a? Hash
+      self.template ||= {}
       self.template[:styles] = vals
     end
   end
@@ -125,10 +129,12 @@ Visual Aids Electronics
   end
 
   def body
+    self.template ||= {}
     self.template[:body]
   end
 
   def body=(val)
+    self.template ||= {}
     self.template[:body] = val.to_s
   end
 end
