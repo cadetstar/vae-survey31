@@ -47,7 +47,7 @@ class Report < ActiveRecord::Base
              :month3 => Spreadsheet::Format.new(:rotation => 80, :horizontal_align => :center, :vertical_align => :center, :weight => :bold, :pattern_bg_color => :silver, :pattern_fg_color => :silver, :pattern => 1),
              :year => Spreadsheet::Format.new(:rotation => 80, :horizontal_align => :center, :vertical_align => :center, :weight => :bold),
              :comment => Spreadsheet::Format.new(:horizontal_align => :left, :vertical_align => :top, :text_wrap => true,),
-             :right => Spreadsheet::Format.new(:horizontal_align => :right, :vertical_align => :right),
+             :right => Spreadsheet::Format.new(:horizontal_align => :right, :vertical_align => :middle),
              :comment_body => Spreadsheet::Format.new(:horizontal_align => :left, :vertical_align => :top, :text_wrap => true, :top => true, :bottom => true),
              :right_body => Spreadsheet::Format.new(:horizontal_align => :right, :vertical_align => :top, :top => true, :bottom => true)}
   COLORS = {:month1 => Spreadsheet::Format.new(:pattern_bg_color => :yellow, :pattern_fg_color => :yellow, :pattern => 1, :horizontal_align => :center),
