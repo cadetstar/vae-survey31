@@ -22,7 +22,7 @@ class Client < ActiveRecord::Base
   end
 
   def update_property
-    self.property_id = self.company.property_id
+    self.property_id = self.company.property_id if self.company
   end
 
   def multiple_surveys?
