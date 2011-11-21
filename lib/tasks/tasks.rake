@@ -78,9 +78,11 @@ task :mssql_convert => :environment do
           new_data[nc] = row[i]
         end
       end
-      k = new_model.new(new_data)
-      k.id = new_data['id']
-      k.save
+      new_model.create! do |m|
+        new_data.each do |k,v|
+          m.send("#{k}=",v)
+        end
+      end
     end
   end
 end
