@@ -46,10 +46,51 @@ task :mssql_convert => :environment do
       'propseasons' => {'prop_pre_text' => 'property_pre_text',
                         'prop_post_text' => 'property_post_text',
                         'prop_signoff' => 'property_signoff'
+      },
+      'clients' => {'client_firstname' => 'first_name',
+                    'client_lastname' => 'last_name',
+                    'client_email' => 'email',
+                    'client_salutation' => 'salutation',
+                    'client_phone' => 'phone'
+      },
+      'companies' => {'company_name' => 'name',
+                      'company_addr1' => 'address_line_1',
+                      'company_addr2' => 'address_line_2',
+                      'company_city' => 'city',
+                      'company_state' => 'state',
+                      'company_zip' => 'zip'
+      },
+      'properties' => {'property_code' => 'code',
+                       'property_name' => 'name',
+                       'cifaggregate_id' => 'group_id'
+      },
+      'seasons' => {'season_name' => 'name',
+                    'season_subject' => 'subject',
+                    'season_pre_text' => 'pre_text',
+                    'season_post_text' => 'post_text',
+                    'season_when_email' => 'when_email',
+                    'season_prop_char_limit' => 'property_char_limit',
+                    'season_enabled' => 'enabled'
+      },
+      'thankyous' => {'propseason_id' => 'prop_season_id',
+                      'ty_passcode' => 'passcode',
+                      'thankyou_greeting' => 'greeting',
+                      'emailsent' => 'sent_at'
+      },
+      'users' => {'firstname' => 'first_name',
+                  'lastname' => 'last_name',
+                  'login' => 'username',
+                  'salt' => -1,
+                  'remember_token' => -1,
+                  'remember_token_expires_at' => -1,
+                  'activation_code' => -1,
+                  'activated_at' => -1,
+                  'password_reset_code' => -1,
+                  'receive_flagged' => 'do_not_receive_flagged'
       }
   }
 
-  SKIPS = %w(schema_migrations offlinereports sessions)
+  SKIPS = %w(schema_migrations offlinereports sessions permissions roles)
 
 #  old_connection.tables.each do |table|
   %w(cifs propseasons).each do |table|
@@ -72,7 +113,9 @@ task :mssql_convert => :environment do
             new_data['answers'] ||= {}
             new_data['answers'][k.gsub(/question/,'').to_i] = v
           else
-            new_data[COLUMN_MAP[table][k]||k] = v
+            unless COLUMN_MAP[table][k] == -1
+              new_data[COLUMN_MAP[table][k]||k] = v
+            end
           end
         else
           new_data[k] = v
@@ -86,7 +129,7 @@ task :mssql_convert => :environment do
         end
       end
 
+      new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
     end
-
   end
 end
