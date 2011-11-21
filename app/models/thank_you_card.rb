@@ -31,10 +31,6 @@ class ThankYouCard < ActiveRecord::Base
       pdf.font font
     end
 
-    if self.season.styles
-      pdf.styles self.season.styles
-    end
-
     translate_body(pdf, self.season.body)
 
     filename = "files/pdfs/#{self.id}.pdf"
@@ -58,6 +54,8 @@ class ThankYouCard < ActiveRecord::Base
     size = 13
     align = :center
     at = nil
+    inline = false
+
     line.gsub!(/%PAD(-\d+|\d+)%/) {pdf.pad_top($1);''}
     line.gsub!(/%PROP_POST_PAD(-\d+|\d+)%/) {unless self.prop_season.property_post_text.blank? then pdf.pad_top($1) end;self.prop_season.property_post_text}
     line.gsub!(/%PROP_PRE_PAD(-\d+|\d+)%/) {unless self.prop_season.property_pre_text.blank? then pdf.pad_top($1) end;self.prop_season.property_pre_text}
@@ -77,13 +75,18 @@ class ThankYouCard < ActiveRecord::Base
     line.gsub!(/%SIZE_(\d+)%/) {size=$1.to_i;''}
     line.gsub!(/%AT_(\d+)_(\d+)%/) {at = [$1,$2];''}
     line.gsub!(/%IMAGE\[([^|]+)|(\d+)|(\d+)\]%/) {settings = {:width => $2.to_i, :height => $3.to_i, :align => :center};if at then settings.merge!(:at => at) end; pdf.image $1, *settings;''}
+    line.gsub!(/%INLINE%/) {inline = true;''}
 
     unless line.blank?
+      vals = [:align => align, :size => size]
+
       if at
-        pdf.text line, :at => at, :align => align, :size => size
-      else
-        pdf.text line, :align => align, :size => size
+        vals << {:at => at}
       end
+      if inline
+        vals << {:inline_format => true}
+      end
+      pdf.text line, *vals
     end
   end
 

@@ -29,7 +29,7 @@ module ApplicationHelper
       <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
       <div name='body' style='display: none;'>
         <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
-        %CID% - CID token for image.  Used in the HTML form.  Should not be modified.<br />
+        %CID% - Inserts the proper inline image tag<br />
         %FULL_SALUTATION% - The client's full name with salutation<br />
         %PLAIN_TEXT_INSERT% - Plain text version of the fields for a thank you card.<br />
         %PROPERTY_SIGNOFF% - The signoff for the property<br />
@@ -69,6 +69,7 @@ module ApplicationHelper
           %SIZE_num% - Sets font size for that line to num<br />
           %AT_num1_num2% - Sets whatever else is on that line at position [num1,num2]<br />
           %IMAGE[filename|width|height]% - Inserts an image<br />
+          %INLINE% - Turn on inline formatting<br />
           <br />
           ~START_BLOCK(num1,num2,num3,num4)~...~END_BLOCK~ - Inserts a bounding box of size num1xnum2 at [num3,num4]
       </div>

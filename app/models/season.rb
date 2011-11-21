@@ -20,7 +20,7 @@ class Season < ActiveRecord::Base
 <table style="width: 100%; border-collapse: collapse; border:none; padding: 0; margin: 0;">
   <tr style="padding: 0px; margin: 0px;">
     <td style="text-align: center; background-color: #FFFFFF;">
-      <img src="cid:%CID%" />
+      %CID%
     </td>
   </tr>
 </table>

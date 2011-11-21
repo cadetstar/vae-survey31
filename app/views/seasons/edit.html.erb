@@ -14,10 +14,6 @@
       <div><%= f.text_area :email_template, :class => "long_field" %></div>
       <div><%= f.label :fonts %></div>
       <div><%= f.select :fonts, system_fonts, :multiple => true, :size => 5 %></div>
-      <div><%= f.label :styles, "Styles.  One per line, name and attributes split by pipe (|) and key-value pairs linked with ~<br />E.g., cap_logo|font_size~28" %></div>
-      <div>
-        <%= f.text_area :style_text %>
-      </div>
       <div><%= f.label :template %></div>
       <div><%= f.text_area :template, :class => "long_field" %></div>
       <%= template_tokens %>
