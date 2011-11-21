@@ -1,0 +1,26 @@
+<p>A survey was received from <%= @cif.submittor %> for <%= @cif.company.name %> <%= @cif.description_of_dates %><%= @cif.location.nil? ? '.' : " at #{@cif.location}." %><p>
+
+<p>
+  <% $QUESTIONS[@cif.cif_form][:radios].each do |cat,questions| %>
+      <% questions.each do |id,q| %>
+          <%= q %> <%= @cif.answers[id] %><br />
+      <% end %>
+  <% end %>
+</p>
+
+<p>Average Score: <%= sprintf('%.2f', @cif.average_score) %></p>
+
+<p>Overall Satisfaction: <%= @cif.overall_satisfaction %></p>
+
+<p>
+  Number of Meetings: <%= @cif.number_of_meetings %><br />
+  Next Meeting: <%= @cif.next_meeting %><br />
+  Please Contact? <%= @cif.please_contact ? 'Yes' : 'No' %><br />
+  Contact Phone or Email: <%= @cif.contact_info %><br />
+  Employee Recommendations: <%= @cif.employee_comments %><br />
+  Client Comments: <%= @cif.client_comments %><br />
+</p>
+
+<p>
+  -VAE Survey System
+</p>

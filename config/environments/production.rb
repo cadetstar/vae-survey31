@@ -1,3 +1,4 @@
+$CUR_SITE = 'survey.vaecorp.com'
 VaeSurvey31::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -57,6 +58,6 @@ VaeSurvey31::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  config.action_mailer.default_url_options = { :host => $CUR_SITE }
 end
 
-$CUR_SITE = 'survey.vaecorp.com'

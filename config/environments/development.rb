@@ -1,3 +1,4 @@
+$CUR_SITE = 'localhost:3000'
 VaeSurvey31::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -27,4 +28,6 @@ VaeSurvey31::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.action_mailer.default_url_options = { :host => $CUR_SITE }
 end

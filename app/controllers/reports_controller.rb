@@ -31,7 +31,7 @@ class ReportsController < ApplicationController
       return
     end
     if params[:download]
-      send_file "files/#{@report.filename}", :filename => @report.type_of_report
+      send_file "files/reports/#{@report.filename}", :filename => @report.type_of_report
     end
   end
 end
