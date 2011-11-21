@@ -30,3 +30,13 @@ production:
   password: projecte
   host: localhost
   port: 5435
+
+mssql:
+  adapter: sqlserver
+  mode: odbc
+  dsn: SQL_SERVER
+  username: rails_survey
+  password: kepler1983
+  host: localhost
+  pool: 256
+  timeout: 10000

@@ -10,7 +10,7 @@ gem 'kaminari'
 gem 'devise'
 
 gem 'prawn'
-gem 'rmagick'
+#gem 'rmagick'
 gem 'delayed_job'
 gem 'spreadsheet'
 gem 'chronic'

@@ -31,9 +31,12 @@ class ThankYouCard < ActiveRecord::Base
     pdf = Prawn::Document.new
     translate_body(pdf, self.body)
 
-    filename = "pdf-#{self.id}.pdf"
+    filename = "files/pdfs/#{self.id}.pdf"
     pdf.render_file filename
 
+    jpeg_file = ImageList.new(filename) {self.density = "400x400"}
+    jpeg_file.resize_to_fit!(800)
+    jpeg_file.write("files/images/#{self.id}.jpg") {self.quality = 81}
   end
 
   def translate_body(pdf, text)
