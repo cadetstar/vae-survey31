@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111118202543) do
+ActiveRecord::Schema.define(:version => 20111121082904) do
 
   create_table "cifs", :force => true do |t|
     t.integer  "client_id"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20111118202543) do
     t.datetime "updated_at"
     t.text     "email_template"
     t.text     "email_template_plain"
+    t.text     "template"
   end
 
   create_table "thank_you_cards", :force => true do |t|
@@ -139,7 +140,6 @@ ActiveRecord::Schema.define(:version => 20111118202543) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "template"
   end
 
   create_table "user_properties", :force => true do |t|
