@@ -78,7 +78,7 @@ Visual Aids Electronics
 
   def fonts
     self.template ||= {}
-    self.template[:fonts]
+    self.template[:fonts] || []
   end
 
   def fonts=(vals)
@@ -91,7 +91,7 @@ Visual Aids Electronics
 
   def styles
     self.template ||= {}
-    self.template[:styles]
+    self.template[:styles] || {}
   end
 
   def styles=(vals)
@@ -130,7 +130,7 @@ Visual Aids Electronics
 
   def body
     self.template ||= {}
-    self.template[:body]
+    self.template[:body] || ''
   end
 
   def body=(val)
