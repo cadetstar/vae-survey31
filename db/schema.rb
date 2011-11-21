@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111114230543) do
+ActiveRecord::Schema.define(:version => 20111118202543) do
 
   create_table "cifs", :force => true do |t|
     t.integer  "client_id"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(:version => 20111114230543) do
     t.text     "notes"
     t.string   "passcode"
     t.string   "number_of_meetings"
-    t.string   "next_meeting"
     t.boolean  "please_contact"
     t.string   "submittor"
     t.string   "contact_info"
@@ -47,6 +46,8 @@ ActiveRecord::Schema.define(:version => 20111114230543) do
     t.integer  "overall_satisfaction"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "next_meeting"
+    t.float    "average_score"
   end
 
   create_table "clients", :force => true do |t|
@@ -105,6 +106,17 @@ ActiveRecord::Schema.define(:version => 20111114230543) do
     t.datetime "updated_at"
   end
 
+  create_table "reports", :force => true do |t|
+    t.text     "results"
+    t.text     "parameters"
+    t.string   "filename"
+    t.boolean  "completed"
+    t.boolean  "download"
+    t.string   "type_of_report"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "seasons", :force => true do |t|
     t.string   "name"
     t.text     "subject"
@@ -127,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20111114230543) do
     t.datetime "sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "template"
   end
 
   create_table "user_properties", :force => true do |t|

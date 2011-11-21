@@ -50,7 +50,7 @@ task :mssql_convert => :environment do
   old_connection = ActiveRecord::Base.establish_connection(Rails.configuration.database_configuration["mssql"])
 
 #  old_connection.tables.each do |table|
-  %w(cifs propseasons).each do |table|
+  %w(propseasons).each do |table|
     next if SKIPS.include? table
 
     new_table = TABLE_MAP[table] || table
