@@ -111,6 +111,7 @@ class Report < ActiveRecord::Base
     pdf.render_file(File.join(Rails.root.to_s, 'files', 'reports', self.filename))
 
     self.completed = true
+    self.download = true
     self.save
 
   end
@@ -144,6 +145,7 @@ class Report < ActiveRecord::Base
     book.write(File.join(Rails.root.to_s, 'files', 'reports', self.filename))
 
     self.completed = true
+    self.download = true
     self.save
   end
 
@@ -207,6 +209,7 @@ class Report < ActiveRecord::Base
     book.write(File.join(Rails.root.to_s, 'files', 'reports', self.filename))
 
     self.completed = true
+    self.download = true
     self.save
   end
 
