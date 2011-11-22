@@ -15,14 +15,16 @@ class User < ActiveRecord::Base
 
   ROLES = %w(administrator email_admin)
 
-  scope :with_role, lambda {|role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"}}
-
   def self.list_for_select
     User.order("last_name, first_name").all.collect{|u| [u, u.id]}
   end
 
   def all_properties
     (self.properties.all + self.managed_properties.all + self.all_supervised_properties.all).uniq
+  end
+
+  def with_role(role)
+    User.where(['roles_mask & ? > 0', 2**ROLES.index(role.to-s)]).all
   end
 
   def all_supervised_properties
