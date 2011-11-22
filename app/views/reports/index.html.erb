@@ -4,6 +4,8 @@
     </div>
     <div>
       Properties:<br />
+      <%= link_to_function 'Select All', "return false;", :id => 'select_all' %><br />
+      <%= link_to_function 'Unelect All', "return false;", :id => 'unselect_all' %><br />
       <%= select_tag :properties, options_for_select(Property.list_for_select(current_user)), :multiple => true %>
     </div>
     <div>
@@ -23,3 +25,19 @@
       <%= submit_tag :submit %>
     </div>
 <% end %>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#select_all").click(function() {
+            $('#properties').each(function() {
+                $('#properties option').attr("selected","selected");
+            });
+        });
+
+        $('#unselect_all').click(function() {
+            $('#properties').each(function() {
+                $('#properties option').removeAttr("selected");
+            });
+        });
+    });
+</script>
