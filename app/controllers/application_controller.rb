@@ -94,8 +94,8 @@ class ApplicationController < ActionController::Base
                                current_account,
                                request.env['HTTP_HOST'].match(/survey\.vaecorp\.com/)
     ).deliver
-  end
 
-  #redirect_to '/500.html'
-  render :file => "public/500.html", :layout => false, :status => 500  end
+    #redirect_to '/500.html'
+    render :file => "public/500.html", :layout => false, :status => 500
+  end
 end
