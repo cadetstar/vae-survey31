@@ -2,7 +2,7 @@ class SurveyMailer < ActionMailer::Base
   default from: "thankyou@vaecorp.com"
 
   def load_settings(site)
-    case site
+    self.smtp_settings = case site
       when 'conferencesystems' then
         @@smtp_settings = {
             :address => 'mail.conferencesystems.com',
