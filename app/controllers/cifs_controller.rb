@@ -52,7 +52,7 @@ class CifsController < ApplicationController
 
     @season = Season.find_or_create_by_name('Thank You')
 
-    @cifs = Cif.joins([:client => :company], :property).where(['end_date between ? and ? and property_id in (?)', session[:cifs][:start_date], session[:cifs][:end_date], @properties.collect{|r| r.id}])
+    @cifs = Cif.joins([:client => :company], :property).where(['end_date between ? and ? and cifs.property_id in (?)', session[:cifs][:start_date], session[:cifs][:end_date], @properties.collect{|r| r.id}])
 
     @cifs = @cifs.order(SORT_MAPPING[session[:sorters][:cifs][:field]] || "cifs.#{session[:sorters][:cifs][:field]}")
     if session[:sorters][:cifs][:order] == 'DESC'
