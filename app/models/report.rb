@@ -63,15 +63,16 @@ class Report < ActiveRecord::Base
   serialize :parameters
 
   def perform
-    case self.type_of_report.downcase
+    k = Report.find_by_id(self.id)
+    case k.type_of_report.downcase
       when 'summary'
-        do_summary
+        k.do_summary
       when 'detail'
-        do_detail
+        k.do_detail
       when 'composite detail'
-        do_composite
+        k.do_composite
       when 'property questions'
-        do_property_questions
+        k.do_property_questions
     end
   end
 
