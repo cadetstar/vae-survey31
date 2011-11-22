@@ -13,7 +13,7 @@ VaeSurvey31::Application.routes.draw do
 
   match 'seasons/:id/enable', :to => 'seasons#enable', :as => 'enable_season'
   match 'seasons/:id/disable', :to => 'seasons#disable', :as => 'disable_season'
-  match 'seasons/:id/send', :to => 'seasons#send', :as => 'send_season'
+  match 'seasons/:id/send', :to => 'seasons#send_season', :as => 'send_season'
   match 'thank_you_cards/:id/:passcode/view', :to => 'thank_you_cards#view', :as => 'view_tyc'
 
   match 'cifs/include', :to => 'cifs#include', :as => 'include_survey'
