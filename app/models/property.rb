@@ -6,6 +6,7 @@ class Property < ActiveRecord::Base
   has_many   :prop_seasons
   has_many   :seasons, :through => :prop_seasons
   has_many   :thank_you_cards, :through => :prop_seasons
+  has_many   :cifs
 
   has_many :user_properties
   has_many :users, :through => :user_properties
