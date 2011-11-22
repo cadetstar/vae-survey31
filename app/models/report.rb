@@ -221,7 +221,7 @@ class Report < ActiveRecord::Base
     end
 
     values = Group.where(:id => groups.collect{|g| g.id}).joins({:properties => :cifs}).group("groups.id, groups.name").where({:cif_include => true, :count_survey => true, :cif_captured => false, :created_at => (start_time..end_time)}).where("sent_at IS NOT NULL")
-    values = values.select("groups.id, groups.name, SUM(CASE completed_at is NOT NULL then 1 ELSE 0 END) as received, SUM(CASE sent_at IS NOT NULL THEN 1 ELSE 0 END) as sent, CASE sent = 0 THEN 0 ELSE (received/sent) END as rate, ROUND(AVG(overall_satisfaction),2) as overall, ROUND(AVG(average_score),2) as average").order("groups.name")
+    values = values.select("groups.id, groups.name, SUM(CASE WHEN completed_at is NOT NULL then 1 ELSE 0 END) as received, SUM(CASE WHEN sent_at IS NOT NULL THEN 1 ELSE 0 END) as sent, CASE WHEN sent = 0 THEN 0 ELSE (received/sent) END as rate, ROUND(AVG(overall_satisfaction),2) as overall, ROUND(AVG(average_score),2) as average").order("groups.name")
 
     totals = {}
     [:received, :rate, :sent, :overall, :average].each do |field|
