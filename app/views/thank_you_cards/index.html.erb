@@ -6,19 +6,19 @@
 <ul>
   <li>Which Properties?
     <ul>
-      <%= scope_filter('all', "All Emails") %>
-      <%= scope_filter('mine', "Direct") %>
+      <%= raw scope_filter('all', "All Emails") %>
+      <%= raw scope_filter('mine', "Direct") %>
       <% if current_user.supervised_properties.size > 0 %>
-          <li><%= scope_filter('subord', "Subordinate Departments") %>
-          <li><%= scope_filter('subandmine', "Subordinate and Direct") %>
+          <li><%= raw scope_filter('subord', "Subordinate Departments") %>
+          <li><%= raw scope_filter('subandmine', "Subordinate and Direct") %>
       <% end %>
     </ul>
   </li>
   <li>Which Emails?
     <ul>
-      <%= restrict_filter('awaiting', 'Unsent') %>
-      <%= restrict_filter('sent', 'Sent') %>
-      <%= restrict_filter('all', 'All') %>
+      <%= raw restrict_filter('awaiting', 'Unsent') %>
+      <%= raw restrict_filter('sent', 'Sent') %>
+      <%= raw restrict_filter('all', 'All') %>
     </ul>
   </li>
 </ul>
