@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
                                session.instance_variable_get("@data"),
                                params,
                                request.env,
-                               current_account,
+                               current_user,
                                request.env['HTTP_HOST'].match(/survey\.vaecorp\.com/)
     ).deliver
 
