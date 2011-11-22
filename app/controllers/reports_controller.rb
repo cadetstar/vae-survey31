@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
       unless params[:type] == 'Property Questions'
         params[:download] = true
       end
-      @r = Report.create(:parameters => params, :download => params[:download], :type_of_report => params[:type])
+      @r = Report.create(:parameters => params, :download => params[:download], :type_of_report => params[:type], :user_id => current_user.id)
 
       Delayed::Job.enqueue @r
     end
@@ -27,6 +27,11 @@ class ReportsController < ApplicationController
   def report
     unless @report = Report.find_by_id(params[:id])
       flash[:error] = 'I could not find a report with that ID.'
+      redirect_to reports_path
+      return
+    end
+    unless current_user.admin? or @report.user == current_user
+      flash[:error] = 'You do not have access to that report.'
       redirect_to reports_path
       return
     end

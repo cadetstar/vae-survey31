@@ -62,6 +62,8 @@ class Report < ActiveRecord::Base
 
   serialize :parameters
 
+  belongs_to :user
+
   def perform
     k = Report.find_by_id(self.id)
     case k.type_of_report.downcase
