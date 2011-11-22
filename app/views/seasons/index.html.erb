@@ -9,7 +9,7 @@
   </tr>
   <% @seasons.each do |season| %>
       <tr <%= season.enabled ? '' : "style='font-style: italic;'" %>>
-        <% [:name, :subject, :pre_text, :post_text, :property_char_limit, :unsent_email].each do |field| %>
+        <% [:name, :subject, :pre_text, :post_text, :property_char_limit, :unsent_emails].each do |field| %>
             <td><%= season.send(field) %></td>
         <% end %>
         <td>
