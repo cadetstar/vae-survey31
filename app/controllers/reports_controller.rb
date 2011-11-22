@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
       redirect_to reports_path
       return
     end
-    if params[:download]
+    if @report.download
       send_file "files/reports/#{@report.filename}", :filename => @report.type_of_report
     end
   end
