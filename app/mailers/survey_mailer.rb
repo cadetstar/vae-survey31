@@ -82,6 +82,7 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def error_message(exception, trace, session, params, env, account, is_live = false, sent_on = Time.now)
+    load_settings('vaecorp')
     @recipients    = 'cadetstar@hotmail.com'
     @subject       = "Error message: #{env['REQUEST_URI']}"
     @sent_on       = sent_on
