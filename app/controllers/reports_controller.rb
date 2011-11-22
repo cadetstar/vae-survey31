@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
       flash[:error] = 'That is not a valid report.'
       redirect_to reports_path
     else
-      params[:properties] = (params[:properties].collect{|r| r.to_i} & Property.list_for_select(current_user).collect{|c| c[1]})
+      params[:properties] = ((params[:properties] || []).collect{|r| r.to_i} & Property.list_for_select(current_user).collect{|c| c[1]})
       unless params[:type] == 'Property Questions'
         params[:download] = true
       end
