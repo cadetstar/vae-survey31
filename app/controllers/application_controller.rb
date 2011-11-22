@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
 
   layout "application"
 
+  rescue_from Exception, :with => :my_log_error
+  rescue_from ActiveRecord::RecordNotFound, :with => :my_log_error
+  rescue_from ActionController::UnknownController, :with => :my_log_error
+  rescue_from ActionController::UnknownAction, :with => :my_log_error
+
   RECORDS_PER_PAGE = 20
 
   def is_administrator?
@@ -12,7 +17,7 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
-  
+
   def setup_session_defaults_for_controller(controller_sym)
     session[:sorters] ||= {}
     session[:sorters][controller_sym] ||= {}
@@ -77,4 +82,20 @@ class ApplicationController < ActionController::Base
     build_it = build_it.page(session[controller_sym][:page_id])
     build_it
   end
+
+  private
+
+  def my_log_error(exception)
+    SurveyMailer.error_message(exception,
+                               ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
+                               session.instance_variable_get("@data"),
+                               params,
+                               request.env,
+                               current_account,
+                               request.env['HTTP_HOST'].match(/survey\.vaecorp\.com/)
+    ).deliver
+  end
+
+  #redirect_to '/500.html'
+  render :file => "public/500.html", :layout => false, :status => 500  end
 end
