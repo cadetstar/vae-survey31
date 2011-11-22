@@ -1,0 +1,10 @@
+<% if @report %>
+    <% if @report.completed %>
+        $("#results").html('<%= escape_javascript("Report Complete.  #{link_to 'Click Here', get_report_path(:id => @report.id)}") %>');
+    <% else %>
+        $('#results').append('.');
+        enqueueToPulse;
+    <% end %>
+<% else %>
+    $('#results').html("Report failed.  Please return to the reports page and try again.")
+<% end %>

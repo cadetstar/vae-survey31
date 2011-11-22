@@ -1,9 +1,0 @@
-if @report
-  if @report.completed
-    page.replace_html 'results', "Report Complete.  #{link_to 'Click Here', get_report_path(:id => @report.id)}"
-  else
-    page.call 'enqueueToPulse'
-  end
-else
-  page.replace_html 'results', "Report failed.  Please return to the reports page and try again."
-end

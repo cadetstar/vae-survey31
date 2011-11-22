@@ -76,7 +76,7 @@ class Report < ActiveRecord::Base
   end
 
   def do_composite
-    end_time = self.parameters[:end_date].at_end_of_month
+    end_time = Time.parse(self.parameters[:end_date]).at_end_of_month
     start_time = end_time.at_beginning_of_year
     properties = self.parameters[:properties]
 
@@ -115,7 +115,7 @@ class Report < ActiveRecord::Base
   end
 
   def do_detail
-    end_date = self.parameters[:end_date] || Time.now
+    end_date = Time.parse(self.parameters[:end_date]) || Time.now
     start_date = end_date.at_beginning_of_year
     properties = self.parameters[:properties]
 
@@ -147,7 +147,7 @@ class Report < ActiveRecord::Base
   end
 
   def do_summary
-    end_date = self.parameters[:end_date] || Time.now
+    end_date = Time.parse(self.parameters[:end_date]) || Time.now
     properties = self.parameters[:properties]
 
     book = Spreadsheet::Workbook.new
@@ -262,8 +262,8 @@ class Report < ActiveRecord::Base
   end
 
   def do_property_questions
-    start_date = self.parameters[:start_date] || 2.months.ago
-    end_date = self.parameters[:end_date] || Time.now
+    start_date = Time.parse(self.parameters[:start_date]) || 2.months.ago
+    end_date = Time.parse(self.parameters[:end_date]) || Time.now
     properties = self.parameters[:properties]
     in_excel = self.download
 
