@@ -86,14 +86,12 @@ class SurveyMailer < ActionMailer::Base
     @subject       = "Error message: #{env['REQUEST_URI']}"
     @sent_on       = sent_on
     @content_type = "text/html"
-    @body = {
-        :exception => exception,
-        :trace => trace,
-        :session => session,
-        :params => params,
-        :env => env,
-        :account => account
-    }
+    @exception = exception
+    @trace = trace
+    @session = session
+    @params = params
+    @env = env
+    @account = account
 
   end
   protected
