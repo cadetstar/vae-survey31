@@ -6,14 +6,14 @@
 
 <table>
   <tr>
-    <% [:name, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
+    <% [:company, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
         <th><%= sort_helper(:client, field) %></th>
     <% end %>
     <th>Commands</th>
   </tr>
   <% @clients.each do |client| %>
       <tr>
-        <% [:name, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
+        <% [:company, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
             <td><%= client.send(field) %></td>
         <% end %>
         <td>
