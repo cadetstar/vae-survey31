@@ -10,12 +10,10 @@ gem 'kaminari'
 gem 'devise'
 
 gem 'prawn'
-gem 'rmagick'
+#gem 'rmagick'
 gem 'delayed_job'
 gem 'spreadsheet'
 gem 'chronic'
-gem 'activerecord-sqlserver-adapter'
-gem 'ruby-odbc'
 
 # Gems used only for assets and not required
 # in production environments by default.
