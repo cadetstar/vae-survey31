@@ -135,7 +135,7 @@ class Report < ActiveRecord::Base
         sheet.column(i).width = c[2]
       end
 
-      Cif.order('end_date, completed_at').where({:property => group.properties, :count_survey => true, :cif_captured => false, :end_date => (start_date..end_date)}).where('completed_at is not null').each_with_index do |cif, a|
+      Cif.order('end_date, completed_at').where({:property_id => group.property_ids, :count_survey => true, :cif_captured => false, :end_date => (start_date..end_date)}).where('completed_at is not null').each_with_index do |cif, a|
         COMMENTS.each_with_index do |c,i|
           sheet[a+1,i] = cif.send[c[3]]
           sheet.row(a+1).set_format(i, FORMATS[c[1]])

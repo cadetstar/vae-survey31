@@ -36,7 +36,7 @@ class ReportsController < ApplicationController
       return
     end
     if @report.download
-      send_file "files/reports/#{@report.filename}", :filename => @report.type_of_report
+      send_file "files/reports/#{@report.filename}", :filename => "#{@report.type_of_report}.#{@report.filename.split('.')[-1]}"
     end
   end
 end
