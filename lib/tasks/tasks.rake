@@ -136,6 +136,7 @@ task :mssql_convert => :environment do
         new_data['password_confirmation'] = 'vaecorp'
       elsif new_table == 'properties'
         new_data['cif_form'] = Cif::FORMS[%w(VAE CONV FR CSI).index(new_data['cif_form'])] || Cif::FORMS.first
+        new_data['r2_code'] = new_data['code'].gsub(/[^\d]/,'')
       end
       puts "Converting #{table} - #{row['id']}"
       unless new_model.find_by_id(row['id'])
