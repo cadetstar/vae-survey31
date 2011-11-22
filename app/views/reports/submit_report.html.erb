@@ -8,7 +8,7 @@
     }
 
     function callToPulse() {
-    <%= remote_function :url => pulse_path(:id => @r.id) %>
+        $.ajax({type: 'POST', url: '<%= pulse_path(:id => @r.id) %>'});
     }
 
     enqueueToPulse();
