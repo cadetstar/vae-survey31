@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def cif_restrictor
-    %w(Unsent Flagged Sent Captured Completed All).reject{|c| session[:cifs][:status] == c}.collect{|c| link_to c, cifs_path(:status => c.downcase)}
+    raw %w(Unsent Flagged Sent Captured Completed All).reject{|c| session[:cifs][:status] == c}.collect{|c| link_to c, cifs_path(:status => c.downcase)}
   end
 
   def restrict_filter(filter_name, descriptor)
@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def token_helper
-    <<-OUTPUT
+    raw <<-OUTPUT
     <div>
       <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
       <div name='body' style='display: none;'>
@@ -40,11 +40,11 @@ module ApplicationHelper
   end
 
   def system_fonts
-    Dir.glob("C:/Windows/Fonts/*").collect{|f| f.gsub("C:/Windows/fonts/",'')}
+    Dir.glob("C:/Windows/Fonts/*").collect{|f| f.gsub("C:/Windows/Fonts/",'')}
   end
 
   def template_tokens
-    <<-OUTPUT
+    raw <<-OUTPUT
     <div>
       <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
       <div name='body' style='display: none;'>

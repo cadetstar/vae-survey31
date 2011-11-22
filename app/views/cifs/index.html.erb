@@ -14,7 +14,7 @@
 <% end %>
 
 <div>
-  <% form_tag cifs_path, :method => :get do %>
+  <%= form_tag cifs_path, :method => :get do %>
       <%=  select_tag :property, options_for_select([['All Properties', '0']] + Property.list_for_select(current_user), session[:cifs][:property_id]) %>
       Dates: <%= date_field_tag :start_date, session[:cifs][:start_date] %> to <%= date_field_tag :end_date, session[:cifs][:end_date] %>
       <%=  submit_tag 'Filter' %>

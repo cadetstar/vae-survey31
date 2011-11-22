@@ -1,0 +1,1 @@
+VaeSurvey31::Application.config.action_mailer.delivery_method = :smtp

@@ -1,9 +1,9 @@
 <div>
-  <% form_for @company do |f| %>
+  <%= form_for @company do |f| %>
       <% [:name, :address_line_1, :address_line_2, :city, :state, :zip, :r2_company_id].each do |field| %>
         <div><%= f.label field %><br /><%= f.text_field field %></div>
       <% end %>
-      <div><%= f.label :property_id, "Property" %><br /><%= f.select :property_id, Property.list_for_select %></div>
+      <div><%= f.label :property_id, "Property" %><br /><%= f.select :property_id, Property.list_for_select(current_user) %></div>
       <div><%= f.submit defined?(submit_text) ? submit_text : "Create Company" %></div>
   <% end %>
 </div>

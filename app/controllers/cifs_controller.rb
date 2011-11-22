@@ -52,18 +52,18 @@ class CifsController < ApplicationController
 
     @season = Season.find_or_create_by_name('Thank You')
 
-    @cifs = Cif.joins([:client => :company], :property).where(['end_date between ? and ? and property_id in (?)', session[:cifs][:start_date], session[:cifs][:end_date], @properties.collect{|r| r.id}])
+    @cifs = Cif.joins([:client => :company], :property).where(['end_date between ? and ? and cifs.property_id in (?)', session[:cifs][:start_date], session[:cifs][:end_date], @properties.collect{|r| r.id}])
 
     @cifs = @cifs.order(SORT_MAPPING[session[:sorters][:cifs][:field]] || "cifs.#{session[:sorters][:cifs][:field]}")
-    if session[:sorters][:cfs][:order] == 'DESC'
+    if session[:sorters][:cifs][:order] == 'DESC'
       @cifs = @cifs.reverse
     end
 
     case session[:cifs][:status]
       when 'unsent'
-        @cifs = @cifs.where(["sent_at is null and (flagged_until is null or flagged_until < :time_now or (cifs.updated_at > (cifs.flagged_until - INTERVAL '7 days') or clients.updated_at > (cifs.flagged_until - INTERVAL '7 days') or companies.updated_at > (cifs.flagged_until - INTERVAL '7 days')))"])
+        @cifs = @cifs.where(["sent_at is null and (flagged_until is null or flagged_until < ? or (cifs.updated_at > (cifs.flagged_until - INTERVAL '7 days') or clients.updated_at > (cifs.flagged_until - INTERVAL '7 days') or companies.updated_at > (cifs.flagged_until - INTERVAL '7 days')))", Time.now])
       when 'flagged'
-        @cifs = @cifs.where(["sent_at is null and not (flagged_until is null or flagged_until < :time_now or (cifs.updated_at > (cifs.flagged_until - INTERVAL '7 days') or clients.updated_at > (cifs.flagged_until - INTERVAL '7 days') or companies.updated_at > (cifs.flagged_until - INTERVAL '7 days')))"])
+        @cifs = @cifs.where(["sent_at is null and not (flagged_until is null or flagged_until < ? or (cifs.updated_at > (cifs.flagged_until - INTERVAL '7 days') or clients.updated_at > (cifs.flagged_until - INTERVAL '7 days') or companies.updated_at > (cifs.flagged_until - INTERVAL '7 days')))", Time.now])
       when 'sent'
         @cifs = @cifs.where(["sent_at is not null"]).where({:cif_captured => false})
       when 'captured'

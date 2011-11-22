@@ -1,6 +1,6 @@
 class ClientsController < ApplicationController
   def index
-    setup_session_defaults_for_controller(:client)
+    setup_session_defaults_for_controller(:client, :last_name)
 
     @clients = build_query(Client, :client)
   end

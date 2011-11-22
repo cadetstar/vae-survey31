@@ -1,0 +1,36 @@
+<table>
+  <tr><td><b>Time:</b> <%= Time.now %></td> </tr>
+  <tr><td>Server: <%= @env["HTTP_HOST"] %></td></tr>
+  <tr><td><b>Location:</b> <%= @env['REQUEST_URI'] %> </td> </tr>
+  <tr><td><b>Action:</b> <%= @params.delete('action') %> </td> </tr>
+  <tr><td><b>Controller: </b><%= @params.delete('controller') %> </td> </tr>
+  <tr><td><b>Query:</b> <%= @env['QUERY_STRING'] %> </td> </tr>
+  <tr><td><b>Method:</b> <%= @env['REQUEST_METHOD'] %> </td> </tr>
+  <tr><td><b>SSL:</b> <%= @env['SERVER_PORT'].to_i == 443 ? "true" : "false" %></td> </tr>
+  <tr><td><b>Message:</b> <%= CGI.escapeHTML(@exception.message.to_s) %></td> </tr>
+</table>
+<br>
+<h2>Backtrace</h2>
+<br>
+<% if @trace.size == 1 -%>
+    <%= raw(h(@trace.first).gsub("\n","<br>")) -%>
+<% else -%>
+    <% @trace.to_a.each_with_index do |t, i| -%>
+        <%= raw("#{i+1}: #{CGI.escapeHTML(t)} + <br>") -%>
+    <% end -%>
+<% end -%>
+<br>
+<h2>Params</h2><br>
+<ul>
+  <% @params.each do |key, val| -%>
+      <li><b><%= key %>:</b> <i><%= val.to_yaml %></i><br></li>
+  <% end -%>
+</ul>
+<br>
+<h2>Environment</h2>
+<ul>
+  <% sorted = @env.sort
+     sorted.each do |val| -%>
+      <li> <b><%= val[0] %>:</b> <i><%= val[1] %></i><br></li>
+  <% end -%>
+</ul>

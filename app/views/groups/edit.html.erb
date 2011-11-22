@@ -1,8 +1,8 @@
 <div>
-  <% form_for @group do |f| %>
+  <%= form_for @group do |f| %>
       <div><%= f.label :name %><br /><%= f.text_field :name %></div>
       <div><%= f.submit 'Update Group' %></div>
   <% end %>
 </div>
 
-<div><= link_to 'Back to Groups', groups_path %></div>
+<div><%= link_to 'Back to Groups', groups_path %></div>

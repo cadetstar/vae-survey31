@@ -6,4 +6,7 @@ Gemfile
 Gemfile.lock
 .sass-cache/
 .idea
+files
+files/*
+db/schema.rb
 .idea/*

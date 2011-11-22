@@ -1,6 +1,6 @@
 <h2>Edit Client</h2>
 <div>
-  <% form_for @client do |f| %>
+  <%= form_for @client do |f| %>
       <div>Company:<br /><%= @client.company %></div>
       <div>Property:<br /><%= @client.property %></div>
       <div><%= f.label :first_name %><br /><%= f.text_field :first_name %></div>
