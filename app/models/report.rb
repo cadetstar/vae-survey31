@@ -155,7 +155,7 @@ class Report < ActiveRecord::Base
 
     sheet[0,0] = 'Property'
 
-    groups = Property.find_all_by_id(properties).collect{|r| r.group}.uniq.sort
+    groups = Property.find_all_by_id_and_cif_include(properties, true).collect{|r| r.group}.uniq.sort
 
     offset = 2
     groups.each_with_index do |g, i|
