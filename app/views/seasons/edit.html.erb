@@ -13,9 +13,9 @@
       <%= token_helper %>
       <div><%= f.text_area :email_template, :class => "long_field" %></div>
       <div><%= f.label :fonts %></div>
-      <div><%= f.select :fonts, system_fonts, :multiple => true, :size => 5 %></div>
+      <div><%= f.select :fonts, system_fonts, {}, {:multiple => true, :size => 5} %></div>
       <div><%= f.label :template %></div>
-      <div><%= f.text_area :template, :class => "long_field" %></div>
+      <div><%= f.text_area :body, :class => "long_field" %></div>
       <%= template_tokens %>
       <div><%= f.submit 'Update Season' %></div>
   <% end %>
