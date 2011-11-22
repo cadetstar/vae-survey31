@@ -1,6 +1,6 @@
 <% if @report %>
     <% if @report.completed %>
-        $("#results").html('<%= escape_javascript("Report Complete.  #{raw link_to('Click Here', get_report_path(:id => @report.id))}") %>');
+        $("#results").html('<%= j("Report Complete.  <a href='/reports/get?id=#{@report.id}'>Sample Click</a> or #{raw link_to('Click Here', get_report_path(:id => @report.id))}") %>');
     <% else %>
         $('#results').append('.');
         enqueueToPulse();
