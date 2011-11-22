@@ -195,7 +195,7 @@ class Report < ActiveRecord::Base
       start_period = start_period.next_month
 
       if start_period == start_period.at_beginning_of_quarter # Do the quarterly summaries
-        perform_for_time_period(start_period.last_month.at_beginning_of_quarter, start_period.last_month.at_end_of_quarter, groups, column_index, sheet, :quarter, offset, start_period.last_month.quarter)
+        perform_for_time_period(start_period.prev_month.at_beginning_of_quarter, start_period.prev_month.at_end_of_quarter, groups, column_index, sheet, :quarter, offset, start_period.prev_month.quarter)
         column_index += 5
       end
     end
