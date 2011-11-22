@@ -149,7 +149,7 @@ module ActionView
         #{tag :input, { "type" => "text", "name" => name, "id" => sanitize_to_id(name), "value" => value }.update(options.stringify_keys)}
           <script type="text/javascript">
           $(document).ready(function(ev) {
-            $("##{sanitize_to_id(name)}").datepicker({showOtherMonths: true, selectOtherMonths: true});
+            $("##{sanitize_to_id(name)}").datepicker({showOtherMonths: true, selectOtherMonths: true, dateFormat: 'yy-mm-dd'});
           })
           </script>
         OUTPUT
