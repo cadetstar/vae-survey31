@@ -396,6 +396,7 @@ class Report < ActiveRecord::Base
           output << "</table></div>"
         end
       end
+      output << "</div>"
       self.results = output
     end
     self.completed = true

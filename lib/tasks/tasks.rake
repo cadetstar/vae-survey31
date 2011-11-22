@@ -111,8 +111,8 @@ task :mssql_convert => :environment do
     new_table = TABLE_MAP[table] || table
     new_model = new_table.classify.constantize
 
-    klass.limit(500).all.each do |row|
-#      klass.all.each do |row|
+#    klass.limit(500).all.each do |row|
+    klass.all.each do |row|
       new_data = {}
       row.attributes.each do |k,v|
         if COLUMN_MAP[table]
