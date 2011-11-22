@@ -18,10 +18,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def setup_session_defaults_for_controller(controller_sym)
+  def setup_session_defaults_for_controller(controller_sym, default_field = :name)
     session[:sorters] ||= {}
     session[:sorters][controller_sym] ||= {}
-    session[:sorters][controller_sym][:field] ||= :name
+    session[:sorters][controller_sym][:field] ||= default_field
     session[:sorters][controller_sym][:order] ||= 'ASC'
 
     session[controller_sym] ||= {}
