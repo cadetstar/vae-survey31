@@ -19,7 +19,7 @@ class SurveyMailer < ActionMailer::Base
             :domain => "vaecorp.com",
             :authentication => :login,
             :user_name => "thankyou@vaecorp.com",
-            :password => "129101701"
+            :password => "V@3cs1IT"
         }
     end
   end
