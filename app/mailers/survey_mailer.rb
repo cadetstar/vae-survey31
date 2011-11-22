@@ -1,7 +1,7 @@
 class SurveyMailer < ActionMailer::Base
   default from: "thankyou@vaecorp.com"
 
-  def load_settings(site)
+  def self.load_settings(site)
     self.smtp_settings = case site
       when 'conferencesystems' then
         @@smtp_settings = {
@@ -27,13 +27,13 @@ class SurveyMailer < ActionMailer::Base
   def survey_email(cif)
     case cif.property.cif_form
       when 'csi'
-        load_settings('conferencesystems')
+        SurveyMailer.load_settings('conferencesystems')
         @subject = "CSI's Services at Your Recent Event"
       when 'vae_french'
-        load_settings('vaecorp')
+        SurveyMailer.load_settings('vaecorp')
         @subject = 'Votre reunion recente'
       else
-        load_settings('vaecorp')
+        SurveyMailer.load_settings('vaecorp')
         @subject = "VAE's Services at Your Recent Event"
     end
     @cif = cif
@@ -44,7 +44,7 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def flagged_survey(cif, user)
-    load_settings 'vaecorp'
+    SurveyMailer.load_settings 'vaecorp'
     mail(:to => user.email, :subject => '[VAE Survey Site] A survey has been flagged.') do |format|
       format.html {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false)}<br /><br />Note from administrator:<br />#{@cif.flagged_comment}"}
       format.text {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false)}\n\nNote from administrator:\n#{@cif.flagged_comment}"}
@@ -52,7 +52,7 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def survey_response(cif, user)
-    load_settings 'vaecorp'
+    SurveyMailer.load_settings 'vaecorp'
     mail(:to => user.email, :subject => "[VAE Survey Site] A survey has been received for #{cif.property}")
   end
 
@@ -67,7 +67,7 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def general_message(user, subject, body)
-    load_settings 'vaecorp'
+    SurveyMailer.load_settings 'vaecorp'
     mail(:to => user.email, :subject => subject) do |format|
       format.html {render :text => body}
       format.text {render :text => body}
@@ -82,7 +82,7 @@ class SurveyMailer < ActionMailer::Base
   end
 
   def error_message(exception, trace, session, params, env, account, is_live = false, sent_on = Time.now)
-    load_settings('vaecorp')
+    SurveyMailer.load_settings('vaecorp')
     @recipients    = 'cadetstar@hotmail.com'
     @from          = 'Survey System <survey@vaecorp.com>'
     @subject       = "Error message: #{env['REQUEST_URI']}"
@@ -99,14 +99,14 @@ class SurveyMailer < ActionMailer::Base
   protected
 
   def setup_email(user)
-    load_settings('vaecorp')
+    SurveyMailer.load_settings('vaecorp')
   end
 
   def setup_remote_email(user, tyc)
     if user.email.include?('conferencesystems')
-      load_settings('conferencesystems')
+      SurveyMailer.load_settings('conferencesystems')
     else
-      load_settings('vaecorp')
+      SurveyMailer.load_settings('vaecorp')
     end
     @recipients = "#{tyc.client.email}"
     @from       = "#{user} <#{user.email}>"
