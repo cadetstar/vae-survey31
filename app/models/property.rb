@@ -13,10 +13,11 @@ class Property < ActiveRecord::Base
   before_create :make_group
 
   def self.list_for_select(user)
+    user ||= User.new
     if user.admin?
       Property.order(:code).all.collect{|r| [r, r.id]}
     else
-      Property.where({:property => user.all_properties}).all.collect{|r| [r,r.id]}
+      user.all_properties.collect{|r| [r,r.id]}
     end
   end
 
