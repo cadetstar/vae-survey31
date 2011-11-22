@@ -1,5 +1,5 @@
 <div>
-  <% form_for @company do |f| %>
+  <%= form_for @company do |f| %>
       <% [:name, :address_line_1, :address_line_2, :city, :state, :zip, :r2_company_id].each do |field| %>
         <div><%= f.label field %><br /><%= f.text_field field %></div>
       <% end %>

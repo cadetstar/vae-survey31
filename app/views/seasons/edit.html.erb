@@ -1,5 +1,5 @@
 <div>
-  <% form_for @season do |f| %>
+  <%= form_for @season do |f| %>
       <div><%= f.label :name %><br /><%= f.text_field :name %></div>
       <div><%= f.label :subject %><br /><%= f.text_field :subject, :class => "long_field" %></div>
       <div><%= f.label :pre_text %><br /><%= f.text_field :pre_text, :class => "long_field" %></div>

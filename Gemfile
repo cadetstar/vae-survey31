@@ -15,6 +15,7 @@ gem 'delayed_job'
 gem 'spreadsheet'
 gem 'chronic'
 #gem 'activerecord-sqlserver-adapter'
+gem 'mongrel_service'
 
 # Gems used only for assets and not required
 # in production environments by default.
