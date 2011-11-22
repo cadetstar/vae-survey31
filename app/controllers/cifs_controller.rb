@@ -55,7 +55,7 @@ class CifsController < ApplicationController
     @cifs = Cif.joins([:client => :company], :property).where(['end_date between ? and ? and property_id in (?)', session[:cifs][:start_date], session[:cifs][:end_date], @properties.collect{|r| r.id}])
 
     @cifs = @cifs.order(SORT_MAPPING[session[:sorters][:cifs][:field]] || "cifs.#{session[:sorters][:cifs][:field]}")
-    if session[:sorters][:cfs][:order] == 'DESC'
+    if session[:sorters][:cifs][:order] == 'DESC'
       @cifs = @cifs.reverse
     end
 

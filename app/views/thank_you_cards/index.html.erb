@@ -8,7 +8,7 @@
     <ul>
       <%= scope_filter('all', "All Emails") %>
       <%= scope_filter('mine', "Direct") %>
-      <% if current_user.supervisor_properties.size > 0 %>
+      <% if current_user.supervised_properties.size > 0 %>
           <li><%= scope_filter('subord', "Subordinate Departments") %>
           <li><%= scope_filter('subandmine', "Subordinate and Direct") %>
       <% end %>
