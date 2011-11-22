@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   end
 
   def all_properties
-    (self.properties.all + self.managed_properties.all + self.all_supervised_properties.all).uniq
+    (self.properties + self.managed_properties + self.all_supervised_properties).uniq
   end
 
   def with_role(role)
