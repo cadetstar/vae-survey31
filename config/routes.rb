@@ -7,7 +7,7 @@ VaeSurvey31::Application.routes.draw do
   root :to => "cifs#home"
 
   match 'reports', :to => 'reports#index', :as => 'reports'
-  match 'reports/request', :to => 'reports#request', :as => 'request_report'
+  match 'reports/submit', :to => 'reports#submit_report', :as => 'request_report'
   match 'reports/pulse', :to => 'reports#pulse', :as => 'pulse'
   match 'reports/get', :to => 'reports#report', :as => 'get_report'
 

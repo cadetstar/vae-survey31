@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
 
   end
 
-  def request
+  def submit_report
     unless Report::TYPES.include?(params[:type])
       flash[:error] = 'That is not a valid report.'
       redirect_to reports_path
