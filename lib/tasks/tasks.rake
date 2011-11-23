@@ -132,12 +132,12 @@ task :mssql_convert => :environment do
       case new_table
         when 'thank_you_cards'
           new_model.skip_callback(:save, :after, :update_pdf_and_jpeg)
-        when new_table == 'cifs'
+        when 'cifs'
           new_model.skip_callback(:create, :before, :set_defaults)
-        when new_table == 'users'
+        when 'users'
           new_data['password'] = 'vaecorp'
           new_data['password_confirmation'] = 'vaecorp'
-        when new_table == 'properties'
+        when 'properties'
           new_data['cif_form'] = Cif::FORMS[%w(VAE CONV FR CSI).index(new_data['cif_form'])] || Cif::FORMS.first
           new_data['r2_code'] = new_data['code'].gsub(/[^\d]/,'')
       end
