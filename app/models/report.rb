@@ -253,13 +253,13 @@ class Report < ActiveRecord::Base
       end
     end
 
-    sheet[offset + groups.size + 1,column_index] = totals[:received].zero? ? '-' : totals[:received]
-    sheet[offset + groups.size + 1,column_index + 1] = totals[:sent].zero? ? '-' : totals[:rate] / totals[:sent]
-    sheet[offset + groups.size + 1,column_index + 2] = totals[:sent].zero? ? '-' : totals[:sent]
-    sheet[offset + groups.size + 1,column_index + 3] = totals[:received].zero? ? '-' : totals[:overall] / totals[:received]
-    sheet[offset + groups.size + 1,column_index + 4] = totals[:received].zero? ? '-' : totals[:average] / totals[:received]
+    sheet[offset + groups.size + 1,column_index] = totals[:received].to_i.zero? ? '-' : totals[:received]
+    sheet[offset + groups.size + 1,column_index + 1] = totals[:sent].to_i.zero? ? '-' : totals[:rate] / totals[:sent]
+    sheet[offset + groups.size + 1,column_index + 2] = totals[:sent].to_i.zero? ? '-' : totals[:sent]
+    sheet[offset + groups.size + 1,column_index + 3] = totals[:received].to_i.zero? ? '-' : totals[:overall] / totals[:received]
+    sheet[offset + groups.size + 1,column_index + 4] = totals[:received].to_i.zero? ? '-' : totals[:average] / totals[:received]
 
-    (1..(offset+groups.size+1)).each do |i|
+    (-1..(offset+groups.size+1)).each do |i|
       (0..4).each do |j|
         sheet.row(i+offset).set_format(column_index+j, COLORS[month_format])
       end
