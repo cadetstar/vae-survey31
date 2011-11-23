@@ -1,5 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_filter :is_administrator?
+  before_filter :is_administrator?, :except => [:edit, :update]
+  before_filter :authenticate_user!, :only => [:edit, :update]
   skip_before_filter :require_no_authentication
 
 
@@ -19,9 +20,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @users = User.order("inactive, username")
   end
 
+  def admin_edit
+    unless @user = User.find_by_id(params[:id])
+      puts "I could not find a user with that ID."
+      redirect_to users_path
+    end
+  end
+
+  def admin_update
+    unless @user = User.find_by_id(params[:id])
+      puts "I could not find a user with that ID."
+    else
+      @user.update_attributes(params[:user])
+      flash[:notice] = 'User updated'
+    end
+    redirect_to users_path
+  end
+
   def enable
     # Reenables the user
-    unless @user = User.find(params[:id])
+    unless @user = User.find_by_id(params[:id])
       flash[:error] = "I could not find a user with that ID."
     else
       if @user.enabled
