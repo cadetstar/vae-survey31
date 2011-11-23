@@ -1,7 +1,7 @@
 class Group < ActiveRecord::Base
   has_many :properties
 
-  validates_uniqueness_of :name
+#  validates_uniqueness_of :name
 
   before_destroy :check_assigned_properties
 
