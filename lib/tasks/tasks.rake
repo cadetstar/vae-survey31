@@ -96,7 +96,7 @@ task :mssql_convert => :environment do
 
   SKIPS = %w(schema_migrations offlinereports sessions permissions roles)
 
-  tables = %w(assignments cif_aggregates cifs clients companies properties propseasons roles seasons thankyous users)
+  tables = %w(properties companies clients assignments cif_aggregates cifs companies propseasons roles seasons thankyous users)
 
   tables.each do |table|
     #%w(cifs propseasons).each do |table|
@@ -121,11 +121,11 @@ task :mssql_convert => :environment do
             new_data['answers'][k.gsub(/question/,'').to_i] = v
           else
             unless COLUMN_MAP[table][k] == -1
-              new_data[COLUMN_MAP[table][k]||k] = v
+              new_data[COLUMN_MAP[table][k]||k] = v.is_a?(String) ? v.encode('UTF-8', :invalid => :replace, :undef => :replace, :replace => "?") : v
             end
           end
         else
-          new_data[k] = v
+          new_data[k] = v.is_a?(String) ? v.encode('UTF-8', :invalid => :replace, :undef => :replace, :replace => "?") : v
         end
       end
 
