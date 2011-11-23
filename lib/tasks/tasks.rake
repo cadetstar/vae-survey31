@@ -129,14 +129,17 @@ task :mssql_convert => :environment do
         end
       end
 
-      if new_table == 'thank_you_cards'
-        new_model.skip_callback(:save, :after, :update_pdf_and_jpeg)
-      elsif new_table == 'users'
-        new_data['password'] = 'vaecorp'
-        new_data['password_confirmation'] = 'vaecorp'
-      elsif new_table == 'properties'
-        new_data['cif_form'] = Cif::FORMS[%w(VAE CONV FR CSI).index(new_data['cif_form'])] || Cif::FORMS.first
-        new_data['r2_code'] = new_data['code'].gsub(/[^\d]/,'')
+      case new_table
+        when 'thank_you_cards'
+          new_model.skip_callback(:save, :after, :update_pdf_and_jpeg)
+        when new_table == 'cifs'
+          new_model.skip_callback(:create, :before, :set_defaults)
+        when new_table == 'users'
+          new_data['password'] = 'vaecorp'
+          new_data['password_confirmation'] = 'vaecorp'
+        when new_table == 'properties'
+          new_data['cif_form'] = Cif::FORMS[%w(VAE CONV FR CSI).index(new_data['cif_form'])] || Cif::FORMS.first
+          new_data['r2_code'] = new_data['code'].gsub(/[^\d]/,'')
       end
       puts "Converting #{table} - #{row['id']}"
       unless new_model.find_by_id(row['id'])
@@ -147,8 +150,11 @@ task :mssql_convert => :environment do
         end
       end
 
-      if new_table == 'thank_you_cards'
-        new_model.set_callback(:save, :after, :update_pdf_and_jpeg)
+      case new_table
+        when 'thank_you_cards'
+          new_model.set_callback(:save, :after, :update_pdf_and_jpeg)
+        when 'cifs'
+          new_model.set_callback(:create, :before, :set_defaults)
       end
       new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
     end
