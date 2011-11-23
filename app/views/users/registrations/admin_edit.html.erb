@@ -1,0 +1,37 @@
+<div class="user_signup">
+<%= form_for(@user, :url => admin_update_path(resource_name)) do |f| %>
+    <div><%= f.label :username %><br />
+      <%= f.text_field :username %></div>
+
+    <div><%= f.label :password %><br />
+      <%= f.password_field :password %></div>
+
+    <div><%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %></div>
+
+    <div><%= f.label :email %><br />
+      <%= f.email_field :email %></div>
+
+    <div><%= f.label :last_name %><br />
+      <%= f.text_field :last_name %></div>
+
+    <div><%= f.label :last_name %><br />
+      <%= f.text_field :last_name %></div>
+
+    <div><%= f.label :receive_email_restriction, "Only Receive Surveys below what score?" %><br />
+      <%= f.select :receive_email_restriction, [5,4,3,2,1] %></div>
+
+    <div><%= f.label :do_not_receive_flagged, "Do not receive flagged surveys via email?" %><br />
+      <%= f.check_box :do_not_receive_flagged %></div>
+
+    <div><%= f.label :roles %><br />
+      <% User::ROLES.each do |role| %>
+          <%= check_box_tag "user[roles][]", role, resource.has_role?(role) %> <%= role.humanize %><br />
+      <% end %>
+      <%= hidden_field_tag "user[roles][]", "" %>
+    </div>
+
+    <div><%= f.submit "Update User" %></div>
+<% end %>
+
+</div>
