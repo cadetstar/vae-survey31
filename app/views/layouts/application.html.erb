@@ -27,7 +27,7 @@
         <td style="width: 15%;">Logged in as:<br><%= current_user.username %></td>
         <td style="width: 15%;"><%= link_to 'Change Password', edit_user_registration_path %></td>
         <td style="width: 15%"><% if current_user.admin? %><%= link_to 'Administer Users', users_path %><% else %> &nbsp; <% end %></td>
-        <td style="width: 15%;"><%= link_to 'Log Out', destroy_user_session_path(:method => :delete) %></td>
+        <td style="width: 15%;"><%= link_to 'Log Out', destroy_user_session_path, :method => :delete %></td>
         <td rowspan="2"><%= link_to image_tag('button-surveys.jpg'), cifs_path %></td>
       </tr>
       <tr>
