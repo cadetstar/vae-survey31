@@ -96,7 +96,7 @@ task :mssql_convert => :environment do
 
   SKIPS = %w(schema_migrations offlinereports sessions permissions roles)
 
-  tables = %w(properties companies clients assignments cif_aggregates cifs companies propseasons roles seasons thankyous users)
+  tables = %w(users properties companies clients assignments cif_aggregates cifs companies propseasons roles seasons thankyous)
 
   tables.each do |table|
     #%w(cifs propseasons).each do |table|

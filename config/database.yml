@@ -11,7 +11,7 @@ development:
 
 test:
   adapter: postgresql
-  encoding: utf8
+  encoding: unicode
   reconnect: false
   database: vae-survey31_test
   pool: 5
@@ -22,7 +22,7 @@ test:
 
 production:
   adapter: postgresql
-  encoding: utf8
+  encoding: unicode
   reconnect: false
   database: vae-survey31_production
   pool: 5
