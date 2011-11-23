@@ -237,7 +237,7 @@ class Report < ActiveRecord::Base
 
     values.each_with_index do |v,i|
       totals[:received] += (sheet[i+offset,column_index] = v.received).to_i
-      totals[:rate] += ((sheet[i+offset,column_index + 1] = v.rate).to_f * v.sent)
+      totals[:rate] += ((sheet[i+offset,column_index + 1] = v.rate).to_f * v.sent.to_i)
       totals[:sent] += (sheet[i+offset,column_index + 2] = v.sent).to_i
       totals[:overall] += ((sheet[i+offset,column_index + 3] = v.overall).to_f * v.received.to_i)
       totals[:average] += ((sheet[i+offset,column_index + 4] = v.average).to_f * v.received.to_i)
