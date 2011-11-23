@@ -36,7 +36,7 @@ class Property < ActiveRecord::Base
 
   def make_group
     unless self.group
-      g = Group.find_or_create(:name => self.name)
+      g = Group.find_or_create_by_name(self.name)
       self.group_id = g.id
     end
   end
