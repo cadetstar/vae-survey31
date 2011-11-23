@@ -110,7 +110,7 @@ task :mssql_convert => :environment do
 
     new_table = TABLE_MAP[table] || table
     new_model = new_table.classify.constantize
-
+    ids = new_model.select(:id).all.collect{|c| c.id}
 
 #    klass.limit(500).all.each do |row|
     klass.all.each do |row|
@@ -143,7 +143,7 @@ task :mssql_convert => :environment do
           new_data['r2_code'] = new_data['code'].gsub(/[^\d]/,'')
       end
       puts "Converting #{table} - #{row['id']}"
-      unless new_model.find_by_id(row['id'])
+      unless ids.include?(row['id'].to_i)
         new_model.create! do |m|
           new_data.each do |k,v|
             m.send("#{k}=",v)
