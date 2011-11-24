@@ -227,7 +227,7 @@ class Report < ActiveRecord::Base
     end
 
     values = Group.where(:id => groups.collect{|g| g.id}).joins({:properties => :cifs}).group("groups.id, groups.name").where(:properties => {:cif_include => true}, :cifs => {:count_survey => true, :cif_captured => false, :created_at => (start_time..end_time)}).where("sent_at IS NOT NULL")
-    values = values.select("groups.id, groups.name, COUNT(completed_at) as received, COUNT(sent_at) as sent, CASE WHEN COUNT(sent_at) = 0 THEN 0 ELSE (COUNT(completed_at)/COUNT(sent_at)) END as rate, ROUND(AVG(overall_satisfaction),2) as overall, ROUND(CAST(AVG(average_score) as numeric),2) as average").order("groups.name")
+    values = values.select("groups.id, groups.name, COUNT(completed_at) as received, COUNT(sent_at) as sent, CASE WHEN COUNT(sent_at) = 0 THEN 0 ELSE (CAST(COUNT(completed_at) as numeric)/COUNT(sent_at)) END as rate, CASE WHEN SUM(CASE WHEN COALESCE(overall_satisfaction,0) = 0 THEN 0 ELSE 1 END) = 0 THEN 0 ELSE ROUND((CAST(SUM(overall_satisfaction) as numeric) / SUM(CASE WHEN COALESCE(overall_satisfaction,0) = 0 THEN 0 ELSE 1 END)),2) END as overall, CASE WHEN SUM(CASE WHEN COALESCE(average_score,0) = 0 THEN 0 ELSE 1 END) = 0 THEN 0 ELSE ROUND(CAST((SUM(average_score) / SUM(CASE WHEN COALESCE(average_score,0) = 0 THEN 0 ELSE 1 END)) as numeric),2) END as average").order("groups.name")
 
     totals = {}
     [:received, :rate, :sent, :overall, :average].each do |field|
@@ -235,11 +235,13 @@ class Report < ActiveRecord::Base
     end
 
 
+    sheet[offset,column_index] = values.size
+
     values.each_with_index do |v,i|
       totals[:received] += v.received.to_i
       sheet[i+offset,column_index] = v.received.to_i.zero? ? '-' : v.received.to_i
       totals[:rate] += v.rate.to_f * v.sent.to_i
-      sheet[i+offset,column_index + 1] = v.sent.to_i.zero? ? '-' : v.rate
+      sheet[i+offset,column_index + 1] = v.sent.to_i.zero? ? '-' : sprintf('%.0f%%',v.rate)
       totals[:sent] += v.sent.to_i
       sheet[i+offset,column_index + 2] = v.sent.to_i.zero? ? '-' : v.sent
       totals[:overall] += v.overall.to_f * v.received.to_i
@@ -259,7 +261,7 @@ class Report < ActiveRecord::Base
     end
 
     sheet[offset + groups.size + 1,column_index] = totals[:received].to_i.zero? ? '-' : totals[:received]
-    sheet[offset + groups.size + 1,column_index + 1] = totals[:sent].to_i.zero? ? '-' : totals[:rate] / totals[:sent]
+    sheet[offset + groups.size + 1,column_index + 1] = totals[:sent].to_i.zero? ? '-' : sprintf('%.0f%%', totals[:rate] / totals[:sent])
     sheet[offset + groups.size + 1,column_index + 2] = totals[:sent].to_i.zero? ? '-' : totals[:sent]
     sheet[offset + groups.size + 1,column_index + 3] = totals[:received].to_i.zero? ? '-' : totals[:overall] / totals[:received]
     sheet[offset + groups.size + 1,column_index + 4] = totals[:received].to_i.zero? ? '-' : totals[:average] / totals[:received]
