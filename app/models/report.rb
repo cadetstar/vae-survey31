@@ -226,7 +226,7 @@ class Report < ActiveRecord::Base
       sheet.row(0).set_format(column_index + k, FORMATS[month_format])
     end
 
-    values = Group.where(:id => groups.collect{|g| g.id}).joins("LEFT JOIN properties ON (properties.group_id = groups.id) LEFT JOIN cifs ON (cifs.property_id = properties.id)").group("groups.id, groups.name").where(:properties => {:cif_include => true}, :cifs => {:count_survey => true, :cif_captured => false, :created_at => (start_time..end_time)}).where("sent_at IS NOT NULL")
+    values = Group.where(:id => groups.collect{|g| g.id}).joins("LEFT JOIN properties ON (properties.group_id = groups.id and properties.cif_include = TRUE) LEFT JOIN cifs ON (cifs.property_id = properties.id and cifs.count_survey = TRUE and cifs.cif_captured = FALSE and cifs.created_at between '#{start_time}' and '#{end_time}' and sent_at is not null)").group("groups.id, groups.name")
     values = values.select("groups.id, groups.name, COUNT(completed_at) as received, COUNT(sent_at) as sent, CASE WHEN COUNT(sent_at) = 0 THEN 0 ELSE (100*CAST(COUNT(completed_at) as numeric)/COUNT(sent_at)) END as rate, CASE WHEN SUM(CASE WHEN COALESCE(overall_satisfaction,0) = 0 THEN 0 ELSE 1 END) = 0 THEN 0 ELSE ROUND((CAST(SUM(overall_satisfaction) as numeric) / SUM(CASE WHEN COALESCE(overall_satisfaction,0) = 0 THEN 0 ELSE 1 END)),2) END as overall, CASE WHEN SUM(CASE WHEN COALESCE(average_score,0) = 0 THEN 0 ELSE 1 END) = 0 THEN 0 ELSE ROUND(CAST((SUM(average_score) / SUM(CASE WHEN COALESCE(average_score,0) = 0 THEN 0 ELSE 1 END)) as numeric),2) END as average").order("LOWER(groups.name)")
 
     totals = {}
@@ -234,8 +234,6 @@ class Report < ActiveRecord::Base
       totals[field] = 0
     end
 
-
-    sheet[offset-1,column_index] = values.size
 
     values.each_with_index do |v,i|
       totals[:received] += v.received.to_i
