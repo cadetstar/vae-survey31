@@ -141,6 +141,7 @@ task :mssql_convert => :environment do
         when 'properties'
           new_data['cif_form'] = Cif::FORMS[%w(VAE CONV FR CSI).index(new_data['cif_form'])] || Cif::FORMS.first
           new_data['r2_code'] = new_data['code'].gsub(/[^\d]/,'')
+          new_model.skip_callback(:create, :before, :make_group)
       end
       puts "Converting #{table} - #{row['id']}"
       unless ids.include?(row['id'].to_i)
@@ -156,6 +157,8 @@ task :mssql_convert => :environment do
           new_model.set_callback(:save, :after, :update_pdf_and_jpeg)
         when 'cifs'
           new_model.set_callback(:create, :before, :set_defaults)
+        when 'properties'
+          new_model.set_callback(:create, :before, :make_group)
       end
       new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
     end
