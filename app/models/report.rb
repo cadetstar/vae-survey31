@@ -160,7 +160,7 @@ class Report < ActiveRecord::Base
 
     sheet[0,0] = 'Property'
 
-    groups = Property.find_all_by_id_and_cif_include(properties, true).collect{|r| r.group}.uniq.sort
+    groups = Property.find_all_by_id_and_cif_include(properties, true).collect{|r| r.group}.uniq.sort_by(&:name)
 
     offset = 2
     groups.each_with_index do |g, i|
@@ -236,11 +236,16 @@ class Report < ActiveRecord::Base
 
 
     values.each_with_index do |v,i|
-      totals[:received] += (sheet[i+offset,column_index] = v.received).to_i
-      totals[:rate] += ((sheet[i+offset,column_index + 1] = v.rate).to_f * v.sent.to_i)
-      totals[:sent] += (sheet[i+offset,column_index + 2] = v.sent).to_i
-      totals[:overall] += ((sheet[i+offset,column_index + 3] = v.overall).to_f * v.received.to_i)
-      totals[:average] += ((sheet[i+offset,column_index + 4] = v.average).to_f * v.received.to_i)
+      totals[:received] += v.received.to_i
+      sheet[i+offset,column_index] = v.received.to_i.zero? ? '-' : v.received.to_i
+      totals[:rate] += v.rate.to_f * v.sent.to_i
+      sheet[i+offset,column_index + 1] = v.sent.to_i.zero? ? '-' : v.rate
+      totals[:sent] += v.sent.to_i
+      sheet[i+offset,column_index + 2] = v.sent.to_i.zero? ? '-' : v.sent
+      totals[:overall] += v.overall.to_f * v.received.to_i
+      sheet[i+offset,column_index + 3] = v.received.to_i.zero? ? '-' : v.overall
+      totals[:average] += v.average.to_f * v.received.to_i
+      sheet[i+offset,column_index + 4] = v.received.to_i.zero? ? '-' : v.average
 
       if v.sent == 0
         sheet[i+offset,column_index+1] = '-'
