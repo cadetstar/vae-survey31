@@ -99,6 +99,8 @@ class CifsController < ApplicationController
           end
         end
       end
+    else
+      @message = "Cif not found."
     end
 
     unless request.xhr?
