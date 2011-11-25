@@ -1,0 +1,4 @@
+
+if (document.getElementById('cif_notes_#{@cif.id}')) {
+    $('#cif_notes_<%= @cif.id %>').html = '<%= j render(:partial => "notes", :locals => {:cif => @cif}) %>';
+}
