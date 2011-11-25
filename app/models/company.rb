@@ -18,6 +18,6 @@ class Company < ActiveRecord::Base
   end
 
   def full_address
-    raw [self.address_line_1, self.address_line_2, "#{self.city}, #{self.state} #{self.zip}"].compact.join("<br />")
+    [self.address_line_1, self.address_line_2, "#{self.city}, #{self.state} #{self.zip}"].compact.join("<br />")
   end
 end
