@@ -168,5 +168,5 @@ class Cif < ActiveRecord::Base
     end
   end
 
-  serialized_accessor (1..16).to_a
+  serialized_accessor *(1..16).to_a
 end
