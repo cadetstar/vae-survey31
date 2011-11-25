@@ -1,7 +1,13 @@
 <h1>Create a CIF</h1>
 
 <%= form_for @cif do |f| %>
-    <%= f.error_messages %>
+    <% if @cif.errors.any? %>
+        <ul>
+          <% @cif.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+          <% end %>
+        </ul>
+    <% end %>
 
     <div>
       Client: <%= @cif.client %>
@@ -40,5 +46,5 @@
 <div><%= link_to 'Back', cifs_path %></div>
 
 <script type="text/javascript">
-  $("div[title]").tooltip();
+    $("div[title]").tooltip();
 </script>
