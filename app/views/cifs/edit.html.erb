@@ -1,5 +1,11 @@
 <%= form_for @cif do |f| %>
-    <%= f.error_messages %>
+    <% if @cif.errors.any? %>
+        <ul>
+          <% @cif.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+          <% end %>
+        </ul>
+    <% end %>
 
     <p><% unless @cif.sent_at %>
           <%= link_to @cif.client, edit_client_path(@cif.client) %><br /><%= link_to @cif.company, edit_company_path(@cif.company) %>
