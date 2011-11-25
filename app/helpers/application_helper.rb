@@ -46,7 +46,7 @@ module ApplicationHelper
   def template_tokens
     raw <<-OUTPUT
     <div>
-      <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
+      <div name='header' onclick="flipMe(this,'body');return false;">View Token Help.</div>
       <div name='body' style='display: none;'>
         <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
           %PADnum% - Add num padding<br />
