@@ -21,4 +21,5 @@ function flipMe(originNode,destinationName) {
     var children = originNode.parent('.tokens').children();
     children.hasClass(destinationName).css('display', 'block');
     children.not('.'+destinationName).css('display', 'none');
+    return false;
 }

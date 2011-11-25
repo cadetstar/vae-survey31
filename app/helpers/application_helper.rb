@@ -26,9 +26,9 @@ module ApplicationHelper
   def token_helper
     raw <<-OUTPUT
     <div>
-      <div class='header'><a href='#' onclick="return false;">View Token Help.</a></div>
+      <div class='header'><a href='#'>View Token Help.</a></div>
       <div class='body' style='display: none;'>
-        <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
+        <a href='#'>Collapse Token Help.</a><br />
         %CID% - Inserts the proper inline image tag<br />
         %FULL_SALUTATION% - The client's full name with salutation<br />
         %PLAIN_TEXT_INSERT% - Plain text version of the fields for a thank you card.<br />
@@ -46,9 +46,9 @@ module ApplicationHelper
   def template_tokens
     raw <<-OUTPUT
     <div class='tokens'>
-      <div class='header'><a href='#' onclick="return false;">View Token Help.</a></div>
+      <div class='header'><a href='#' onclick="">View Token Help.</a></div>
       <div class='body' style='display: none;'>
-        <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
+        <a href='#'>Collapse Token Help.</a><br />
           %PADnum% - Add num padding<br />
           %PROP_POST_PADnum% - Insert the property post text and pad, if text is present<br />
           %PROP_POST% - Insert the property post text<br />
