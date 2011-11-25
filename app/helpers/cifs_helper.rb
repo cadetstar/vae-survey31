@@ -67,7 +67,7 @@ module CifsHelper
   end
 
   def meetings_values
-    [["1-5",'1'],['6-10','2'],['11-15','3']['16+','4']]
+    [["1-5",'1'],['6-10','2'],['11-15','3'],['16+','4']]
   end
 
   def get_results(cif)
