@@ -18,17 +18,7 @@ function setAllSites()  {
 }
 
 function flipMe(originNode,destinationName) {
-    alert("Reaching in");
-    var children = originNode.parent.children();
-    alert(children);
-    var perNode;
-    for (var i=0;i<children.length;i++) {
-        perNode = children[i];
-        alert(perNode);
-        if (perNode.name == destinationName) {
-            perNode.style.display = 'block';
-        } else {
-            perNode.style.display = 'none';
-        }
-    }
+    var children = originNode.parent('.tokens').children();
+    children.hasClass(destinationName).css('display', 'block');
+    children.not('.'+destinationName).css('display', 'none');
 }
