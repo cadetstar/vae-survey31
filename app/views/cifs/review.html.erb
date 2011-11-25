@@ -9,7 +9,7 @@
     <%= link_to @cif.company, edit_company_path(@cif.company) %><br />
     <%= @cif.company.full_address %>
     <%= link_to @cif.client, edit_client_path(@cif.client) %><br />
-    <%+ @cif.client.email %>
+    <%= @cif.client.email %>
   </p>
   <p>
     <strong>Event:</strong><br />
