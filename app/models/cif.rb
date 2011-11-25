@@ -152,4 +152,21 @@ class Cif < ActiveRecord::Base
   def description_of_dates
     self.end_date >= (self.start_date + 1.day) ? "from #{self.start_date.to_s(self.date_format)} to #{self.end_date.to_s(self.date_format)}" : "on #{self.start_date.to_s(self.date_format)}"
   end
+
+  def self.serialized_accessor(*args)
+    args.each do |method_name|
+      eval "
+        def cif_answers_#{method_name}
+          (self.answers || {})[#{method_name}]
+        end
+
+        def cif_answers_#{method_name}=(val)
+          self.answers ||= {}
+          self.answers[#{method_name}] = value
+        end
+      "
+    end
+  end
+
+  serialized_accessor (1..16).to_a
 end

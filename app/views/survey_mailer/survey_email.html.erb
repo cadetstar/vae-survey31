@@ -1,5 +1,5 @@
 <p>
-  <%= image_tag ($MAILER_IMAGES[@cif.cif_form] || $MAILER_IMAGES[:default]) %>
+  <img src='http://<%= $CUR_SITE %><%= ($MAILER_IMAGES[@cif.cif_form] || $MAILER_IMAGES[:default]) %>' />
 </p>
 
 <p>

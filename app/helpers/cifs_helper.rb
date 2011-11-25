@@ -47,9 +47,9 @@ module CifsHelper
             output << f.check_box(:had_ptt) + " Microphones</td></tr>"
           else
             [5,4,3,2,1].each do |a|
-              output << f.radio_button("answers[#{num}]", a) << " #{a} "
+              output << f.radio_button("cif_answers_#{num}", a) << " #{a} "
             end
-            output << f.radio_button("answers[#{num}]", 0) << " #{questions[:na] || "NA"}</td></tr> "
+            output << f.radio_button("cif_answers_#{num}", 0) << " #{questions[:na] || "NA"}</td></tr> "
           end
         end
       end
