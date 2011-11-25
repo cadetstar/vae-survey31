@@ -9,7 +9,7 @@ module CifsHelper
   end
 
   def get_intro_text(form)
-    case form
+    raw case form
       when 'csi'
         <<-CSI
           <p class="survey_center">Thank you for choosing Conference Systems to provide your audiovisual requirements during your recent meeting.</p>
@@ -62,7 +62,7 @@ module CifsHelper
       output << "<tr><td class='question'>#{questions[:facts][:contact_info]}</td><td class='answer'>#{f.text_field :contact_info}</td></tr>"
       output << "<tr><td class='question'>#{questions[:facts][:employee_comments]}</td><td class='answer'>#{f.text_area :employee_comments}</td></tr>"
       output << "<tr><td class='question'>#{questions[:facts][:client_comments]}</td><td class='answer'>#{f.text_area :client_comments}</td></tr>"
-      output
+      raw output
     end
   end
 
