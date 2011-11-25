@@ -21,7 +21,7 @@
     <p>Nous vous remercions encore d'avoir fait affaires avec nous et nous esp&#233rons vous servir &#224 nouveau &#224 l'avenir.  agr&#233er, Dear <%= $ADMINS[:primary][:name] %>: mes salutations distingu&#233es.</p>
 <% else %>
     <p>Thank you for choosing Visual Aids Electronics to provide your audiovisual requirements for your recent meeting <%= @cif.description_of_dates %><%= @cif.location.nil? ? '.' : " at #{@cif.location}." %></p>
-    <p>In an effort to continuously monitor and improve the service levels we provide to our customers we would appreciate if you would take a few moments to complete a brief customer quality questionnaire. Simply click on the attached link: <%= link_to view_tyc_url(:id => @cif.id, :passcode => @cif.passcode, :only_path => false) %></p>
+    <p>In an effort to continuously monitor and improve the service levels we provide to our customers we would appreciate if you would take a few moments to complete a brief customer quality questionnaire. Simply click on the attached link: <%= link_to view_tyc_url(:id => @cif.id, :passcode => @cif.passcode, :only_path => false), view_tyc_url(:id => @cif.id, :passcode => @cif.passcode, :only_path => false) %></p>
     <p>Thank you again for your business, and we look forward to being of service to you again in the future.</p>
 <% end %>
 
