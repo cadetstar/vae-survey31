@@ -5,6 +5,10 @@ class Company < ActiveRecord::Base
 
   belongs_to :property
 
+  def self.search_field
+    "name"
+  end
+
   def to_s
     company_std
   end
