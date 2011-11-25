@@ -18,6 +18,7 @@ function setAllSites()  {
 }
 
 function flipMe(originNode,destinationName) {
+    alert("Reaching in");
     var children = originNode.parent.parent.children();
     alert(children);
     var perNode;
