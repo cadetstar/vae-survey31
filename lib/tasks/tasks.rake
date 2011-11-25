@@ -144,12 +144,15 @@ task :mssql_convert => :environment do
           new_model.skip_callback(:create, :before, :make_group)
       end
       puts "Converting #{table} - #{row['id']}"
-      unless ids.include?(row['id'].to_i)
+      if !ids.include?(row['id'].to_i)
         new_model.create! do |m|
           new_data.each do |k,v|
             m.send("#{k}=",v)
           end
         end
+      elsif row['updated_at'] > 5.days.ago
+        exist = new_model.find_by_id(row['id'])
+        exist.update_attributes(row)
       end
 
       case new_table
@@ -160,8 +163,8 @@ task :mssql_convert => :environment do
         when 'properties'
           new_model.set_callback(:create, :before, :make_group)
       end
-      new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
     end
+    new_model.connection.execute "ALTER SEQUENCE #{new_table}_id_seq RESTART WITH #{new_model.order('id desc').first.id+1}"
   end
 
   klass = Class.new(ActiveRecord::Base)
