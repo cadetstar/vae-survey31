@@ -152,7 +152,7 @@ task :mssql_convert => :environment do
         end
       elsif row['updated_at'] > 5.days.ago
         exist = new_model.find_by_id(row['id'])
-        exist.update_attributes(row)
+        exist.update_attributes(new_data)
       end
 
       case new_table
