@@ -7,7 +7,7 @@
   <p>
     <strong>Client</strong><br />
     <%= link_to @cif.company, edit_company_path(@cif.company) %><br />
-    <%= @cif.company.full_address %>
+    <%= raw @cif.company.full_address %>
     <%= link_to @cif.client, edit_client_path(@cif.client) %><br />
     <%= @cif.client.email %>
   </p>
