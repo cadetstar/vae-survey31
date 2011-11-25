@@ -162,7 +162,7 @@ class Cif < ActiveRecord::Base
 
         def cif_answers_#{method_name}=(val)
           self.answers ||= {}
-          self.answers[#{method_name}] = value
+          self.answers[#{method_name}] = val
         end
         attr_accessible :cif_answers_#{method_name}, :as => :public
 
