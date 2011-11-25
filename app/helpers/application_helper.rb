@@ -85,11 +85,13 @@ module ApplicationHelper
             alert("YES?");
             var $tar = $(e.target);
             flipMe($tar, 'body');
+            return false;
           });
 
           $('.body').click(function(e) {
             var $tar = $(e.target);
             flipMe($tar, 'header');
+            return false;
           });
         });
 
