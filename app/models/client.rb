@@ -9,6 +9,10 @@ class Client < ActiveRecord::Base
 
   before_save :update_property
 
+  def self.search_field
+    "last_name"
+  end
+
   def to_s
     name_std
   end

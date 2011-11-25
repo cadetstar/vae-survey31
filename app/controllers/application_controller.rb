@@ -53,9 +53,9 @@ class ApplicationController < ActionController::Base
 
     unless session[controller_sym][:name].blank?
       if session[controller_sym][:name].match(/%/)
-        build_it = build_it.where(["name like ?", session[controller_sym][:name]])
+        build_it = build_it.where(["#{model.search_field} like ?", session[controller_sym][:name]])
       else
-        build_it = build_it.where(["name like ?", "%#{session[controller_sym][:name]}%"])
+        build_it = build_it.where(["#{model.search_field} like ?", "%#{session[controller_sym][:name]}%"])
       end
     end
 
