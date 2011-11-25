@@ -53,7 +53,7 @@
       </table>
   <% else %>
       <p class="survey_center">
-        <%= link_to raw('Capture CIF and do <strong>NOT</strong> Send Survey'), capture_survey_path(:id => @cif.id) %>
+        <%= raw link_to(raw('Capture CIF and do <strong>NOT</strong> Send Survey'), capture_survey_path(:id => @cif.id)) %>
       </p>
   <% end %>
 
