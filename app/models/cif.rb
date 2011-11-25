@@ -17,10 +17,10 @@ class Cif < ActiveRecord::Base
   before_create :set_defaults
   before_save :calculate_average_score
 
-  attr_accessible :answers, :client_comments, :number_of_meetings, :next_meeting, :please_contact, :submittor, :contact_info,
-                  :overall_satisfaction, :as => :public
+  attr_accessible :answers, :client_comments, :number_of_meetings, :next_meeting, :please_contact, :submittor, :contact_info, :had_si, :had_ar, :had_ptt,
+                  :employee_comments, :overall_satisfaction, :as => :public
 
-  attr_accessible :location, :notes, :employee_comments, :start_date, :end_date, :count_survey, :had_si, :has_ar, :had_ptt,
+  attr_accessible :location, :notes, :start_date, :end_date, :count_survey,
                   :as => :internal
 
   attr_accessible
@@ -164,6 +164,8 @@ class Cif < ActiveRecord::Base
           self.answers ||= {}
           self.answers[#{method_name}] = value
         end
+        attr_accessible :cif_answers_#{method_name}, :as => :public
+
       "
     end
   end
