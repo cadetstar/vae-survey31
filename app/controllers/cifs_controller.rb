@@ -80,7 +80,7 @@ class CifsController < ApplicationController
   end
 
   def send_survey
-    unless @cif = Cif.find_by_id(params[:id])
+    if @cif = Cif.find_by_id(params[:id])
       unless @cif.client.email
         @message = 'Client has no email address configured, cannot send survey.'
       else
@@ -100,7 +100,7 @@ class CifsController < ApplicationController
         end
       end
     else
-      @message = "Cif not found."
+      @message = "Survey not found."
     end
 
     unless request.xhr?
