@@ -84,13 +84,13 @@ table.survey
   {
     border: none;
     padding: 2px;
-
-    .question
+  }
+    td.question
     {
       width: 60%;
       text-align: right;
     }
-    .header_left
+    td.header_left
     {
       width: 60%;
       text-align: left;
@@ -98,32 +98,31 @@ table.survey
       font-size: 14pt;
       border-bottom: solid black 2px;
     }
-    .header_right
+    td.header_right
     {
       width: 40%;
       text-align: right;
       font-size: 10pt;
       border-bottom: solid black 2px;
     }
-    .answer
+    td.answer
     {
       width: 40%;
       text-align: left;
       padding-left: 5px;
     }
-    .response
+    td.response
     {
       width: 5%;
       text-align: center;
       padding-left: 5px;
     }
-    .resp_graph
+    td.resp_graph
     {
       width: 35%;
       text-align: left;
       background-color: grey;
     }
-  }
 }
 table.report
 {
