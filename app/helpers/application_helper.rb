@@ -79,7 +79,7 @@ module ApplicationHelper
 
   def filter_helper(controller_sym)
     content_tag :div do
-      form_tag {:controller => controller_sym.pluralize, :action => :index}, :method => :get do
+      form_tag({:controller => controller_sym.pluralize, :action => :index}, :method => :get) do
         content_tag :div do
             raw("Filter: ") + text_field_tag(:name_restrict, session[controller_sym][:name]) +
             select_tag(:property_id, options_for_select([["All Properties", 0]]+Property.list_for_select(current_user), session[controller_sym][:property_id])) +
