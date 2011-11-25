@@ -1,4 +1,3 @@
-alert('Pinging.')
-if (document.getElementById('cif_notes_<%= @cif.id %>')) {
+if ($('#cif_notes_<%= @cif.id %>').length > 0) {
     $('#cif_notes_<%= @cif.id %>').html = '<%= j render(:partial => "notes", :locals => {:cif => @cif}) %>';
 }
