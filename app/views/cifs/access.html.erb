@@ -9,7 +9,9 @@
   <%= @cif.description_of_dates %>
 </p>
 
-<%= form_for @cif, :url => fill_survey_path(:id => @cif.id) do |f| %>
+<%= form_for @cif, :url => fill_survey_path do |f| %>
+    <%= hidden_field_tag :id, @cif.id %>
+    <%= hidden_field_tag :passcode, @cif.passcode %>
     <div class="survey">
       <table class="survey">
         <%= print_questions(f, @cif.cif_form) %>
