@@ -80,17 +80,18 @@ module ApplicationHelper
   def ready_helper
     <<-JAVA
       <script type="text/javascript">
-        $(document.ready) {
+        $(document).ready( function() {
           $('.header').click(function(e) {
+            alert("YES?");
             var $tar = $(e.target);
             flipMe($tar, 'body');
-          })
+          });
 
           $('.body').click(function(e) {
             var $tar = $(e.target);
             flipMe($tar, 'header');
-          })
-        }
+          });
+        });
 
       </script>
 
