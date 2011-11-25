@@ -4,7 +4,7 @@
 </div>
 
 <% if current_user.admin? %>
-    <div>
+    <div class="survey">
       <% if session[:cifs][:collapse] %>
           <%= link_to 'Expand', cifs_path(:collape => false) %>
       <% else %>
