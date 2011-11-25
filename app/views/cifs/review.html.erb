@@ -47,13 +47,13 @@
             <% end %>
           </td>
           <td style='width: 50%;text-align: center;border: none;'>
-            <%= link_to 'Capture CIF and do <strong>NOT</strong> Send Survey', capture_survey_path(:id => @cif.id) %>
+            <%= link_to(capture_survey_path(:id => @cif.id)) do %>Capture CIF and do <strong>NOT</strong> Send Survey<% end %>
           </td>
         </tr>
       </table>
   <% else %>
       <p class="survey_center">
-        <%= link_to capture_survey_path(:id => @cif.id) do %>Capture CIF and do <strong>NOT</strong> Send Survey<% end %>
+        <%= link_to(capture_survey_path(:id => @cif.id)) do %>Capture CIF and do <strong>NOT</strong> Send Survey<% end %>
       </p>
   <% end %>
 
