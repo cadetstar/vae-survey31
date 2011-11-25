@@ -2,7 +2,7 @@
   <tr>
     <th>View CIF</th>
     <% {:client => 'Client', :property => 'Property', :end_date => 'Dates', :created_at => 'Created', :sent_at => 'Sent at', :clicked_at =>  'Accessed at', :completed_at => 'Completed at', :overall_satisfaction => 'Overall Satisfaction'}.each do |k,v| %>
-        <th><%= sort_helper(:cifs, v, k) %></th>
+        <th><%= sort_helper(:cifs, k, v) %></th>
     <% end %>
     <th>Commands</th>
   </tr>
