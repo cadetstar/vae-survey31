@@ -23,9 +23,9 @@ function flipMe(originNode,destinationName) {
     for (var i=0;i<children.length;i++) {
         perNode = children[i];
         if (perNode.name == destinationName) {
-            perNode.display = 'block';
+            perNode.style.display = 'block';
         } else {
-            perNode.display = 'none';
+            perNode.style.display = 'none';
         }
     }
 }
