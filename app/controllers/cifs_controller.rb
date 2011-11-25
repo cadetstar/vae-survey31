@@ -182,11 +182,11 @@ class CifsController < ApplicationController
       else
         case @cif.cif_form
           when 'vae_conventions'
-            params[:cif][:overall_satisfaction] = params[:cif][:answers][14]
+            params[:cif][:overall_satisfaction] = params[:cif][:cif_answers_14]
           when 'csi'
-            params[:cif][:overall_satisfaction] = params[:cif][:answers][12]
+            params[:cif][:overall_satisfaction] = params[:cif][:cif_answers_12]
           else
-            params[:cif][:overall_satisfaction] = params[:cif][:answers][7]
+            params[:cif][:overall_satisfaction] = params[:cif][:cif_answers_7]
         end
 
         if params[:cif][:client_comments]
