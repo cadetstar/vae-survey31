@@ -23,6 +23,8 @@ class Cif < ActiveRecord::Base
   attr_accessible :location, :notes, :employee_comments, :start_date, :end_date, :count_survey, :had_si, :has_ar, :had_ptt,
                   :as => :internal
 
+  attr_accessible
+
 
   FORMS = %w(vae vae_conventions vae_french csi)
 

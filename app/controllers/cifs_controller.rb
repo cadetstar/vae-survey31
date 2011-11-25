@@ -261,9 +261,13 @@ class CifsController < ApplicationController
         flash[:error] = 'You care not cleared to create cifs for that property.'
         redirect_to clients_path
       else
-        @cif = Cif.create(params[:id])
-        flash[:notice] = 'Survey created.'
-        redirect_to cifs_path
+        if @cif = Cif.create(params[:id], :without_protection => true)
+          flash[:notice] = 'Survey created.'
+          redirect_to cifs_path
+        else
+          flash[:error] = "There was an error creating the survey."
+          redirect_to new_cif_path(:client_id => params[:cif][:client_id])
+        end
       end
     end
   end
