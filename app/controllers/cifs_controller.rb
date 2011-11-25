@@ -1,6 +1,6 @@
 class CifsController < ApplicationController
   before_filter :authenticate_user!, :except => [:home, :access, :fill]
-  before_filter :is_administrator?, :except => [:home, :access, :fill, :index, :show, :edit, :update]
+  before_filter :is_administrator?, :except => [:home, :access, :fill, :index, :show, :edit, :update, :create]
 
   STATUSES = %w(unsent flagged sent captured completed all)
   SORT_MAPPING = {:client => "clients.last_name", :company => "companies.name", :property => "properties.code", :created_by => "users.last_name, users.first_name"}
@@ -248,6 +248,22 @@ class CifsController < ApplicationController
         redirect_to clients_path
       else
         @cif = Cif.new(:client_id => @client.id)
+      end
+    end
+  end
+
+  def create
+    unless @property = Property.find_by_id(params[:property_id])
+      flash[:error] = "I could not find that property."
+      redirect_to clients_path
+    else
+      unless current_user.admin? or current_user.all_properties.include? @property
+        flash[:error] = 'You care not cleared to create cifs for that property.'
+        redirect_to clients_path
+      else
+        @cif = Cif.create(params[:id])
+        flash[:notice] = 'Survey created.'
+        redirect_to cifs_path
       end
     end
   end

@@ -136,7 +136,7 @@ module ActionView
           #{tag = text_field(object_name, method, options)}
           <script type="text/javascript">
           $(document).ready(function(ev) {
-            $("##{tag.match(/id="([^"]+)"/)[1]}").datepicker({showOtherMonths: true, selectOtherMonths: true});
+            $("##{tag.match(/id="([^"]+)"/)[1]}").datepicker({showOtherMonths: true, selectOtherMonths: true, dateFormat: 'yy-mm-dd'});
           })
           </script>
         OUTPUT
