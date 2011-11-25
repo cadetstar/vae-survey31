@@ -195,7 +195,8 @@ class CifsController < ApplicationController
         params[:cif][:next_meeting] = Chronic.parse(params[:cif][:next_meeting])
 
         @cif.update_attributes(params[:cif], :as => :public)
-
+        @cif.completed_at = Time.now
+        @cif.save
         @cif.send_emails_if_necessary
       end
     end
