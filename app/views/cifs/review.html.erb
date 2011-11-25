@@ -33,7 +33,7 @@
         <% end %>
         <%= form_tag flag_survey_path(:id => @cif.id) do %>
             Flag Comment: <%= text_field_tag :comment, @cif.flag_comment, :size => 200 %>
-            <% submit_tag 'Flag Survey' %>
+            <%= submit_tag 'Flag Survey' %>
         <% end %>
       </p>
 
@@ -53,7 +53,7 @@
       </table>
   <% else %>
       <p class="survey_center">
-        <%= link_to 'Capture CIF and do <strong>NOT</strong> Send Survey', capture_survey_path(:id => @cif.id) %>
+        <%= link_to raw('Capture CIF and do <strong>NOT</strong> Send Survey'), capture_survey_path(:id => @cif.id) %>
       </p>
   <% end %>
 
