@@ -99,6 +99,7 @@ class Cif < ActiveRecord::Base
   end
 
   def calculate_average_score
+    self.answers ||= {}
     valid_answers = self.answers.select{|k,v| v.to_i > 0}.values
 
     self.average_score = (valid_answers.size > 0 ? valid_answers.sum.to_f / valid_answers.size : 0)
