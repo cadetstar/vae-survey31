@@ -26,7 +26,7 @@
                   <% if cif.flagged? %>
                       <%= link_to 'Send Survey', send_survey_path(:id => cif.id), :confirm => "This survey was flagged by #{cif.flagger} on #{(cif.flagged_until - 7.days).to_s(:date_time12)}.\n\nAre you sure you want to send this survey?", :remote => true %>
                   <% else %>
-                      <%= link_to 'Send Survey', send_survey_path(:id => cif.id) %>
+                      <%= link_to 'Send Survey', send_survey_path(:id => cif.id), :remote => true %>
                   <% end %><br /><br />
                   <%= link_to 'Capture CIF', capture_survey_path(:id => cif.id), :remote => true %>
               <% else %>
@@ -53,12 +53,12 @@
           <% else %>
               <% if @season and @season.enabled %>
                   <% unless cif.thank_you_card %>
-                      <%= link_to '<strong>Generate Thank You Email</strong>', new_thank_you_card_path(:client_id => cif.client_id, :cif => cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, cif.property_id)) %>
+                      <%= link_to raw('<strong>Generate Thank You Email</strong>'), new_thank_you_card_path(:client_id => cif.client_id, :cif => cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, cif.property_id)) %>
                   <% else %>
-                      <%= link_to '<strong>Thank You Email</strong>', view_tyc_path(:id => cif.thank_you_card_id, :passcode => cif.thank_you_card.passcode) %>
+                      <%= link_to raw('<strong>Thank You Email</strong>'), view_tyc_path(:id => cif.thank_you_card_id, :passcode => cif.thank_you_card.passcode) %>
                   <% end %>
                   <% unless cif.sent_at %>
-                      <%= link_to '<br />Edit', edit_cif_path(cif) %>
+                      <%= link_to raw('<br />Edit'), edit_cif_path(cif) %>
                   <% else %>
                       <%= link_to 'Edit', edit_cif_path(cif) %>
                   <% end %>
