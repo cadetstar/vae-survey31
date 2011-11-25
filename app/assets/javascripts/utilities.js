@@ -19,9 +19,11 @@ function setAllSites()  {
 
 function flipMe(originNode,destinationName) {
     var children = originNode.parent.parent.children();
+    alert(children);
     var perNode;
     for (var i=0;i<children.length;i++) {
         perNode = children[i];
+        alert(perNode);
         if (perNode.name == destinationName) {
             perNode.style.display = 'block';
         } else {
