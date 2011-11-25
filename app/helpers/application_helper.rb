@@ -78,7 +78,7 @@ module ApplicationHelper
   end
 
   def ready_helper
-    <<-JAVA
+    raw <<-JAVA
       <script type="text/javascript">
         $(document).ready( function() {
           $('.header').click(function(e) {
