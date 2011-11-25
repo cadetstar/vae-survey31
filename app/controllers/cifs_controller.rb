@@ -253,7 +253,7 @@ class CifsController < ApplicationController
   end
 
   def create
-    unless @property = Property.find_by_id(params[:property_id])
+    unless @property = Property.find_by_id(params[:cif][:property_id])
       flash[:error] = "I could not find that property."
       redirect_to clients_path
     else
