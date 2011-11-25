@@ -18,7 +18,7 @@ function setAllSites()  {
 }
 
 function flipMe(originNode,destinationName) {
-    var children = originNode.parent.childElements;
+    var children = originNode.parent.parent.childElements;
     var perNode;
     for (i=0;i<children.length;i++) {
         perNode = children[i];
