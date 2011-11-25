@@ -26,8 +26,8 @@ module ApplicationHelper
   def token_helper
     raw <<-OUTPUT
     <div>
-      <div name='header'><a href='#' onclick="flipMe(this,'body');return false;">View Token Help.</a></div>
-      <div name='body' style='display: none;'>
+      <div class='header'><a href='#' onclick="return false;">View Token Help.</a></div>
+      <div class='body' style='display: none;'>
         <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
         %CID% - Inserts the proper inline image tag<br />
         %FULL_SALUTATION% - The client's full name with salutation<br />
@@ -45,9 +45,9 @@ module ApplicationHelper
 
   def template_tokens
     raw <<-OUTPUT
-    <div>
-      <div name='header' onclick="flipMe(this,'body');return false;">View Token Help.</div>
-      <div name='body' style='display: none;'>
+    <div class='tokens'>
+      <div class='header'><a href='#' onclick="return false;">View Token Help.</a></div>
+      <div class='body' style='display: none;'>
         <a href='#' onclick="flipMe(this,'header')">Collapse Token Help.</a><br />
           %PADnum% - Add num padding<br />
           %PROP_POST_PADnum% - Insert the property post text and pad, if text is present<br />
@@ -75,6 +75,26 @@ module ApplicationHelper
       </div>
     </div>
     OUTPUT
+  end
+
+  def ready_helper
+    <<-JAVA
+      <script type="text/javascript">
+        $(document.ready) {
+          $('.header').click(function(e) {
+            var $tar = $(e.target);
+            flipMe($tar, 'body');
+          })
+
+          $('.body').click(function(e) {
+            var $tar = $(e.target);
+            flipMe($tar, 'header');
+          })
+        }
+
+      </script>
+
+    JAVA
   end
 
   def filter_helper(controller_sym)
