@@ -91,7 +91,7 @@ module ApplicationHelper
 
   def show_hash(type)
     case type
-      when :clent
+      when :client
         {'Company' => :company, 'First Name' => :first_name, 'Last Name' => :last_name, 'Email' => :email, 'Salutation' => :salutation, 'Phone' => :phone, 'R2 Client ID' => :r2_client_id}
       when :company
         {'Name' => :name, 'Address Line 1' => :address_line_1, 'Address Line 2' => :address_line_2, 'City' => :city, 'State' => :state, 'Zip' => :zip}
