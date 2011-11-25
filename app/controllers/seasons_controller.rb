@@ -6,7 +6,7 @@ class SeasonsController < ApplicationController
   end
 
   def new
-    @season = Season.create
+    @season = Season.create(:name => "Temporary Name - Please change me!")
     redirect_to edit_season_path(@season)
   end
 
