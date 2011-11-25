@@ -79,7 +79,7 @@ module CifsHelper
       output << "<li>Microphone: #{cif.had_ptt ? '<strong>YES</strong>' : 'NO'}</li></ul></p>"
     end
 
-    output << "table class='survey'>"
+    output << "<table class='survey'>"
     questions = $QUESTIONS[cif.cif_form]
     questions[:radios].each do |k,v|
       output << "<tr><td class='header_left'>#{k}</td><td class='header_right' colspan='2'>5 being highest, 1 being lowest, NA = Not Applicable</td></tr>"
@@ -96,7 +96,7 @@ module CifsHelper
     [:number_of_meetings, :next_meeting, :please_contact, :submittor, :contact_info, :employee_comments, :client_comments].each do |field|
       output << "<tr><td class='question'>#{$QUESTIONS[cif.cif_form][:facts][field]}</td><td class='answer' colspan='2'>#{get_field(cif, field)}</td></tr>"
     end
-    output
+    raw output
   end
 
   def get_field(cif, field)
