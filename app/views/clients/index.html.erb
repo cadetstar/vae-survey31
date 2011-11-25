@@ -17,6 +17,7 @@
             <td><%= client.send(field) %></td>
         <% end %>
         <td>
+          <%= link_to 'Create New Survey', new_cif_path(:client_id => @client.id) %><br />
           <%= link_to 'Create Email', new_thank_you_card_path(:client_id => client.id) %><br />
           <%= link_to 'Show', client %> <%= link_to 'Edit', edit_client_path(client) %> <% if current_user.admin? %><%= link_to 'Destroy', client, :confirm => 'Are you sure?', :method => :delete %><% end %>
         </td>
