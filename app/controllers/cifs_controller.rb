@@ -3,13 +3,13 @@ class CifsController < ApplicationController
   before_filter :is_administrator?, :except => [:home, :access, :fill, :index, :show, :edit, :update, :create]
 
   STATUSES = %w(unsent flagged sent captured completed all)
-  SORT_MAPPING = {:client => "clients.last_name", :company => "companies.name", :property => "properties.code", :created_by => "users.last_name, users.first_name"}
+  SORT_MAPPING = {:client => "clients.last_name", :company => "companies.name", :property => "properties.code", :created_by => "users.last_name, users.first_name", :name => "clients.last_name, clients.first_name"}
 
   def home
   end
 
   def index
-    setup_session_defaults_for_controller(:cifs)
+    setup_session_defaults_for_controller(:cifs, :client)
 
     session[:cifs] ||= {}
     session[:cifs][:status] ||= 'unsent'
