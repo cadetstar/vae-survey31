@@ -236,7 +236,7 @@ class CifsController < ApplicationController
       end
 
       params[:id] = @new_cif.id
-      send
+      send_survey
     end
   end
 
