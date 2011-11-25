@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def cif_restrictor
-    raw %w(Unsent Flagged Sent Captured Completed All).reject{|c| session[:cifs][:status] == c}.collect{|c| link_to c, cifs_path(:status => c.downcase)}.join(" &middot; ")
+    raw %w(Unsent Flagged Sent Captured Completed All).reject{|c| session[:cifs][:status] == c.downcase}.collect{|c| link_to c, cifs_path(:status => c.downcase)}.join(" &middot; ")
   end
 
   def restrict_filter(filter_name, descriptor)
