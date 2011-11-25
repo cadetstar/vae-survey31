@@ -226,9 +226,9 @@ class CifsController < ApplicationController
       @new_cif.save
 
       if @cif.sent_at
-        @cif.update_attributes(:count_survey => false)
+        @cif.update_attributes(:count_survey => false, :sent_at => nil)
       else
-        @cif.update_attributes(:count_survey => false, :sent_at => Time.now)
+        @cif.update_attributes(:count_survey => false)
       end
 
       if @cif.flagged_until and @cif.flagged_until > Time.now
