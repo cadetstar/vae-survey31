@@ -77,6 +77,13 @@ class SeasonsController < ApplicationController
     redirect_to seasons_path
   end
 
+  def show
+    unless @season = Season.find_by_id(params[:id])
+      flash[:error] = 'I could not find a season with that ID.'
+      redirect_to seasons_path
+    end
+  end
+
   def send_season
     unless @season = Season.find_by_id(params[:id])
       flash[:error] = 'I could not find a season with that ID.'
