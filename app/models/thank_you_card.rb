@@ -59,6 +59,7 @@ class ThankYouCard < ActiveRecord::Base
     line.gsub!(/%PAD(-\d+|\d+)%/) {pdf.pad_top($1);''}
     line.gsub!(/%PROP_POST_PAD(-\d+|\d+)%/) {unless self.prop_season.property_post_text.blank? then pdf.pad_top($1) end;self.prop_season.property_post_text}
     line.gsub!(/%PROP_PRE_PAD(-\d+|\d+)%/) {unless self.prop_season.property_pre_text.blank? then pdf.pad_top($1) end;self.prop_season.property_pre_text}
+    line.gsub!(/%PROP_SIGNOFF_PAD(-\d+|\d+)%/) {unless self.prop_season.property_signoff.blank? then pdf.pad_top($1) end; self.prop_season.property_signoff}
     line.gsub!(/%PROP_GREETING_PAD(-\d+|\d+)%/) {unless self.greeting.blank? then pdf.pad_top($1) end; self.greeting }
     line.gsub!(/%SEASON_PRE_PAD(-\d+|\d+)%/) {unless self.season.pre_text.blank? then pdf.pad_top($1) end;self.season.pre_text}
     line.gsub!(/%SEASON_POST_PAD(-\d+|\d+)%/) {unless self.season.post_text.blank? then pdf.pad_top($1) end;self.season.post_text}
@@ -66,6 +67,7 @@ class ThankYouCard < ActiveRecord::Base
 
     line.gsub!(/%PROP_POST%/, self.prop_season.property_post_text)
     line.gsub!(/%PROP_PRE%/, self.prop_season.property_pre_text)
+    line.gsub!(/%PROP_SIGNOFF%/, self.prop_season.property_signoff)
     line.gsub!(/%PROP_GREETING%/, self.greeting)
     line.gsub!(/%SEASON_PRE%/, self.season.pre_text)
     line.gsub!(/%SEASON_POST%/, self.season.post_text)
@@ -76,6 +78,9 @@ class ThankYouCard < ActiveRecord::Base
     line.gsub!(/%AT_(\d+)_(\d+)%/) {at = [$1,$2];''}
     line.gsub!(/%IMAGE\[([^|]+)|(\d+)|(\d+)\]%/) {settings = {:width => $2.to_i, :height => $3.to_i, :align => :center};if at then settings.merge!(:at => at) end; pdf.image $1, *settings;''}
     line.gsub!(/%INLINE%/) {inline = true;''}
+
+    line.gsub!(/^([^%]+)%CAPIT_(\d+)%/) {inline = true;"<font size='#{$2}'>#{$1[0..0]}</font>#{$1[1..-1]}"}
+    line.gsub!(/^([^%]+)%TITLEIT_(\d+)%/) {inline = true;$1.split(' ').collect{|k| "<font size='#{$2}'>#{k[0..0]}</font>#{k[1..-1]}"}.join(" ")}
 
     unless line.blank?
       vals = [:align => align, :size => size]

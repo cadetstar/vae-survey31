@@ -54,6 +54,8 @@ module ApplicationHelper
           %PROP_POST% - Insert the property post text<br />
           %PROP_PRE_PADnum% - Insert the property pre text and pad, if text is present<br />
           %PROP_PRE% - Insert the property pre text<br />
+          %PROP_SIGNOFF_PADnum% - Insert the property signoff and pad, if text is present<br />
+          %PROP_SIGNOFF% - Insert the property signoff<br />
           %PROP_GREETING_PADnum% - Insert the greeting from the thank you card and pad, if text is present<br />
           %PROP_GREETING% - Insert the greeting from the thank you card<br />
           %SEASON_PRE_PADnum% - Insert the season pre text and pad, if text is present<br />
@@ -70,6 +72,8 @@ module ApplicationHelper
           %AT_num1_num2% - Sets whatever else is on that line at position [num1,num2]<br />
           %IMAGE[filename|width|height]% - Inserts an image<br />
           %INLINE% - Turn on inline formatting<br />
+          %CAPIT_num% - Changed the first letter of the line to be in font size num.  The rest of the line uses the size attribute.<br />
+          %TITLEIT_num% - Similar to CAPIT, but the first letter of every word uses size num.<br />
           <br />
           ~START_BLOCK(num1,num2,num3,num4)~...~END_BLOCK~ - Inserts a bounding box of size num1xnum2 at [num3,num4]
       </div>
