@@ -6,20 +6,18 @@ function setPreview(dropdown) {
     setTextArr = setText.split(" - ")
     setText = setTextArr[0]
     setText = setText.toLowerCase().replace(/ /g,"_")
-    document.getElementById('previewCard').setAttribute('src','/images/cardexamples/'+setText+'.jpg')
-    document.getElementById('previewCard').setAttribute('alt',setText+'.jpg')
+    $('#previewCard').attr("src", "/assets/images/cards/"+setText+'.jpg');
+    $('#previewCard').attr('alt', setText+'.jpg');
 }
 
 function setAllSites()  {
-    var siteObject = document.getElementById('rep_properties');
-    for (i=0; i<siteObject.options.length; i++) {
-        siteObject.options[i].selected = true;
-    }
+    $('#rep_properties').each(function() {
+        $('#rep_properties option').attr("selected","selected");
+    });
 }
 
 function flipMe(originNode,destinationName) {
-    var children = originNode.parent('.tokens').children();
-    children.hasClass(destinationName).css('display', 'block');
+    var children = originNode.parents('.tokens').children();
+    originNode.parents('.tokens').children('.'+destinationName).css('display', 'block');
     children.not('.'+destinationName).css('display', 'none');
-    return false;
 }

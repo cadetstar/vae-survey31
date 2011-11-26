@@ -9,4 +9,6 @@ Gemfile.lock
 files
 files/*
 db/schema.rb
+public/assets
+public/assets/*
 .idea/*
