@@ -66,12 +66,12 @@ class ThankYouCard < ActiveRecord::Base
     line.gsub!(/%SEASON_POST_PAD(-\d+|\d+)%/) {unless self.season.post_text.blank? then pdf.pad_top($1) end;self.season.post_text}
     line.gsub!(/%CLIENT_SALUTATION_PAD(-\d+|\d+)%/) {unless self.client.full_salutation.blank? then pdf.pad_top($1) end; self.client.full_salutation}
 
-    line.gsub!(/%PROP_POST%/, self.prop_season.property_post_text)
-    line.gsub!(/%PROP_PRE%/, self.prop_season.property_pre_text)
-    line.gsub!(/%PROP_SIGNOFF%/, self.prop_season.property_signoff)
-    line.gsub!(/%PROP_GREETING%/, self.greeting)
-    line.gsub!(/%SEASON_PRE%/, self.season.pre_text)
-    line.gsub!(/%SEASON_POST%/, self.season.post_text)
+    line.gsub!(/%PROP_POST%/, self.prop_season.property_post_text.to_s)
+    line.gsub!(/%PROP_PRE%/, self.prop_season.property_pre_text.to_s)
+    line.gsub!(/%PROP_SIGNOFF%/, self.prop_season.property_signoff.to_s)
+    line.gsub!(/%PROP_GREETING%/, self.greeting.to_s)
+    line.gsub!(/%SEASON_PRE%/, self.season.pre_text.to_s)
+    line.gsub!(/%SEASON_POST%/, self.season.post_text.to_s)
     line.gsub!(/%CLIENT_SALUTATION%/, self.client.full_salutation)
     
     line.gsub!(/%ALIGN_(CENTER|LEFT|RIGHT)%/) {align=$1.downcase.to_sym;''}
