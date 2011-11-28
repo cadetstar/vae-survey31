@@ -127,7 +127,9 @@ class Report < ActiveRecord::Base
 
     book = Spreadsheet::Workbook.new
 
+    has_sheet = false
     groups.each do |group|
+      has_sheet = true
       sheet = book.create_worksheet :name => group.name
       COMMENTS.each_with_index do |c,i|
         sheet[0,i] = c[0]
@@ -141,6 +143,10 @@ class Report < ActiveRecord::Base
           sheet.row(a+1).set_format(i, FORMATS[c[1]])
         end
       end
+    end
+
+    unless has_sheet
+      sheet = book.create_worksheet :name => "No properties selected."
     end
 
     self.filename = "Detail_#{Time.now.to_s(:file_date)}.xls"
