@@ -3,7 +3,8 @@ class CifsController < ApplicationController
   before_filter :is_administrator?, :except => [:home, :access, :fill, :index, :show, :edit, :update, :create]
 
   STATUSES = %w(unsent flagged sent captured completed all)
-  SORT_MAPPING = {:client => "clients.last_name", :company => "companies.name", :property => "properties.code", :created_by => "users.last_name, users.first_name", :name => "clients.last_name, clients.first_name"}
+  SORT_MAPPING = {'DESC' => {:client => "clients.last_name DESC", :company => "companies.name DESC", :property => "properties.code DESC", :created_by => "users.last_name DESC, users.first_name DESC", :name => "clients.last_name DESC, clients.first_name DESC"},
+                  'ASC' => {:client => "clients.last_name", :company => "companies.name", :property => "properties.code", :created_by => "users.last_name, users.first_name", :name => "clients.last_name, clients.first_name"}}
 
   def home
   end
@@ -54,10 +55,9 @@ class CifsController < ApplicationController
 
     @cifs = Cif.joins([:client => :company], :property).where(['end_date between ? and ? and cifs.property_id in (?)', session[:cifs][:start_date], session[:cifs][:end_date], @properties.collect{|r| r.id}])
 
-    @cifs = @cifs.order(SORT_MAPPING[session[:sorters][:cifs][:field]] || "cifs.#{session[:sorters][:cifs][:field]}")
-    if session[:sorters][:cifs][:order] == 'DESC'
-      @cifs = @cifs.reverse
-    end
+    the_order = session[:sorters][:cifs][:order] == 'DESC' ? 'DESC' : 'ASC'
+
+    @cifs = @cifs.order(SORT_MAPPING[the_order][session[:sorters][:cifs][:field]] || "cifs.#{session[:sorters][:cifs][:field]} #{the_order}")
 
     case session[:cifs][:status]
       when 'unsent'
