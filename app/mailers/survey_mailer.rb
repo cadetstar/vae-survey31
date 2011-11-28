@@ -53,6 +53,7 @@ class SurveyMailer < ActionMailer::Base
 
   def survey_response(cif, user)
     SurveyMailer.load_settings 'vaecorp'
+    @cif = cif
     mail(:to => user.email, :subject => "[VAE Survey Site] A survey has been received for #{cif.property}")
   end
 

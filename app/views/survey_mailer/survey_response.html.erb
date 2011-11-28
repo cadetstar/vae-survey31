@@ -1,4 +1,4 @@
-<p>A survey was received from <%= @cif.submittor %> for <%= @cif.company.name %> <%= @cif.description_of_dates %><%= @cif.location.nil? ? '.' : " at #{@cif.location}." %><p>
+<p>A survey was received from <%= @cif.submittor %> for <%= @cif.company.name %> <%= @cif.description_of_dates %><%= @cif.location.blank? ? '.' : " at #{@cif.location}." %><p>
 
 <p>
   <% $QUESTIONS[@cif.cif_form][:radios].each do |cat,questions| %>
