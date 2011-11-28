@@ -63,11 +63,11 @@ class ApplicationController < ActionController::Base
       if current_user.admin? or current_user.all_properties.collect{|r| r.id}.include?(session[controller_sym][:property_id])
         build_it = build_it.where({:property_id => session[controller_sym][:property_id]})
       else
-        build_it = build_it.where({:property => current_user.all_properties})
+        build_it = build_it.where({:property_id => current_user.all_properties.collect{|c| c.id}})
       end
     else
       unless current_user.admin?
-        build_it = build_it.where({:property => current_user.all_properties})
+        build_it = build_it.where({:property_id => current_user.all_properties.collect{|c| c.id}})
       end
     end
 
