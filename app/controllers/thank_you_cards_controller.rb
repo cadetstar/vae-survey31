@@ -68,6 +68,16 @@ class ThankYouCardsController < ApplicationController
     end
   end
 
+  def create
+    if tyc = ThankYouCard.create(params[:thank_you_card])
+      flash[:notice] = 'Thank you card created.'
+      redirect_to tyc
+    else
+      flash[:error] = 'There was an error creating the card.'
+      redirect_to clients_path
+    end
+  end
+
   def edit
     unless @thank_you_card = ThankYouCard.find_by_id(params[:id])
       flash[:error] = 'I could not find a thank you card with that ID.'

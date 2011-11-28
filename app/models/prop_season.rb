@@ -8,9 +8,9 @@ class PropSeason < ActiveRecord::Base
 
   def self.list_for_select(user)
     if user.admin?
-      PropSeason.all.collect{|r| [r, r.id]}
+      PropSeason.joins(:season, :property).order("seasons.name, properties.code").all.collect{|r| [r, r.id]}
     else
-      PropSeason.where(:property_id => user.all_properties.collect{|ap| ap.id}).all.collect{|r| [r, r.id]}
+      PropSeason.joins(:season, :property).order("seasons.name, properties.code").where(:property_id => user.all_properties.collect{|ap| ap.id}).all.collect{|r| [r, r.id]}
     end
   end
 

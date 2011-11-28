@@ -2,4 +2,5 @@
     <%= f.hidden_field :client_id %>
     <div><%= f.label :prop_season_id, 'Template' %><br /><%= @thank_you_card.prop_season %></div>
     <div><%= f.label :greeting, 'Message for Client:' %><br /><%= f.text_field :greeting %></div>
+    <div><%= f.submit "Update" %></div>
 <% end %>
