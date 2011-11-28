@@ -1,5 +1,5 @@
-VaeSurvey31::Application.config.action_mailer.delivery_method = :smtp
-VaeSurvey31::Application.config.action_mailer.smtp_settings = {
+ActionMailer::Base.delivery_method = VaeSurvey31::Application.config.action_mailer.delivery_method = :smtp
+ActionMailer::Base.smtp_settings = VaeSurvey31::Application.config.action_mailer.smtp_settings = {
     :address => "mail.vaecorp.com",
     :port => 8889,
     :domain => "vaecorp.com",
