@@ -6,6 +6,14 @@ class PropSeason < ActiveRecord::Base
 
   before_destroy :prevent_if_thank_you_cards
 
+  def self.list_for_select(user)
+    if user.admin?
+      PropSeason.all.collect{|r| [r, r.id]}
+    else
+      PropSeason.where(:property_id => user.all_properties.collect{|ap| ap.id}).all.collect{|r| [r, r.id]}
+    end
+  end
+
   def prevent_if_thank_you_cards
     self.thank_you_cards.size == 0
   end
