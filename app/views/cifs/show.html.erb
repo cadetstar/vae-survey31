@@ -51,12 +51,12 @@
 
   <% if @season.enabled %>
       <% if @cif.thank_you_card %>
+          <%= link_to raw('<strong>Thank You Email</strong>'), view_tyc_path(:id => @cif.thank_you_card_id, :passcode => @cif.thank_you_card.passcode) %>
           <p>
-            <%= link_to '<strong>Thank You Email</strong>', view_tyc_path(:id => @cif.thank_you_card_id, :passcode => @cif.thank_you_card.passcode) %>
           </p>
       <% else %>
           <p>
-            <%= link_to '<strong>Generate Thank You Email</strong>', new_thank_you_card_path(:client_id => @cif.client_id, :cif => @cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, @cif.property_id)) %>
+            <%= link_to raw('<strong>Generate Thank You Email</strong>'), new_thank_you_card_path(:client_id => @cif.client_id, :cif => @cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, @cif.property_id)) %>
           </p>
       <% end %>
   <% end %>
