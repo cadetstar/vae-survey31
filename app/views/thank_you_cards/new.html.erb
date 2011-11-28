@@ -1,6 +1,6 @@
 <%= form_for @thank_you_card do |f| %>
     <%= f.hidden_field :client_id %>
-    <div><%= f.label :prop_season_id, 'Template' %><br /><%= f.select :prop_season_id, PropSeason.list_for_select(current_user) %></div>
+    <div><%= f.label :prop_season_id, 'Template' %><br /><%= f.select :prop_season_id, grouped_options_for_select(PropSeason.list_for_select(current_user)) %></div>
     <div><%= f.label :greeting, 'Message for Client:' %><br /><%= f.text_field :greeting %></div>
     <div><%= f.submit "Create" %></div>
 <% end %>
