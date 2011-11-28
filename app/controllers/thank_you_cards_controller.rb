@@ -57,10 +57,14 @@ class ThankYouCardsController < ApplicationController
       return
     end
 
-    @thank_you_card = ThankYouCard.create(:client_id => @client.id, :cif_id => params[:cif], :prop_season_id => params[:property])
-
-    if @cif = Cif.find_by_id(params[:cif_id])
-      @cif.update_attribute(:thank_you_card_id, @thank_you_card.id)
+    if ps = PropSeason.find_by_id(params[:property])
+      @thank_you_card = ThankYouCard.create(:client_id => @client.id, :cif_id => params[:cif], :prop_season_id => ps.id)
+      if @cif = Cif.find_by_id(params[:cif_id])
+        @cif.update_attribute(:thank_you_card_id, @thank_you_card.id)
+      end
+      redirect_to edit_thank_you_card_path(@thank_you_card)
+    else
+      @thank_you_card = ThankYouCard.new(:client_id => @client.id)
     end
   end
 

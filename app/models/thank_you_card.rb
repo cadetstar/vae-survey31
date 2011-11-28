@@ -26,6 +26,7 @@ class ThankYouCard < ActiveRecord::Base
   end
 
   def update_pdf_and_jpeg
+    return unless self.prop_season
     pdf = Prawn::Document.new
     self.season.fonts.each do |font|
       pdf.font font
