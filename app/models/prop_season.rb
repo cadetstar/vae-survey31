@@ -7,7 +7,7 @@ class PropSeason < ActiveRecord::Base
   before_destroy :prevent_if_thank_you_cards
 
   def self.list_for_select(user)
-    set = []
+    set = {}
     Season.where(:enabled => true).order(:name).each do |season|
       pses = season.prop_seasons.joins(:property).order("properties.code")
       unless user.admin?
@@ -15,7 +15,7 @@ class PropSeason < ActiveRecord::Base
       end
       collector = pses.all.collect{|r| [r,r.id]}
       if collector.any?
-        set << [season.name, collector]
+        set[season.name] = collector
       end
     end
     set
