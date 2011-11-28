@@ -7,11 +7,18 @@ class PropSeason < ActiveRecord::Base
   before_destroy :prevent_if_thank_you_cards
 
   def self.list_for_select(user)
-    if user.admin?
-      PropSeason.joins(:season, :property).order("seasons.name, properties.code").all.collect{|r| [r, r.id]}
-    else
-      PropSeason.joins(:season, :property).order("seasons.name, properties.code").where(:property_id => user.all_properties.collect{|ap| ap.id}).all.collect{|r| [r, r.id]}
+    set = []
+    Season.where(:enabled => true).order(:name).each do |season|
+      pses = season.prop_seasons.joins(:property).order("properties.code")
+      unless user.admin?
+        pses = pses.where(:property_id => user.all_properties.collect{|ap| ap.id})
+      end
+      collector = pses.all.collect{|r| [r,r.id]}
+      if collector.any?
+        set << [season.name, collector]
+      end
     end
+    set
   end
 
   def prevent_if_thank_you_cards
