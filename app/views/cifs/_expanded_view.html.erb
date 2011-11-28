@@ -43,7 +43,7 @@
           <% else %>
               <% if @season.enabled %>
                   <% unless cif.thank_you_card %>
-                      <%= link_to 'Generate Thank You Email', new_thank_you_card_path(:client_id => cif.client_id, :cif_id => cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, cif.property_id))) %>
+                      <%= link_to 'Generate Thank You Email', new_thank_you_card_path(:client_id => cif.client_id, :cif_id => cif.id, :property => PropSeason.find_or_create_by_season_id_and_property_id(@season.id, cif.property_id)) %>
                   <% else %>
                       <%= link_to 'Thank You Email', view_tyc_path(:id => cif.thank_you_card_id, :passcode => cif.thank_you_card.passcode) %>
                   <% end %>
