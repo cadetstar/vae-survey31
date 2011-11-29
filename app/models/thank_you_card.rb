@@ -85,13 +85,13 @@ class ThankYouCard < ActiveRecord::Base
     line.gsub!(/^([^%]+)%TITLEIT_(\d+)%/) {inline = true;$1.split(' ').collect{|k| "<font size='#{$2}'>#{k[0..0]}</font>#{k[1..-1]}"}.join(" ")}
 
     unless line.blank?
-      vals = [:align => align, :size => size]
+      vals = {:align => align, :size => size}
 
       if at
-        vals << {:at => at}
+        vals[:at] = at
       end
       if inline
-        vals << {:inline_format => true}
+        vals[:inline_format] = true
       end
       pdf.text line, vals
     end
