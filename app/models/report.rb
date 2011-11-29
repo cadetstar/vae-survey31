@@ -422,7 +422,7 @@ class Report < ActiveRecord::Base
     text.gsub!(/%TOTAL%/, form_answers[:total].to_s)
     text.gsub!(/%RESPONSE_RATE%/, form_answers[:total] == 0 ? '0%' : "#{sprintf('%.2f', 100*form_answers[:completed].to_f / form_answers[:total])}%")
     text.gsub!(/%RESULT_(\d+)%/) {score_display(form_answers[$1.to_i][:sum],form_answers[$1.to_i][:total], $1.to_i==0)}
-    text.gsub!(/%Q(\d+)%/) {$QUESTIONS[form.to_s][:radios].collect{|k,v| v}.select{|a,v| a == $1.to_i}.first.value.to_s}
+    text.gsub!(/%Q(\d+)%/) {$QUESTIONS[form.to_s][:radios].collect{|k,v| v}.select{|a,v| a == $1.to_i}.values.first.to_s}
     text
   end
 
