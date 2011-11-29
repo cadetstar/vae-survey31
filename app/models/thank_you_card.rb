@@ -39,7 +39,7 @@ class ThankYouCard < ActiveRecord::Base
 
     jpeg_file = ImageList.new(filename) {self.density = "400x400"}
     jpeg_file.resize_to_fit!(800)
-    jpeg_file.write(File.join(Rails.root.to_s, "app", "assets", "cards", "card_#{self.id}.jpg")) {self.quality = 81}
+    jpeg_file.write(File.join(Rails.root.to_s, "public", "assets", "cards", "card_#{self.id}.jpg")) {self.quality = 81}
 
   end
 
