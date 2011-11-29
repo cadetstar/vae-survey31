@@ -93,7 +93,7 @@ class ThankYouCard < ActiveRecord::Base
       if inline
         vals << {:inline_format => true}
       end
-      pdf.text line, *vals
+      pdf.text line, vals
     end
     pdf
   end
