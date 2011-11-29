@@ -39,15 +39,15 @@ class ThankYouCard < ActiveRecord::Base
 
     jpeg_file = ImageList.new(filename) {self.density = "400x400"}
     jpeg_file.resize_to_fit!(800)
-    jpeg_file.write(File.join(Rails.root.to_s, "public", "cards", "card_#{self.id}.jpg")) {self.quality = 81}
+    jpeg_file.write(File.join(Rails.root.to_s, "app", "assets", "cards", "card_#{self.id}.jpg")) {self.quality = 81}
 
   end
 
   def translate_body(pdf, text)
     # We're going to be parsing each line as we go.
     text.gsub!(/\r/,'')
-    text.gsub!(/~START_BLOCK\((\d+),(\d+),(\d+),(\d+)\)~([^~]+)~END_BLOCK~/m) { pdf.bounding_box([$1.to_i, $2.to_i], :width => $3.to_i, :height => $4.to_i) do pdf = translate_body(pdf, $5) end;''}
-    text.gsub(/\r/,'').split(/\n/).each do |line|
+    text.gsub!(/~START_BLOCK\((\d+),(\d+),(\d+),(\d+)\)~([^~]+)~END_BLOCK~/m) { pdf.bounding_box([$1.to_i, $2.to_i], :width => $3.to_i, :height => $4.to_i) do stroke_bounds; pdf = translate_body(pdf, $5) end;''}
+    text.split(/\n/).each do |line|
       pdf = parse_line(pdf, line)
     end
     pdf
