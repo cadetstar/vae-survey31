@@ -11,10 +11,10 @@
   <% @cifs.each do |cif| %>
       <tr <%= cif_class(cif) %>>
         <td>
-          <%= link_to cif.client %><br /><%= cif.client.email %><%= raw(cif.client.multiple_surveys? ? '<br /><Client has multiple surveys within the month.' : '') %>
+          <%= link_to cif.client, cif.client %><br /><%= cif.client.email %><%= raw(cif.client.multiple_surveys? ? '<br /><Client has multiple surveys within the month.' : '') %>
         </td>
         <td>
-          <%= link_to cif.company %><br /><%= raw cif.company.full_address %>
+          <%= link_to cif.company, cif.company %><br /><%= raw cif.company.full_address %>
         </td>
         <td><%= cif.property %></td>
         <td><%= "#{cif.start_date.to_s(:date_time12)} - #{cif.end_date.to_s(:date_time12)}" %></td>
