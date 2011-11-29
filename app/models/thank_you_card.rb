@@ -77,7 +77,7 @@ class ThankYouCard < ActiveRecord::Base
     
     line.gsub!(/%ALIGN_(CENTER|LEFT|RIGHT)%/) {align=$1.downcase.to_sym;''}
     line.gsub!(/%SIZE_(\d+)%/) {size=$1.to_i;''}
-    line.gsub!(/%AT_(\d+)_(\d+)%/) {at = [$1,$2];''}
+    line.gsub!(/%AT_(\d+)_(\d+)%/) {at = [$1.to_i,$2.to_i];''}
     line.gsub!(/%IMAGE\[([^\|]+)\|(\d+)\|(\d+)\]%/) {settings = {:width => $2.to_i, :height => $3.to_i, :align => :center};if at then settings.merge!(:at => at) end; pdf.image(File.join(Rails.root.to_s, 'files', 'templates', $1), settings);''}
     line.gsub!(/%INLINE%/) {inline = true;''}
 
