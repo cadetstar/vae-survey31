@@ -9,7 +9,7 @@
 </p>
 <ul>
   <% @company.clients.each do |client| %>
-      <li><%= link_to client %></li>
+      <li><%= link_to client, client %></li>
   <% end %>
 </ul>
 

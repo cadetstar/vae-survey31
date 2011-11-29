@@ -98,13 +98,13 @@ class Report < ActiveRecord::Base
         pdf.indent(30) do
           pdf.text cif.employee_comments.to_s.gsub(/[^0-9a-zA-Z,:@_~;!\$<>\?\+\(\)"'& \.\/-]/,' '), :size => 8
           pdf.dash(6, :space => 3, :phase => 0)
-          pdf.horizontal_rule
+          pdf.stroke_horizontal_rule
           pdf.text cif.client_comments.to_s.gsub(/[^0-9a-zA-Z,:@_~;!\$<>\?\+\(\)"'& \.\/-]/,' '), :size => 8
           pdf.undash
         end
         pdf.text ' '
         pdf.line_width = 5
-        pdf.horizontal_rule
+        pdf.stroke_horizontal_rule
         pdf.line_width = 1
         pdf.text ' '
       end
