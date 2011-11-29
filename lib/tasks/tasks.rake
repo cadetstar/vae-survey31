@@ -260,7 +260,7 @@ task :process_r2 => :environment do
         unless Cif.find_by_r2_order_id_and_client_id(valids[:order_id],client.id)
           puts "Processing #{row[1]} - #{row[7]} - Adding Order."
           mylog.puts "Processing #{row[1]} - #{row[7]} - Adding Order."
-          Cif.create(:client_id => client.id, :creator_id => system_user.id, :property_id => property.id, :start_date => (valids[:start_date] + 6.hours), :end_date => (valids[:end_date] + 6.hours), :location => row[8], :r2_order_id => valids[:order_id], :notes => row[22])
+          Cif.create({:client_id => client.id, :creator_id => system_user.id, :property_id => property.id, :start_date => (valids[:start_date] + 6.hours), :end_date => (valids[:end_date] + 6.hours), :location => row[8], :r2_order_id => valids[:order_id], :notes => row[22]}, :without_protection => true)
         else
           puts "Process #{row[1]} - #{row[7]} - Already in system."
           mylog.puts "Process #{row[1]} - #{row[7]} - Already in system."
