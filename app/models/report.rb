@@ -91,7 +91,7 @@ class Report < ActiveRecord::Base
     end
     pdf.text ' '
 
-    Cif.where({:property_id => properties, :count_survey => true, :cif_captured => false, :end_date => (start_time..end_time)}).where('completed_at is not null').order('end_date, completed_at').each do |cif|
+    Cif.include([{:client => :company}, :property]).where({:property_id => properties, :count_survey => true, :cif_captured => false, :end_date => (start_time..end_time)}).where('completed_at is not null').order('end_date, completed_at').each do |cif|
       pdf.group do
         pdf.text cif.property.to_s, :size => 10
         pdf.text "#{cif.company} - #{cif.client} - #{cif.end_date.to_s(:shortdate)}", :size => 8
