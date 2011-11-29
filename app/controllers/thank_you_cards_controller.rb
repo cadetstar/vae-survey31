@@ -91,7 +91,7 @@ class ThankYouCardsController < ApplicationController
     else
       if @thank_you_card.update_attributes(params[:thank_you_card])
         flash[:notice] = 'Thank You Card updated.'
-        redirect_to view_tyc_path(:id => tyc.id, :passcode => tyc.passcode)
+        redirect_to view_tyc_path(:id => @thank_you_card.id, :passcode => @thank_you_card.passcode)
         return
       else
         flash[:error] = 'There was an error updating the card.'
