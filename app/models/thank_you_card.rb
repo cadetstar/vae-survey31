@@ -87,13 +87,15 @@ class ThankYouCard < ActiveRecord::Base
     unless line.blank?
       vals = {:align => align, :size => size}
 
-      if at
-        vals[:at] = at
-      end
       if inline
         vals[:inline_format] = true
       end
-      pdf.text line, vals
+      if at
+        vals[:at] = at
+        pdf.text_box line, vals
+      else
+        pdf.text line, vals
+      end
     end
     pdf
   end
