@@ -295,7 +295,7 @@ class Report < ActiveRecord::Base
       answers[t][:total] = 0
       answers[t][:completed] = 0
       answers[t][:accessed] = 0
-      0.upto(15).each do |i|
+      0.upto(16).each do |i|
         answers[t][i] = {}
         answers[t][i][:count] = 0
         answers[t][i][:sum] = 0
@@ -322,7 +322,7 @@ class Report < ActiveRecord::Base
       if cif.completed_at
         answers[t][:completed] += 1
 
-        1.upto(15).each do |i|
+        1.upto(16).each do |i|
           answers[t][i][:sum] += cif.answers[i].to_i
           answers[t][i][:slices][cif.answers[i].to_i] += 1
           if cif.answers[i].to_i > 0
