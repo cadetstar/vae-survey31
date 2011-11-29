@@ -71,7 +71,7 @@ class ThankYouCardsController < ApplicationController
   def create
     if tyc = ThankYouCard.create(params[:thank_you_card])
       flash[:notice] = 'Thank you card created.'
-      redirect_to tyc
+      redirect_to view_tyc_path(:id => tyc.id, :passcode => tyc.passcode)
     else
       flash[:error] = 'There was an error creating the card.'
       redirect_to clients_path
@@ -91,6 +91,8 @@ class ThankYouCardsController < ApplicationController
     else
       if @thank_you_card.update_attributes(params[:thank_you_card])
         flash[:notice] = 'Thank You Card updated.'
+        redirect_to view_tyc_path(:id => tyc.id, :passcode => tyc.passcode)
+        return
       else
         flash[:error] = 'There was an error updating the card.'
         redirect_to edit_thank_you_card_path(@thank_you_card)
