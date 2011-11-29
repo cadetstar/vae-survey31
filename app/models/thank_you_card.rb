@@ -27,12 +27,14 @@ class ThankYouCard < ActiveRecord::Base
 
   def update_pdf_and_jpeg
     return unless self.prop_season
-    pdf = Prawn::Document.new(:page_layout => :portrait, :left_margin => 0, :right_margin => 0, :top_margin => 0, :bottom_margin => 0)
+    format = {:page_layout => :portrait, :left_margin => 0, :right_margin => 0, :top_margin => 0, :bottom_margin => 0}
+    text = self.season.body.gsub(/%BGIMAGE\[([^\]]+)\]%/) {format.merge!(:background => File.join(Rails.root.to_s, 'files', 'templates', $1));''}
+    pdf = Prawn::Document.new(format)
     self.season.fonts.each do |font|
       pdf.font font
     end
 
-    pdf = translate_body(pdf, self.season.body)
+    pdf = translate_body(pdf, text)
 
     filename = "files/pdfs/#{self.id}.pdf"
     pdf.render_file filename
