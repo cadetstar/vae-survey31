@@ -41,7 +41,7 @@
         <tr>
           <td style='width: 50%;text-align: center;border: none;'>
             <% if @cif.flagged? %>
-                <%= link_to 'Send Survey', send_survey_path(:id => @cif.id), :confirm => "This survey was flagged by #{@cif.flagged} on #{(@cif.flagged_until - 7.days).to_s(:date_time12)}.\n\nAre you sure you want to send this survey?" %>
+                <%= link_to 'Send Survey', send_survey_path(:id => @cif.id), :confirm => "This survey was flagged by #{@cif.flagger} on #{(@cif.flagged_until - 7.days).to_s(:date_time12)}.\n\nAre you sure you want to send this survey?" %>
             <% else %>
                 <%= link_to 'Send Survey', send_survey_path(:id => @cif.id) %>
             <% end %>
