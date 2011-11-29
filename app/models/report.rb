@@ -430,7 +430,7 @@ class Report < ActiveRecord::Base
     total ||= 0
     sum ||= 0
     if total > 0
-      score = sum / total
+      score = sum.to_f / total
     else
       score = 0
     end
