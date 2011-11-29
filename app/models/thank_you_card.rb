@@ -32,6 +32,7 @@ class ThankYouCard < ActiveRecord::Base
     pdf = Prawn::Document.new(format)
     pdf.fill_color "FFFFFF"
     pdf.fill_rectangle [0,800], 620, 800
+    pdf.fill_color "000000"
     self.season.fonts.each do |font|
       pdf.font font
     end
