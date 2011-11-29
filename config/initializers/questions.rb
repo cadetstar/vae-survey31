@@ -140,4 +140,11 @@ $QUESTIONS['csi'][:facts][:contact_info] = 'Contact Phone or Email:'
 $QUESTIONS['csi'][:facts][:employee_comments] = 'Is there anyone on our staff that you would like to recognize for providing exceptional service?'
 $QUESTIONS['csi'][:facts][:client_comments] = 'Is there anything we could have done to enhance your experience with CSI?'
 
-
+%w(vae vae_french vae_conventions csi).each do |form|
+  $QUESTIONS[form][:by_num] = {}
+  $QUESTIONS[form][:radios].keys.each do |cat|
+    $QUESTIONS[form][:radios][cat].each do |k,v|
+      $QUESTIONS[form][:by_num][k] = v
+    end
+  end
+end
