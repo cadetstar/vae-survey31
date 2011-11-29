@@ -30,7 +30,7 @@ class CifsController < ApplicationController
       session[:cifs][:end_date] = params[:end_date]
     end
 
-    if params[:collapse]
+    if !params[:collapse].nil?
       session[:cifs][:collapse] = params[:collapse]
     end
 
