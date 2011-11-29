@@ -30,6 +30,8 @@ class ThankYouCard < ActiveRecord::Base
     format = {:page_layout => :portrait, :left_margin => 0, :right_margin => 0, :top_margin => 0, :bottom_margin => 0}
     text = self.season.body.gsub(/%BGIMAGE\[([^\]]+)\]%/) {format.merge!(:background => File.join(Rails.root.to_s, 'files', 'templates', $1));''}
     pdf = Prawn::Document.new(format)
+    pdf.fill_color "FFFFFF"
+    pdf.fill_rectangle [0,800], 620, 800
     self.season.fonts.each do |font|
       pdf.font font
     end
