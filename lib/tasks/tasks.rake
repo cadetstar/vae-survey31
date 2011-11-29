@@ -234,7 +234,18 @@ task :process_r2 => :environment do
     sheet.each do |row|
       next if row[0] == 'INVOICEID'
 
-      if row[19] or !Cif.find_by_r2_order_id(row[1])
+      valids = {}
+      if row[19].blank?
+        valids[:order_id] = row[1]
+        valids[:start_date] = row[9]
+        valids[:end_date] = row[10]
+      else
+        valids[:order_id] = row[19]
+        valids[:start_date] = row[20]
+        valids[:end_date] = row[21]
+      end
+
+      unless Cif.find_by_r2_order_id(valids[:order_id])
         mylog.puts "Initial Order not found."
         property = Property.find_by_r2_code(row[11]) || Property.find_or_create_by_r2_code('5217-96', :name => "Information Technology")
 
@@ -246,10 +257,10 @@ task :process_r2 => :environment do
           client = Client.create(:company_id => company.id, :first_name => (row[4].blank? ? 'Contact' : row[4].split(/ /)[0..-2].to_s), :last_name => (row[4].blank? ? 'Name' : row[4].split(/ /)[-1..-1]), :email => row[5], :phone => row[6], :r2_client_id => row[14], :property_id => property.id)
         end
 
-        unless Cif.find_by_r2_order_id_and_client_id(row[19]||row[1],client.id)
+        unless Cif.find_by_r2_order_id_and_client_id(valids[:order_id],client.id)
           puts "Processing #{row[1]} - #{row[7]} - Adding Order."
           mylog.puts "Processing #{row[1]} - #{row[7]} - Adding Order."
-          Cif.create(:client_id => client.id, :creator_id => system_user.id, :property_id => property.id, :start_date => ((row[19] ? row[20] : row[9]) + 6.hours), :end_date => ((row[19] ? row[21] : row[10]) + 6.hours), :location => row[8], :r2_order_id => (row[19] || row[1]), :notes => row[22])
+          Cif.create(:client_id => client.id, :creator_id => system_user.id, :property_id => property.id, :start_date => (valids[:start_date] + 6.hours), :end_date => (valids[:end_date] + 6.hours), :location => row[8], :r2_order_id => valids[:order_id], :notes => row[22])
         else
           puts "Process #{row[1]} - #{row[7]} - Already in system."
           mylog.puts "Process #{row[1]} - #{row[7]} - Already in system."
