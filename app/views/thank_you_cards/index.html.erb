@@ -37,7 +37,7 @@
   <% @thank_you_cards.each do |tyc| %>
       <tr>
         <td><%= link_to tyc.client %></td>
-        <td><%= tyc.prop_season.gsub(/ for /,' for<br />') %></td>
+        <td><%= tyc.prop_season.to_s.gsub(/ for /,' for<br />') %></td>
         <td><%= tyc.updated_at.to_s(:date_time12) %></td>
         <td><%= tyc.greeting %></td>
         <td><%= tyc.sent_at ? tyc.sent_at.to_s(:date_time12) : 'Not sent yet' %></td>
