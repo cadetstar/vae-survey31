@@ -34,7 +34,7 @@ class ThankYouCard < ActiveRecord::Base
     pdf.fill_rectangle [0,800], 620, 800
     pdf.fill_color "000000"
     self.season.fonts.each do |font|
-      pdf.font font
+      pdf.font "C:\Windows/Fonts/#{font}"
     end
 
     pdf = translate_body(pdf, text)
