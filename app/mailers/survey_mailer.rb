@@ -46,8 +46,8 @@ class SurveyMailer < ActionMailer::Base
   def flagged_survey(cif, user)
     SurveyMailer.load_settings 'vaecorp'
     mail(:to => user.email, :subject => '[VAE Survey Site] A survey has been flagged.') do |format|
-      format.html {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false)}<br /><br />Note from administrator:<br />#{@cif.flagged_comment}"}
-      format.text {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false)}\n\nNote from administrator:\n#{@cif.flagged_comment}"}
+      format.html {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false), edit_cif_url(@cif, :only_path => false)}<br /><br />Note from administrator:<br />#{@cif.flagged_comment}"}
+      format.text {render :text => "A survey for your property has been flagged.  Please click on the following link to edit the survey: #{link_to edit_cif_url(@cif, :only_path => false), edit_cif_url(@cif, :only_path => false)}\n\nNote from administrator:\n#{@cif.flagged_comment}"}
     end
   end
 

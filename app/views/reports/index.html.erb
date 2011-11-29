@@ -5,7 +5,7 @@
     <div>
       Properties:<br />
       <%= link_to_function 'Select All', "return false;", :id => 'select_all' %><br />
-      <%= link_to_function 'Unelect All', "return false;", :id => 'unselect_all' %><br />
+      <%= link_to_function 'Unselect All', "return false;", :id => 'unselect_all' %><br />
       <%= select_tag :properties, options_for_select(Property.list_for_select(current_user)), :multiple => true %>
     </div>
     <div>

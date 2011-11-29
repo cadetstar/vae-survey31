@@ -9,7 +9,7 @@
   <% @cifs.each do |cif| %>
       <tr <%= cif_class(cif) %>>
         <td><%= link_to 'View', cif %></td>
-        <td><%= link_to cif.client %><br /><%= link_to cif.company %><%= cif.client.cifs.length > 1 ? raw('<br />Client has multiple surveys') : '' %></td>
+        <td><%= link_to cif.client, cif.client %><br /><%= link_to cif.company, cif.company %><%= cif.client.cifs.length > 1 ? raw('<br />Client has multiple surveys') : '' %></td>
         <td><%= cif.property %></td>
         <td><%= "#{cif.start_date.to_s(:shortdate)} - #{cif.end_date.to_s(:end_date)}" %></td>
         <td><%= cif.creator %><br /><%= cif.created_at.to_s(:date_time12) %></td>
@@ -48,7 +48,7 @@
                       <%= link_to 'Thank You Email', view_tyc_path(:id => cif.thank_you_card_id, :passcode => cif.thank_you_card.passcode) %>
                   <% end %>
                   <% unless cif.sent_at %>
-                      <%= link_to '<br />Edit', edit_cif_path(cif) %>
+                      <br /><%= link_to 'Edit', edit_cif_path(cif) %>
                   <% end %>
               <% else %>
                   <%= link_to 'Edit', edit_cif_path(cif) %>

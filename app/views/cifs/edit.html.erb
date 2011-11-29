@@ -10,7 +10,7 @@
     <p><% unless @cif.sent_at %>
           <%= link_to @cif.client, edit_client_path(@cif.client) %><br /><%= link_to @cif.company, edit_company_path(@cif.company) %>
       <% else %>
-          <%= link_to @cif.client %><br /><%= link_to @cif.company %>
+          <%= link_to @cif.client, @cif.client %><br /><%= link_to @cif.company, @cif.company %>
       <% end %>
       <%= @cif.client.try(:email) %>
     </p>
