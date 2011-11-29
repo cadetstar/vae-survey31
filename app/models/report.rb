@@ -91,20 +91,20 @@ class Report < ActiveRecord::Base
     end
     pdf.text ' '
 
-    Cif.include([{:client => :company}, :property]).where({:property_id => properties, :count_survey => true, :cif_captured => false, :end_date => (start_time..end_time)}).where('completed_at is not null').order('end_date, completed_at').each do |cif|
+    Cif.includes([{:client => :company}, :property]).where({:property_id => properties, :count_survey => true, :cif_captured => false, :end_date => (start_time..end_time)}).where('completed_at is not null').order('end_date, completed_at').each do |cif|
       pdf.group do
         pdf.text cif.property.to_s, :size => 10
         pdf.text "#{cif.company} - #{cif.client} - #{cif.end_date.to_s(:shortdate)}", :size => 8
         pdf.indent(30) do
           pdf.text cif.employee_comments.to_s.gsub(/[^0-9a-zA-Z,:@_~;!\$<>\?\+\(\)"'& \.\/-]/,' '), :size => 8
           pdf.dash(6, :space => 3, :phase => 0)
-          pdf.stroke_horizontal_rule
+          pdf.pad(10) {pdf.stroke_horizontal_rule}
           pdf.text cif.client_comments.to_s.gsub(/[^0-9a-zA-Z,:@_~;!\$<>\?\+\(\)"'& \.\/-]/,' '), :size => 8
           pdf.undash
         end
         pdf.text ' '
-        pdf.line_width = 5
-        pdf.stroke_horizontal_rule
+        pdf.line_width = 3
+        pdf.pad(10) {pdf.stroke_horizontal_rule}
         pdf.line_width = 1
         pdf.text ' '
       end
