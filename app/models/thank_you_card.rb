@@ -58,14 +58,14 @@ class ThankYouCard < ActiveRecord::Base
     at = nil
     inline = false
 
-    line.gsub!(/%PAD(-\d+|\d+)%/) {pdf.pad_top($1);''}
-    line.gsub!(/%PROP_POST_PAD(-\d+|\d+)%/) {unless self.prop_season.property_post_text.blank? then pdf.pad_top($1) end;self.prop_season.property_post_text}
-    line.gsub!(/%PROP_PRE_PAD(-\d+|\d+)%/) {unless self.prop_season.property_pre_text.blank? then pdf.pad_top($1) end;self.prop_season.property_pre_text}
-    line.gsub!(/%PROP_SIGNOFF_PAD(-\d+|\d+)%/) {unless self.prop_season.property_signoff.blank? then pdf.pad_top($1) end; self.prop_season.property_signoff}
-    line.gsub!(/%PROP_GREETING_PAD(-\d+|\d+)%/) {unless self.greeting.blank? then pdf.pad_top($1) end; self.greeting }
-    line.gsub!(/%SEASON_PRE_PAD(-\d+|\d+)%/) {unless self.season.pre_text.blank? then pdf.pad_top($1) end;self.season.pre_text}
-    line.gsub!(/%SEASON_POST_PAD(-\d+|\d+)%/) {unless self.season.post_text.blank? then pdf.pad_top($1) end;self.season.post_text}
-    line.gsub!(/%CLIENT_SALUTATION_PAD(-\d+|\d+)%/) {unless self.client.full_salutation.blank? then pdf.pad_top($1) end; self.client.full_salutation}
+    line.gsub!(/%PAD(-\d+|\d+)%/) {pdf.pad_top($1.to_i);''}
+    line.gsub!(/%PROP_POST_PAD(-\d+|\d+)%/) {unless self.prop_season.property_post_text.blank? then pdf.pad_top($1.to_i) end;self.prop_season.property_post_text}
+    line.gsub!(/%PROP_PRE_PAD(-\d+|\d+)%/) {unless self.prop_season.property_pre_text.blank? then pdf.pad_top($1.to_i) end;self.prop_season.property_pre_text}
+    line.gsub!(/%PROP_SIGNOFF_PAD(-\d+|\d+)%/) {unless self.prop_season.property_signoff.blank? then pdf.pad_top($1.to_i) end; self.prop_season.property_signoff}
+    line.gsub!(/%PROP_GREETING_PAD(-\d+|\d+)%/) {unless self.greeting.blank? then pdf.pad_top($1.to_i) end; self.greeting }
+    line.gsub!(/%SEASON_PRE_PAD(-\d+|\d+)%/) {unless self.season.pre_text.blank? then pdf.pad_top($1.to_i) end;self.season.pre_text}
+    line.gsub!(/%SEASON_POST_PAD(-\d+|\d+)%/) {unless self.season.post_text.blank? then pdf.pad_top($1.to_i) end;self.season.post_text}
+    line.gsub!(/%CLIENT_SALUTATION_PAD(-\d+|\d+)%/) {unless self.client.full_salutation.blank? then pdf.pad_top($1.to_i) end; self.client.full_salutation}
 
     line.gsub!(/%PROP_POST%/, self.prop_season.property_post_text.to_s)
     line.gsub!(/%PROP_PRE%/, self.prop_season.property_pre_text.to_s)
