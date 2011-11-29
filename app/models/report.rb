@@ -426,6 +426,8 @@ class Report < ActiveRecord::Base
   end
 
   def score_display(sum, total, skip_total = false)
+    total ||= 0
+    sum ||= 0
     if total > 0
       score = sum / total
     else
