@@ -285,7 +285,7 @@ class Report < ActiveRecord::Base
     properties = self.parameters[:properties]
     in_excel = self.download
 
-    cifs = Cif.where({:property_id => properties, :cif_captured => true, :count_survey => true, :created_at => (start_date..end_date)})
+    cifs = Cif.where({:property_id => properties, :cif_captured => false, :count_survey => true, :created_at => (start_date..end_date)})
     cifs = cifs.where('sent_at is not null')
 
     answers = {}
