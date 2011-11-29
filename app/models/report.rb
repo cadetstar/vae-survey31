@@ -1,5 +1,6 @@
 require 'spreadsheet'
 class Report < ActiveRecord::Base
+  BAR_COLORS = %w(black red orange yellow blue green)
   TYPES = %w(Summary Detail Composite\ Detail Property\ Questions)
   PROPERTY_FORMAT = {:vae => {:title => "VAE Survey Results (English and French)",
                               :rows => [
@@ -437,8 +438,12 @@ class Report < ActiveRecord::Base
       <span class='reportscores'>#{sprintf('%.2f', score)}</span><br />
       #{skip_total ? '' : "#{total} responses.<br />"}
       <div class='score_wrapper'>
-        <div class="score_bar" style='background-color: #{CifsHelper::bar_color(score)};width: #{sprintf('%.0f', score * 20)}%;'> &nbsp; </div>
+        <div class="score_bar" style='background-color: #{Report.bar_color(score)};width: #{sprintf('%.0f', score * 20)}%;'> &nbsp; </div>
       </div>
     OUTPUT
+  end
+
+  def self.bar_color(num)
+    BAR_COLORS[num.to_i]
   end
 end

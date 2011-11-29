@@ -111,6 +111,6 @@ module CifsHelper
   end
 
   def bar_color(num)
-    %w(black red orange yellow blue green)[num.to_i]
+    Report.bar_color(num)
   end
 end
