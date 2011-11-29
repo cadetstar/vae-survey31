@@ -353,8 +353,8 @@ class Report < ActiveRecord::Base
           questions = $QUESTIONS[form][:by_num]
 
           sheet[4,0] = "Average Score"
-          sheet[4,1] = ((answers[form][0][:total] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:total])
-          sheet[4,2] = answers[form][0][:total]
+          sheet[4,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
+          sheet[4,2] = answers[form][0][:count]
 
           offset = 6
           sheet[offset,0] = "Question"
@@ -369,8 +369,8 @@ class Report < ActiveRecord::Base
 
           questions.keys.sort.each do |i|
             sheet[i+offset,0] = questions[i]
-            sheet[i+offset,1] = ((answers[form][i][:total] == 0) ? 0 : answers[form][i][:sum].to_f / answers[form][i][:total])
-            sheet[i+offset,2] = answers[form][i][:total]
+            sheet[i+offset,1] = ((answers[form][i][:count] == 0) ? 0 : answers[form][i][:sum].to_f / answers[form][i][:count])
+            sheet[i+offset,2] = answers[form][i][:count]
             j = 0
             while j < 6
               sheet[i+offset,3+j] = answers[form][i][:slices][j]
@@ -421,7 +421,7 @@ class Report < ActiveRecord::Base
     text.gsub!(/%RETURNED%/, form_answers[:completed].to_s)
     text.gsub!(/%TOTAL%/, form_answers[:total].to_s)
     text.gsub!(/%RESPONSE_RATE%/, form_answers[:total] == 0 ? '0%' : "#{sprintf('%.2f', 100*form_answers[:completed].to_f / form_answers[:total])}%")
-    text.gsub!(/%RESULT_(\d+)%/) {score_display(form_answers[$1.to_i][:sum],form_answers[$1.to_i][:total], $1.to_i==0)}
+    text.gsub!(/%RESULT_(\d+)%/) {score_display(form_answers[$1.to_i][:sum],form_answers[$1.to_i][:count], $1.to_i==0)}
     text.gsub!(/%Q(\d+)%/) {$QUESTIONS[form.to_s][:by_num][$1.to_i]}
     text
   end
