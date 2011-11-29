@@ -41,7 +41,7 @@
         <td><%= tyc.updated_at.to_s(:date_time12) %></td>
         <td><%= tyc.greeting %></td>
         <td><%= tyc.sent_at ? tyc.sent_at.to_s(:date_time12) : 'Not sent yet' %></td>
-        <td><%= link_to 'View Email', view_email_path(:id => tyc.id, :passcode => tyc.passcode) %><br />
+        <td><%= link_to 'View Email', view_tyc_path(:id => tyc.id, :passcode => tyc.passcode) %><br />
           <% if tyc.sent_at.nil? %><%= link_to('Edit', edit_thank_you_card_path(tyc)) %> <%= link_to 'Destroy', tyc, :confirm => 'Are you sure?', :method => :delete %><% end %>
         </td>
       </tr>
