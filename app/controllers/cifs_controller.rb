@@ -116,9 +116,10 @@ class CifsController < ApplicationController
 
   def capture
     if @cif = Cif.find_by_id(params[:id])
-      @cif.update_attributes(:sent_at => Time.now, :cif_captured => true, :without_protection => true)
+      @cif.update_attributes({:sent_at => Time.now, :cif_captured => true}, :without_protection => true)
       if @cif.flagged_until and @cif.flagged_until > Time.now
-        @cif.update_attribute(:flagged_until, Time.now)
+        @cif.update_attribute.flagged_until = Time.now
+        @cif.save
       end
       @message = 'Survey captured'
     else
