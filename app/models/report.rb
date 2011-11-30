@@ -1,7 +1,7 @@
 require 'spreadsheet'
 class Report < ActiveRecord::Base
   BAR_COLORS = %w(black red orange yellow blue green)
-  TYPES = %w(Summary Detail Composite\ Detail Property\ Questions)
+  TYPES = %w(Property\ Questions Summary Detail Composite\ Detail)
   PROPERTY_FORMAT = {:vae => {:title => "VAE Survey Results (English and French)",
                               :rows => [
                                   ["<span class='reporttabhead'>%RETURNED% Surveys Returned<br />%ACCESSED% Surveys Accessed<br />%TOTAL% Surveys Sent</span>",
