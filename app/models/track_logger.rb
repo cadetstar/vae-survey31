@@ -1,5 +1,6 @@
 class TrackLogger < ActiveSupport::BufferedLogger
-  def initialize
+  def initialize(log_file, level = DEBUG)
+    super(log_file, level)
     self.auto_flushing = true
   end
 
