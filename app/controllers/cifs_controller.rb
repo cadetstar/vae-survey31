@@ -110,7 +110,7 @@ class CifsController < ApplicationController
   end
 
   def capture
-    unless @cif = Cif.find_by_id(params[:id])
+    if @cif = Cif.find_by_id(params[:id])
       @cif.update_attributes(:sent_at => Time.now, :cif_captured => true, :without_protection => true)
       if @cif.flagged_until and @cif.flagged_until > Time.now
         @cif.update_attribute(:flagged_until, Time.now)
@@ -305,7 +305,7 @@ class CifsController < ApplicationController
   end
 
   def flag
-    unless @cif = Cif.find_by_id(params[:id])
+    if @cif = Cif.find_by_id(params[:id])
       if @cif.sent_at
         flash[:error] = 'That survey has already been sent.'
       else
@@ -316,7 +316,7 @@ class CifsController < ApplicationController
 
         TrackLogger.log("#{current_user} just flagged a survey (ID: #{@cif.id}) for client #{@cif.client} - #{@cif.company} at #{Time.now.to_s(:date_time12)}.")
 
-        flash = @cif.notify_users_about_flag
+        flash.merge! @cif.notify_users_about_flag
       end
     else
       flash[:error] = 'I could not find a survey by that ID.'
