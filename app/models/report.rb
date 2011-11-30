@@ -346,17 +346,23 @@ class Report < ActiveRecord::Base
         if answers[form][:total] > 0
           sheet = book.create_worksheet :name => form.to_s.titleize
 
+          format = Spreadsheet::Format.new(:text_wrap => true)
+          sheet.column(0).default_format = format
+          sheet.column(0).width = 70
+
           sheet[0,0] = "Results for #{form.to_s.titleize}"
 
           sheet[1,0] = "Properties: #{Property.find_all_by_id(properties, :order => :code).join(", ")}"
+          sheet[2,0] = "From: #{start_date}"
+          sheet[3,0] = "To: #{end_date}"
 
           questions = $QUESTIONS[form.to_s][:by_num]
 
-          sheet[4,0] = "Average Score"
-          sheet[4,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
-          sheet[4,2] = answers[form][0][:count]
+          sheet[6,0] = "Average Score"
+          sheet[6,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
+          sheet[6,2] = answers[form][0][:count]
 
-          offset = 6
+          offset = 8
           sheet[offset,0] = "Question"
           sheet[offset,1] = "Score"
           sheet[offset,2] = "Num of Responses"
