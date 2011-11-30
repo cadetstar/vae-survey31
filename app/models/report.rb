@@ -285,7 +285,7 @@ class Report < ActiveRecord::Base
     properties = self.parameters[:properties]
     in_excel = self.download
 
-    cifs = Cif.where({:property_id => properties, :cif_captured => false, :count_survey => true, :created_at => (start_date..end_date)})
+    cifs = Cif.joins(:property).where({:cif_include => true, :property_id => properties, :cif_captured => false, :count_survey => true, :created_at => (start_date..end_date)})
     cifs = cifs.where('sent_at is not null')
 
     answers = {}
@@ -352,7 +352,7 @@ class Report < ActiveRecord::Base
 
           sheet[0,0] = "Results for #{form.to_s.titleize}"
 
-          sheet[1,0] = "Properties: #{Property.find_all_by_id(properties, :order => :code).join(", ")}"
+          sheet[1,0] = "Properties:\n#{Property.where(:id => properties, :cif_include => true, :cif_form => (form == :vae ? [:vae, :vae_french] : form)).order(:code).all.collect{|r| r.to_s}.join("\n")}"
           sheet[2,0] = "From: #{start_date}"
           sheet[3,0] = "To: #{end_date}"
 
