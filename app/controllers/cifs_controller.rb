@@ -77,7 +77,7 @@ class CifsController < ApplicationController
         @cifs = @cifs.where(['completed_at is not null'])
     end
 
-    if session[:cifs][:page_id].to_i > 1 and @cifs.count > (session[:cifs][:page_id].to_i - 1) * ApplicationController::RECORDS_PER_PAGE
+    if session[:cifs][:page_id].to_i > 1 and @cifs.count < (session[:cifs][:page_id].to_i - 1) * ApplicationController::RECORDS_PER_PAGE
       session[:cifs][:page_id] = 1
     end
 
