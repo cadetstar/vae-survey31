@@ -1,2 +1,2 @@
-<%= if @message then "#{@message}<br />" end %>
+<%= if @message then raw "<strong>#{@message}</strong><br />" end %>
 <%= cif.notes || "(No Notes)" %>
