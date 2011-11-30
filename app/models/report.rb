@@ -372,7 +372,6 @@ class Report < ActiveRecord::Base
           sheet[offset-2,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
           sheet[offset-2,2] = answers[form][0][:count]
 
-          offset = 8
           sheet[offset,0] = "Question"
           sheet[offset,1] = "Score"
           sheet[offset,2] = "Num of Responses"
