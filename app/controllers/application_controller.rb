@@ -42,8 +42,8 @@ class ApplicationController < ActionController::Base
       session[:sorters][controller_sym][:order] = params[:sort_order]
     end
 
-    if params[:page_id]
-      session[controller_sym][:page_id] = params[:page_id].to_i
+    if params[:page]
+      session[controller_sym][:page_id] = params[:page].to_i
     end
 
   end

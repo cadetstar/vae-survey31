@@ -17,8 +17,8 @@ class ThankYouCardsController < ApplicationController
       session[:thank_you_cards][:scope] = params[:scope]
     end
 
-    if params[:page_id]
-      session[:thank_you_cards][:page] = params[:page_id].to_i
+    if params[:page]
+      session[:thank_you_cards][:page] = params[:page].to_i
     end
 
     @thank_you_cards = ThankYouCard.order("sent_at, thank_you_cards.updated_at").joins(:prop_season)
