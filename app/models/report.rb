@@ -285,7 +285,7 @@ class Report < ActiveRecord::Base
     properties = self.parameters[:properties]
     in_excel = self.download
 
-    cifs = Cif.joins(:property).where({:properties => {:cif_include => true}, :property_id => properties, :cif_captured => false, :count_survey => true, :created_at => (start_date..end_date)})
+    cifs = Cif.joins(:property).includes(:property).where({:properties => {:cif_include => true}, :property_id => properties, :cif_captured => false, :count_survey => true, :created_at => (start_date..end_date)})
     cifs = cifs.where('sent_at is not null')
 
     answers = {}
@@ -350,17 +350,27 @@ class Report < ActiveRecord::Base
           sheet.column(0).default_format = format
           sheet.column(0).width = 70
 
+          (1..10).each do |c|
+            sheet.column(c).default_format = FORMATS[:right]
+          end
+
           sheet[0,0] = "Results for #{form.to_s.titleize}"
 
-          sheet[1,0] = "Properties:\n#{Property.where(:id => properties, :cif_include => true, :cif_form => (form == :vae ? [:vae, :vae_french] : form)).order(:code).all.collect{|r| r.to_s}.join("\n")}"
-          sheet[2,0] = "From: #{start_date}"
-          sheet[3,0] = "To: #{end_date}"
+          sheet[1,0] = "Properties:"
+          start = 1
+          Property.where(:id => properties, :cif_include => true, :cif_form => (form == :vae ? [:vae, :vae_french] : form)).order(:code).each do |r|
+            sheet[start+=1,0] = r.to_s
+          end
+          sheet[start+=1,0] = "From: #{start_date}"
+          sheet[start+=1,0] = "To: #{end_date}"
 
           questions = $QUESTIONS[form.to_s][:by_num]
 
-          sheet[6,0] = "Average Score"
-          sheet[6,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
-          sheet[6,2] = answers[form][0][:count]
+          offset = start + 4
+
+          sheet[offset-2,0] = "Average Score"
+          sheet[offset-2,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
+          sheet[offset-2,2] = answers[form][0][:count]
 
           offset = 8
           sheet[offset,0] = "Question"
