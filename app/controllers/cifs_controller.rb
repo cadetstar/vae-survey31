@@ -17,6 +17,11 @@ class CifsController < ApplicationController
     session[:cifs][:start_date] ||= 2.months.ago
     session[:cifs][:end_date] ||= Time.now
     session[:cifs][:collapse] ||= false
+    session[:cifs][:page_id] ||= 1
+
+    if params[:page]
+      session[:cifs][:page_id] = params[:page]
+    end
 
     if params[:status] and STATUSES.include? params[:status]
       session[:cifs][:status] = params[:status]
