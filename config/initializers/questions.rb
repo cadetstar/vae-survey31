@@ -144,7 +144,7 @@ $QUESTIONS['csi'][:facts][:client_comments] = 'Is there anything we could have d
   $QUESTIONS[form][:by_num] = {}
   $QUESTIONS[form][:radios].keys.each do |cat|
     $QUESTIONS[form][:radios][cat].each do |k,v|
-      $QUESTIONS[form][:by_num][k] = v
+      $QUESTIONS[form][:by_num][k] = v if k.to_i > 0
     end
   end
 end
