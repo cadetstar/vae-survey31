@@ -350,7 +350,7 @@ class Report < ActiveRecord::Base
 
           sheet[1,0] = "Properties: #{Property.find_all_by_id(properties, :order => :code).join(", ")}"
 
-          questions = $QUESTIONS[form][:by_num]
+          questions = $QUESTIONS[form.to_s][:by_num]
 
           sheet[4,0] = "Average Score"
           sheet[4,1] = ((answers[form][0][:count] == 0) ? 0 : answers[form][0][:sum].to_f / answers[form][0][:count])
