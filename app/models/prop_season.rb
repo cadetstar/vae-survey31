@@ -6,6 +6,8 @@ class PropSeason < ActiveRecord::Base
 
   before_destroy :prevent_if_thank_you_cards
 
+  validates :property_id, :uniqueness =>  {:scope => :season_id}
+
   def self.list_for_select(user)
     set = {}
     Season.where(:enabled => true).order(:name).each do |season|
