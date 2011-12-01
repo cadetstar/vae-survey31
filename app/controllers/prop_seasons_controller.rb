@@ -7,7 +7,6 @@ class PropSeasonsController < ApplicationController
     unless current_user.admin?
       @prop_seasons = @prop_seasons.where(['property_id in (?)', current_user.all_properties.collect{|r| r.id}]).where({:enabled => true})
     end
-
   end
 
   def edit
@@ -38,7 +37,7 @@ class PropSeasonsController < ApplicationController
 
     if @prop_season.update_attributes(params[:prop_season])
       flash[:notice] = 'Template Updated.'
-      redirect_to @prop_season
+      redirect_to prop_seasons_path
     else
       flash[:error] = 'There was an error saving the template.'
       redirect_to edit_prop_season_path(@prop_season)
