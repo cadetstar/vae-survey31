@@ -67,6 +67,7 @@ class Report < ActiveRecord::Base
 
   def perform
     k = Report.find_by_id(self.id)
+    k.reload # Force it to update itself.
     case k.type_of_report.downcase
       when 'summary'
         k.do_summary
