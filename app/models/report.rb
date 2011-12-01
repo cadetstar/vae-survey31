@@ -454,7 +454,7 @@ class Report < ActiveRecord::Base
       <span class='reportscores'>#{sprintf('%.2f', score)}</span><br />
       #{skip_total ? '' : "#{total} responses.<br />"}
       <div class='score_wrapper'>
-        <div class="score_bar" style='background-color: #{Report.bar_color(score)};width: #{sprintf('%.0f', score * 20)}%;'> &nbsp; </div>
+        <div class="score_bar" style='background-color: #{Report.bar_color(score+0.3)};width: #{sprintf('%.0f', score * 20)}%;'> &nbsp; </div>
       </div>
     OUTPUT
   end
