@@ -68,6 +68,7 @@ class Report < ActiveRecord::Base
   def perform
     k = Report.find_by_id(self.id)
     k.reload # Force it to update itself.
+    TrackLogger.log("Running report #{k.id} with type: #{k.type_of_report} and parameters #{k.parameters.inspect}")
     case k.type_of_report.downcase
       when 'summary'
         k.do_summary
@@ -284,6 +285,9 @@ class Report < ActiveRecord::Base
     start_date = begin Time.parse(self.parameters[:start_date]) rescue 2.months.ago end
     end_date = begin Time.parse(self.parameters[:end_date]) rescue Time.now end
     properties = self.parameters[:properties]
+
+    TrackLogger.log("Running report #{k.id} with property questions with dates of #{start_date} to #{end_date} and properties: #{properties.inspect}")
+
     in_excel = self.download
 
     cifs = Cif.joins(:property).includes(:property).where({:properties => {:cif_include => true}, :property_id => properties, :cif_captured => false, :count_survey => true, :created_at => (start_date..end_date)})
