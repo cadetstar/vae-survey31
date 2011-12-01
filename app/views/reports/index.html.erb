@@ -46,9 +46,7 @@
         });
     });
     function selectSet(ids) {
-        alert("Called for: "+ids)
         $.each(ids, function() {
-            alert("Processing for "+this);
             $('#properties option[value="'+this+'"]').attr("selected", "selected");
         })
     }
