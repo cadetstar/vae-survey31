@@ -1,0 +1,27 @@
+<h1>Listing Templates</h1>
+
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Season</th>
+    <% if current_user.admin? %>
+        <th>Pre Text</th>
+        <th>Post Text</th>
+    <% end %>
+    <th>Signoff</th>
+    <th>Commands</th>
+  </tr>
+
+  <% @prop_seasons.each do |ps| %>
+      <tr>
+        <td><%= ps.property %></td>
+        <td><%= ps.season %></td>
+        <% if current_user.admin? %>
+            <td><%= ps.property_pre_text %></td>
+            <td><%= ps.property_post_text %></td>
+        <% end %>
+        <td><%= ps.property_signoff %></td>
+        <td><%= link_to 'Edit', edit_prop_season_path(ps) %></td>
+      </tr>
+  <% end %>
+</table>
