@@ -286,7 +286,7 @@ class Report < ActiveRecord::Base
     end_date = begin Time.parse(self.parameters[:end_date]) rescue Time.now end
     properties = self.parameters[:properties]
 
-    TrackLogger.log("Running report #{k.id} with property questions with dates of #{start_date} to #{end_date} and properties: #{properties.inspect}")
+    TrackLogger.log("Running report #{self.id} with property questions with dates of #{start_date} to #{end_date} and properties: #{properties.inspect}")
 
     in_excel = self.download
 
