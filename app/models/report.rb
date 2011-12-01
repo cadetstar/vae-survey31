@@ -343,7 +343,7 @@ class Report < ActiveRecord::Base
     end
 
     # Now that we have the data, determine formatting
-
+    TrackLogger.log("Just before splitting up...we have #{answers[:vae][:total]} total responses.")
     if in_excel
       book = Spreadsheet::Workbook.new
 
