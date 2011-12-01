@@ -11,7 +11,7 @@
       <div><%= f.text_area :email_template, :class => "long_field" %></div>
       <div><%= f.label :email_template_plain, "Email Template for Plaintext Emails (this should be updated for this season." %></div>
       <%= token_helper %>
-      <div><%= f.text_area :email_template, :class => "long_field" %></div>
+      <div><%= f.text_area :email_template_plain, :class => "long_field" %></div>
       <div><%= f.label :fonts %></div>
       <div><%= f.select :fonts, system_fonts, {}, {:multiple => true, :size => 5} %></div>
       <div><%= f.label :template %></div>
