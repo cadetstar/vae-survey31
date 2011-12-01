@@ -343,7 +343,7 @@ class Report < ActiveRecord::Base
     end
 
     # Now that we have the data, determine formatting
-    TrackLogger.log("Just before splitting up...we have #{answers[:vae][:total]} total responses.")
+    TrackLogger.log("Just before splitting up...we have #{answers[:vae][:total]} total responses.  #{answers.inspect}")
     if in_excel
       book = Spreadsheet::Workbook.new
 
@@ -406,31 +406,31 @@ class Report < ActiveRecord::Base
 
       self.filename = filename
     else
-      output = ""
-      output << "<div class='report'>"
+      vae_output = ""
+      vae_output << "<div class='report'>"
 
       [:vae, :vae_conventions, :csi].each do |form|
         if answers[form][:total] > 0
-          output << "<div class='report_header'><span>#{PROPERTY_FORMAT[form][:title]}</span><br />"
-          output << "for Properties:<br />"
-          output << "<div class='properties'>#{Property.find_all_by_id(properties, :order => :code).join(", ")}</div></div>"
-          output << "<div class='report_entry'><table class='report'>"
+          vae_output << "<div class='report_header'><span>#{PROPERTY_FORMAT[form][:title]}</span><br />"
+          vae_output << "for Properties:<br />"
+          vae_output << "<div class='properties'>#{Property.find_all_by_id(properties, :order => :code).join(", ")}</div></div>"
+          vae_output << "<div class='report_entry'><table class='report'>"
 
           first = true
           PROPERTY_FORMAT[form][:rows].each do |row|
-            output << "<tr>"
+            vae_output << "<tr>"
             row.each_with_index do |cell, i|
-              output << "<td #{(first and i.odd?) ? "style='vertical-align: middle;'" : ''}>#{process_cell(cell, answers, form)}</td>"
+              vae_output << "<td #{(first and i.odd?) ? "style='vertical-align: middle;'" : ''}>#{process_cell(cell, answers, form)}</td>"
             end
-            output << "</tr>"
+            vae_output << "</tr>"
             first = false
           end
-          output << "</table></div>"
+          vae_output << "</table></div>"
         end
       end
-      output << "</div>"
-      self.results = output
-      TrackLogger.log("At the end of the requests: #{output}")
+      vae_output << "</div>"
+      self.results = vae_output
+      TrackLogger.log("At the end of the requests: #{vae_output}")
     end
     self.completed = true
     self.save
