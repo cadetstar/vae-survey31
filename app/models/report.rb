@@ -407,6 +407,7 @@ class Report < ActiveRecord::Base
       self.filename = filename
     else
       vae_output = ""
+      TrackLogger.log("At beginning of styling: vae_output is #{vae_output}")
       vae_output << "<div class='report'>"
 
       [:vae, :vae_conventions, :csi].each do |form|
@@ -420,7 +421,7 @@ class Report < ActiveRecord::Base
           PROPERTY_FORMAT[form][:rows].each do |row|
             vae_output << "<tr>"
             row.each_with_index do |cell, i|
-              vae_output << "<td #{(first and i.odd?) ? "style='vertical-align: middle;'" : ''}>#{process_cell(cell, answers, form)}</td>"
+              vae_output << "<td #{(first and i.even?) ? "style='vertical-align: middle;'" : ''}>#{process_cell(cell, answers, form)}</td>"
             end
             vae_output << "</tr>"
             first = false
@@ -436,8 +437,10 @@ class Report < ActiveRecord::Base
     self.save
   end
 
-  def process_cell(text, answers, form)
+  def process_cell(in_text, answers, form)
+    text = in_text.clone
     form_answers = answers[form]
+    TrackLogger.log("Processing Cell: #{form_answers.inspect}.  #{text}.  #{form}")
     text.gsub!(/%ACCESSED%/, form_answers[:accessed].to_s)
     text.gsub!(/%RETURNED%/, form_answers[:completed].to_s)
     text.gsub!(/%TOTAL%/, form_answers[:total].to_s)
