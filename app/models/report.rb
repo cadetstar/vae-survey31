@@ -430,6 +430,7 @@ class Report < ActiveRecord::Base
       end
       output << "</div>"
       self.results = output
+      TrackLogger.log("At the end of the requests: #{output}")
     end
     self.completed = true
     self.save
