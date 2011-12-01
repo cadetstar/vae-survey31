@@ -8,7 +8,7 @@
       <%= link_to_function 'Unselect All', "return false;", :id => 'unselect_all' %><br />
       <% if current_user.admin? %>
           <% Property.includes(:supervisor).collect{|r| r.supervisor}.uniq.sort_by{|r| [r.last_name, r.first_name]}.each do |s| %>
-              <%= link_to_function "Select Properties for #{s}", "selectSet(#{s.supervised_properties.collect{|r| r.id.to_s}.join(",")});return false;" %><br />
+              <%= link_to_function "Select Properties for #{s}", "selectSet([#{s.supervised_properties.collect{|r| r.id.to_s}.join(",")}]);return false;" %><br />
           <% end %>
       <% end %>
       <%= select_tag :properties, options_for_select(Property.list_for_select(current_user)), :multiple => true %>
@@ -46,8 +46,8 @@
         });
     });
     function selectSet(ids) {
-        for (i=0;i<ids.length;i++) {
-            $('#properties').val(ids[i]).attr("selected", "selected");
-        }
+        $.each(ids, function() {
+            $('#properties').val(this).attr("selected", "selected");
+        })
     }
 </script>
