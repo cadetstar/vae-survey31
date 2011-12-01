@@ -11,7 +11,7 @@
               <%= link_to_function "Select Properties for #{s}", "selectSet([#{s.supervised_properties.collect{|r| r.id.to_s}.join(",")}]);return false;" %><br />
           <% end %>
       <% end %>
-      <%= select_tag :properties, options_for_select(Property.list_for_select(current_user)), :multiple => true %>
+      <%= select_tag :properties, options_for_select(Property.list_for_select(current_user)), {:multiple => true, :size => 10} %>
     </div>
     <div>
       Start Date:<br />
