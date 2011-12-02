@@ -88,7 +88,7 @@ class ThankYouCard < ActiveRecord::Base
     line.gsub!(/%INLINE%/) {inline = true;''}
 
     line.gsub!(/^([^%]+)%CAPIT_(\d+)%/) {inline = true;"<font size='#{$2}'>#{$1[0..0]}</font>#{$1[1..-1]}"}
-    line.gsub!(/^([^%]+)%TITLEIT_(\d+)%/) {inline = true;$1.split(' ').collect{|k| raw "<font size='#{$2}'>#{k[0..0]}</font>#{k[1..-1]}"}.join(" ")}
+    line.gsub!(/^([^%]+)%TITLEIT_(\d+)%/) {inline = true;$1.split(' ').collect{|k| "<font size='#{$2}'>#{k[0..0]}</font>#{k[1..-1]}"}.join(" ")}
 
     unless line.blank?
       vals = {:align => align, :size => size}
