@@ -5,7 +5,7 @@ class PropSeasonsController < ApplicationController
     @prop_seasons = PropSeason.joins(:property, :season).order("seasons.enabled desc, properties.code, seasons.name")
 
     unless current_user.admin?
-      @prop_seasons = @prop_seasons.where(['property_id in (?)', current_user.all_properties.collect{|r| r.id}]).where({:enabled => true})
+      @prop_seasons = @prop_seasons.where(['property_id in (?)', current_user.all_properties.collect{|r| r.id}]).where(:season => {:enabled => true})
     end
   end
 
