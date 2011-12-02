@@ -53,10 +53,13 @@ Visual Aids Electronics
     self.properties.collect{|r| r.id}
   end
 
-  def property_ids=(new_ids)
+  def property_ids=(new_ids_str)
+    new_ids = new_ids_str.collect{|ni| ni.to_i}
     self.prop_seasons.where(['property_id not in (?)', new_ids]).all.each do |ps|
       ps.destroy
     end
+
+    Rails.logger.debug "New Ids: [#{new_ids}].  Existing IDs: [#{self.property_ids}].  IDs to be added: [#{new_ids-self.property_ids}]"
 
     (new_ids - self.property_ids).each do |p_id|
       self.prop_seasons.create(:property_id => p_id)
