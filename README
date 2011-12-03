@@ -1,7 +1,4 @@
 Todo:
-
-Encode templates
-
 Modify README to serve as an actual README for IT staff
 
 ==README==
@@ -13,7 +10,7 @@ The VAE Survey site v3.1 should operate much faster than the previous version.  
 
 Ruby v1.9.2
 Rails v3.1.1
-mongrel_service
+thin (webserver)
 
 Run "bundle show" in D:\vae-survey31 for a full list of all gems in use.
 
@@ -22,3 +19,17 @@ Run "bundle show" in D:\vae-survey31 for a full list of all gems in use.
 Common Tasks:
     1. Restart the server workers
     2. Restart the background workers
+    3. Clear the background queue
+
+==== Restart the server workers ====
+
+To restart the server workers, you should open up a command prompt to D:\vae-survey31.  Once there, run user-restart.bat to perform a slow restart of all four workers.
+
+==== Restart the background workers ====
+
+If they background worker has died for some reason, run the "spawn_bg_worker" Scheduled Task to start it back up.
+
+==== Clear the background queue ====
+
+If the background queue has become backed up for some reason (this is the queue that processes reports), run 'RAILS_ENV=production rake jobs:clear
+ from D:\vae-survey31.  This will erase all in process reports.

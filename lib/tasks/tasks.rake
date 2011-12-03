@@ -192,7 +192,7 @@ desc "Send Emails for all Valid Seasons"
 task :send_emails => :environment do
   Season.where(:enabled => true).each do |season|
     list_of_people = []
-    ThankYouCard.where(:prop_season => season.prop_seasons).where("sent_at IS NULL").limit(100).each do |tyc|
+    ThankYouCard.where(:prop_season_id => season.prop_season_ids).where("sent_at IS NULL").limit(100).each do |tyc|
       if tyc.email.match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/)
         begin
           SurveyMailer.thank_you_email(tyc.property.manager, tyc).deliver
