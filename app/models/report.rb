@@ -330,7 +330,7 @@ class Report < ActiveRecord::Base
         1.upto(16).each do |i|
           answers[t][i][:sum] += cif.answers[i].to_i
           answers[t][i][:slices][cif.answers[i].to_i] += 1
-          if cif.answers[i].to_i > 0  readme
+          if cif.answers[i].to_i > 0
             answers[t][i][:count] += 1
           end
         end
