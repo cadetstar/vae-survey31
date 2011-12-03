@@ -61,9 +61,13 @@ class SurveyMailer < ActionMailer::Base
     setup_remote_email(manager, tyc)
     insert_inline_image(tyc)
 
+    @body = tyc.season.email_template
+    @plain_body = tyc.season.email_template_plain
+    @tyc = tyc
+
     mail do |format|
-      format.text { render :text => parse_email_template(tyc.season.email_template, tyc)}
-      format.html { render :text => parse_email_template(tyc.season.email_template_plain, tyc)}
+      format.text
+      format.html
     end
   end
 
@@ -119,15 +123,4 @@ class SurveyMailer < ActionMailer::Base
   def insert_inline_image(tyc)
     attachments.inline["card#{tyc.id}.jpg"] = File.read(File.join(Rails.root.to_s,'public','assets','cards',"card_#{tyc.id}.jpg"))
   end
-
-  def parse_email_template(body, tyc)
-    new_body = body.clone
-    new_body.gsub!(/%FULL_SALUTATION%/, tyc.client.full_salutation)
-    new_body.gsub!(/%CID%/, image_tag(attachments["card#{tyc.id}.jpg"].url))
-    new_body.gsub!(/%PLAIN_TEXT_INSERT%/,"#{tyc.season.pre_text}#{if tyc.prop_season.property_pre_text then '\n\n'+tyc.prop_season.property_pre_text end}#{if tyc.greeting then '\n\n'+tyc.greeting end}#{if tyc.prop_season.property_post_text then '\n\n'+tyc.prop_season.property_post_text end}\n\n#{tyc.season.post_text}")
-    new_body.gsub!(/%PROPERTY_SIGNOFF%/,tyc.prop_season.property_signoff)
-    new_body.gsub!(/%GREETING_URL%/,"http://#{$CUR_SITE}/thank_you_cards/#{tyc.id}/#{tyc.passcode}/view")
-    new_body
-  end
-
 end
