@@ -65,7 +65,7 @@ class SurveyMailer < ActionMailer::Base
     @plain_body = tyc.season.email_template_plain
     @tyc = tyc
 
-    mail do |format|
+    mail(:to => tyc.client.email, :from => "#{manager} <#{manager.email}>", :subject => "#{tyc.season.subject}") do |format|
       format.text
       format.html
     end
@@ -113,11 +113,6 @@ class SurveyMailer < ActionMailer::Base
     else
       SurveyMailer.load_settings('vaecorp')
     end
-    @recipients = "#{tyc.client.email}"
-    @from       = "#{user} <#{user.email}>"
-    @subject    = "#{tyc.season.subject}"
-    @sent_on    = Time.now
-    @content_type = "multipart/related"
   end
 
   def insert_inline_image(tyc)
