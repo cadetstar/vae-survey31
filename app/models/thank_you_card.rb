@@ -21,6 +21,10 @@ class ThankYouCard < ActiveRecord::Base
     end
   end
 
+  def mail_it
+    SurveyMailer.thank_you_email(self.property.manager, self).deliver
+  end
+
   def generate_passcode
     self.passcode = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join)[0..10]
   end
