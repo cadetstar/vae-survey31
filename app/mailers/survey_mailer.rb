@@ -61,7 +61,7 @@ class SurveyMailer < ActionMailer::Base
     setup_remote_email(manager, tyc)
     insert_inline_image(tyc)
 
-    @body = tyc.season.email_template
+    @html_body = tyc.season.email_template
     @plain_body = tyc.season.email_template_plain
     @tyc = tyc
 
