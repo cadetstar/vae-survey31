@@ -1,2 +1,2 @@
-<p>A survey for your property has been flagged.  Please click on the following link to edit the survey: <%= link_to edit_cif_url(cif, :only_path => false), edit_cif_url(cif, :only_path => false) %>
+<p>A survey for your property has been flagged.  Please click on the following link to edit the survey: <%= link_to edit_cif_url(@cif, :only_path => false), edit_cif_url(cif, :only_path => false) %>
 <p>Note from administrator:<br /><%= @cif.flagged_comment %></p>
