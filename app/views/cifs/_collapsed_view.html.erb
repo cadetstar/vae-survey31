@@ -11,7 +11,7 @@
   <% @cifs.each do |cif| %>
       <tr <%= cif_class(cif) %>>
         <td>
-          <%= link_to cif.client, cif.client %><br /><%= cif.client.email %><%= raw(cif.client.multiple_surveys? ? '<br /><Client has multiple surveys within the month.' : '') %>
+          <%= link_to cif.client, cif.client %><br /><%= cif.client.email %><%= cif.client.multiple_surveys? ? raw('<br />Client has multiple surveys within the month.') : '' %>
         </td>
         <td>
           <%= link_to cif.company.name, cif.company %><br /><%= raw cif.company.full_address %>
