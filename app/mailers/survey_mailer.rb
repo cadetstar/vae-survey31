@@ -117,5 +117,6 @@ class SurveyMailer < ActionMailer::Base
 
   def insert_inline_image(tyc)
     attachments.inline["card#{tyc.id}.jpg"] = File.read(File.join(Rails.root.to_s,'public','assets','cards',"card_#{tyc.id}.jpg"))
+    sleep 3
   end
 end
