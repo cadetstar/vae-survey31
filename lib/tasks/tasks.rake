@@ -254,7 +254,7 @@ task :process_r2 => :environment do
             state = (STATE_LIST.rassoc(row[17].to_s.upcase) || STATE_LIST.assoc(row[17].to_s.capitalize) || [1,row[17]])[1]
             company = Company.create(:name => row[3], :address_line_1 => row[15].split(/\n/)[0], :address_line_2 => (row[15].split(/\n/).size > 1 ? row[15].split(/\n/)[1..-1].join('\n') : ''), :city => row[16], :state => state, :zip => row[18], :r2_company_id => row[13], :property_id => property.id)
           end
-          client = Client.create(:company_id => company.id, :first_name => (row[4].blank? ? 'Contact' : row[4].split(/ /)[0..-2].join(" ")), :last_name => (row[4].blank? ? 'Name' : row[4].split(/ /)[-1..-1]), :email => row[5], :phone => row[6], :r2_client_id => row[14], :property_id => property.id)
+          client = Client.create(:company_id => company.id, :first_name => (row[4].blank? ? 'Contact' : row[4].split(/ /)[0..-2].join(" ")), :last_name => (row[4].blank? ? 'Name' : row[4].split(/ /)[-1..-1].join(" ")), :email => row[5], :phone => row[6], :r2_client_id => row[14], :property_id => property.id)
         end
 
         unless Cif.find_by_r2_order_id_and_client_id(valids[:order_id],client.id)
