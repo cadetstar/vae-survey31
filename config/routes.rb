@@ -21,7 +21,7 @@ VaeSurvey31::Application.routes.draw do
   match 'cifs/include', :to => 'cifs#include', :as => 'include_survey'
   match 'cifs/declude', :to => 'cifs#declude', :as => 'declude_survey'
   match 'surveys/access/:id/:passcode', :to => 'cifs#access', :as => 'access_survey'
-  match 'surveys/fill/:id/:passcode', :to => 'cifs#access', :as => 'old_fill_survey'
+  match 'fill/:id/:passcode', :to => 'cifs#access', :as => 'old_fill_survey'
   match 'surveys/fill/submit', :to => 'cifs#fill', :as => 'fill_survey'
   match 'cifs/flag', :to => 'cifs#flag', :as => 'flag_survey'
   match 'cifs/send', :to => 'cifs#send_survey', :as => 'send_survey'
