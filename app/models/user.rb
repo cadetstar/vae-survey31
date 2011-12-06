@@ -19,6 +19,15 @@ class User < ActiveRecord::Base
     User.order("last_name, first_name").all.collect{|u| [u, u.id]}
   end
 
+  def send_survey_response?(cif)
+    if self.receive_email_restriction.to_i == 0
+      true
+    else
+      self.receive_email_restriction.to_f > [cif.average_score.to_f,cif.overall_satisfaction.to_f].max
+    end
+
+  end
+
   def all_properties
     (self.properties + self.managed_properties + self.all_supervised_properties).uniq
   end

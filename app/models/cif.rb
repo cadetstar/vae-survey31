@@ -23,17 +23,16 @@ class Cif < ActiveRecord::Base
   attr_accessible :location, :notes, :start_date, :end_date, :count_survey,
                   :as => :internal
 
-  attr_accessible
-
+  delegate :survey_users, :caring_users, :to => :property
 
   FORMS = %w(vae vae_conventions vae_french csi)
 
   def send_emails_if_necessary
-    # TODO: Write this!
-  end
-
-  def caring_users
-    ([self.property.manager] + self.property.users).uniq
+    self.survey_users.each do |user|
+      if user.send_survey_response?(self)
+        SurveyMailer.survey_response(self, user).deliver
+      end
+    end
   end
 
   def notify_users_about_flag
