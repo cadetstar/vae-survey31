@@ -278,17 +278,6 @@ end
 desc "Send Flag Reminders"
 task :send_flags => :environment do
   Cif.where(['flagged_until between ? and ? or flagged_until between ? and ? or flagged_until between ? and ?', 1.days.from_now, 2.days.from_now, 3.days.from_now, 4.days.from_now, 5.days.from_now, 6.days.from_now]).each do |cif|
-    users = cif.property.users + [cif.property.manager]
-    users.uniq!
-
-    users.each do |user|
-      begin
-        SurveyMailer.flagged_survey(cif, user).deliver if user.receive_flags?
-      rescue Net::SMTPFatalError => e
-        # Not actually doing anything
-      rescue Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError => e
-        # Not actually doing anything
-      end
-    end
+    cif.notify_users_about_flag
   end
 end
