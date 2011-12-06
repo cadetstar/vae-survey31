@@ -36,7 +36,6 @@ class Cif < ActiveRecord::Base
   end
 
   def notify_users_about_flag
-    # TODO: Write this!
     responses = {}
     responses[:notice] = []
     responses[:error] = []
