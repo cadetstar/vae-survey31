@@ -53,6 +53,7 @@ class Cif < ActiveRecord::Base
           TrackLogger.log "An attempt was made to email #{user.name_std} for CIF #{self.id}, but failed due to an SMTP general error."
         else
           TrackLogger.log "An email has been sent to #{user} for CIF #{self.id}."
+          responses[:notice] << "An email has been sent to #{user}."
         end
       end
     end
