@@ -9,7 +9,7 @@
   <td><%= user.enabled ? 'yes' : 'no' %> &nbsp;
     <% unless user == current_user %>
       <% if user.enabled %>
-        <%= link_to('disable', url_for(:controller => "users/registrations", :action => :destroy, :method => :delete, :id => user.id)) %>
+        <%= link_to('disable', url_for(:controller => "users/registrations", :action => :destroy, :id => user.id), :method => :delete) %>
       <% else %>
         <%= link_to('enable', enable_user_path(:id => user.id)) %>
       <% end %>

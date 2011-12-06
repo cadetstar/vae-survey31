@@ -34,7 +34,8 @@ class Property < ActiveRecord::Base
       end
     end
     users << User.find_by_username('dmartin')
-    users.uniq
+    users.uniq!
+    users.select{|u| u.enabled}
   end
 
   def caring_users
