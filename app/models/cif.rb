@@ -83,7 +83,7 @@ class Cif < ActiveRecord::Base
 
   def has_been_updated
     if self.flagged?
-      self.flagged_until - 7.days + 1.minute < self.latest_updated_at
+      (self.flagged_until - 7.days + 1.minute) < self.latest_updated_at
     else
       false
     end
