@@ -3,7 +3,7 @@
 <% else %>
   <tr class="disabled">
 <% end %>
-  <td><%= user.username %> <%= link_to 'Edit', edit_user_registration_path(user) %></td>
+  <td><%= user.username %> <%= link_to 'Edit', admin_edit_path(:id => user.id) %></td>
   <td><%= user.name_std %></td>
   <td><%= user.email %></td>
   <td><%= user.enabled ? 'yes' : 'no' %> &nbsp;
