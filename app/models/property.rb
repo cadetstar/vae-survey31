@@ -35,6 +35,7 @@ class Property < ActiveRecord::Base
     end
     users << User.find_by_username('dmartin')
     users.uniq!
+    users -= User.find_all_by_username('jcassell')
     users.select{|u| u.enabled}
   end
 
