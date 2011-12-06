@@ -45,6 +45,8 @@ class SurveyMailer < ActionMailer::Base
 
   def flagged_survey(cif, user)
     SurveyMailer.load_settings 'vaecorp'
+    @cif = cif
+    @user = user
     mail(:to => user.email, :subject => '[VAE Survey Site] A survey has been flagged.') do |format|
       format.html
       format.text
