@@ -26,6 +26,21 @@ class Property < ActiveRecord::Base
     prop_std
   end
 
+  def survey_users
+    users = self.caring_users + self.supervisor
+    unless self.supervisor == self.manager or self.manager.try(:username) == 'dmartin'
+      self.supervisor.managed_properties.each do |mp|
+        users += mp.survey_users
+      end
+    end
+    users << User.find_by_username('dmartin')
+    users.uniq
+  end
+
+  def caring_users
+    ([self.manager] + self.users).uniq
+  end
+
   def prop_std
     "#{self.code} - #{self.name}"
   end
