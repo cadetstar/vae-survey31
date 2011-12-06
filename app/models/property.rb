@@ -27,7 +27,7 @@ class Property < ActiveRecord::Base
   end
 
   def survey_users
-    users = self.caring_users + self.supervisor
+    users = self.caring_users + [self.supervisor]
     unless self.supervisor == self.manager or self.manager.try(:username) == 'dmartin'
       self.supervisor.managed_properties.each do |mp|
         users += mp.survey_users
