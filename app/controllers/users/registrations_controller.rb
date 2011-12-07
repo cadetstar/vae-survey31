@@ -31,6 +31,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     unless @user = User.find_by_id(params[:id])
       puts "I could not find a user with that ID."
     else
+      if params[:user][:password].blank?
+        params = params.reject!{|k,v| k.to_s =~ /password/}
+      end
       @user.update_attributes(params[:user])
       flash[:notice] = 'User updated'
     end
