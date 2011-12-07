@@ -66,9 +66,9 @@ class CifsController < ApplicationController
 
     case session[:cifs][:status]
       when 'unsent'
-        @cifs = @cifs.where(["sent_at is null and (flagged_until is null or flagged_until < ? or (cifs.updated_at > (cifs.flagged_until - INTERVAL '7 days') or clients.updated_at > (cifs.flagged_until - INTERVAL '7 days') or companies.updated_at > (cifs.flagged_until - INTERVAL '7 days')))", Time.now])
+        @cifs = @cifs.where(["sent_at is null and (flagged_until is null or flagged_until < ? or (cifs.updated_at > (cifs.flagged_until - INTERVAL '6 days 23 hours') or clients.updated_at > (cifs.flagged_until - INTERVAL '6 days 23 hours') or companies.updated_at > (cifs.flagged_until - INTERVAL '6 days 23 hours')))", Time.now])
       when 'flagged'
-        @cifs = @cifs.where(["sent_at is null and not (flagged_until is null or flagged_until < ? or (cifs.updated_at > (cifs.flagged_until - INTERVAL '7 days') or clients.updated_at > (cifs.flagged_until - INTERVAL '7 days') or companies.updated_at > (cifs.flagged_until - INTERVAL '7 days')))", Time.now])
+        @cifs = @cifs.where(["sent_at is null and not (flagged_until is null or flagged_until < ? or (cifs.updated_at > (cifs.flagged_until - INTERVAL '6 days 23 hours') or clients.updated_at > (cifs.flagged_until - INTERVAL '6 days 23 hours') or companies.updated_at > (cifs.flagged_until - INTERVAL '6 days 23 hours')))", Time.now])
       when 'sent'
         @cifs = @cifs.where(["sent_at is not null"]).where({:cif_captured => false})
       when 'captured'
