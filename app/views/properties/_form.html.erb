@@ -5,6 +5,7 @@
       <div><%= f.label :r2_code %><br /><%= f.text_field :r2_code %></div>
       <div><%= f.label :manager_id, "Manager" %><br /><%= f.select :manager_id, User.list_for_select %></div>
       <div><%= f.label :supervisor_id, "Supervisor" %><br /><%= f.select :supervisor_id, User.list_for_select %></div>
+      <div><%= f.label :user_ids, "Other Users" %><br /><%= f.select :user_ids, User.list_for_select, {}, :multiple => true %></div>
       <div><%= f.label :group_id, "Group" %><br /><%= f.select :group_id, list_of_groups(@property) %></div>
       <div><%= f.label :cif_include, "Include on CIF Reports?" %><br /><%= f.check_box :cif_include %></div>
       <div><%= f.label :cif_form, "Form for Surveys?" %><br /><%= f.select :cif_form, Cif::FORMS %></div>

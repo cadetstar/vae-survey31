@@ -15,8 +15,8 @@
     <div><%= f.label :last_name %><br />
       <%= f.text_field :last_name %></div>
 
-    <div><%= f.label :last_name %><br />
-      <%= f.text_field :last_name %></div>
+    <div><%= f.label :property_ids, 'Properties' %><br />
+      <%= f.select :property_ids, Property.list_for_select(current_user), {}, :multiple => true %></div>
 
     <div><%= f.label :receive_email_restriction, "Only Receive Surveys below what score?" %><br />
       <%= f.select :receive_email_restriction, [5,4,3,2,1] %></div>
