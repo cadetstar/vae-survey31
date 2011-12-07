@@ -1,5 +1,5 @@
 <div class="user_signup">
-<%= form_for(@user, :url => admin_update_path) do |f| %>
+<%= form_for(@user, :url => admin_update_path(:id => @user.id)) do |f| %>
     <div><%= f.label :username %><br />
       <%= f.text_field :username %></div>
 

@@ -2,7 +2,7 @@ VaeSurvey31::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "users/registrations"} do
     get 'users/enable', :to => "users/registrations#enable", :as => "enable_user"
     get 'users', :to => "users/registrations#index", :as => "users"
-    put 'users/modify', :to => "users/registrations#admin_update", :as => "admin_update"
+    put 'users/:id/modify', :to => "users/registrations#admin_update", :as => "admin_update"
     get 'users/edit/admin', :to => "users/registrations#admin_edit", :as => "admin_edit"
   end
 
