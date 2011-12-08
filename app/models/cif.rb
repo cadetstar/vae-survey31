@@ -30,7 +30,11 @@ class Cif < ActiveRecord::Base
   def send_emails_if_necessary
     self.survey_users.each do |user|
       if user.send_survey_response?(self)
-        SurveyMailer.survey_response(self, user).deliver
+        begin
+          SurveyMailer.survey_response(self, user).deliver
+        rescue Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError, Net::SMTPFatalError => e
+          TrackLogger.log "An email should have been sent to #{user} for CIF #{self.id}, but could not be sent due to #{e},"
+        end
       end
     end
   end
