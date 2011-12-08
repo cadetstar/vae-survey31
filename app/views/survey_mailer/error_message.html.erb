@@ -7,6 +7,7 @@
   <tr><td><b>Query:</b> <%= @env['QUERY_STRING'] %> </td> </tr>
   <tr><td><b>Method:</b> <%= @env['REQUEST_METHOD'] %> </td> </tr>
   <tr><td><b>SSL:</b> <%= @env['SERVER_PORT'].to_i == 443 ? "true" : "false" %></td> </tr>
+  <tr><td><b>Account:</b> <%= @account.to_s %> (<%= @account.try(:username) %></td> </tr>
   <tr><td><b>Message:</b> <%= CGI.escapeHTML(@exception.message.to_s) %></td> </tr>
 </table>
 <br>
