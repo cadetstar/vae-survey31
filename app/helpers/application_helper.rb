@@ -131,7 +131,7 @@ module ApplicationHelper
   end
 
   def sort_helper(model_sym, field_sym, title = nil)
-    title ||= field_sym.to_s.titleize
+    title ||= field_sym.to_s.gsub(/\./,' ').titleize
     session[:sorters] ||= {}
     session[:sorters][model_sym] ||= {}
     link_to title, url_for({:controller => model_sym.to_s.pluralize, :action => :index, :sort_by => field_sym, :sort_order => (session[:sorters][model_sym][:field] == field_sym ? (session[:sorters][model_sym][:order] == 'ASC' ? 'DESC' : 'ASC') : 'ASC')})

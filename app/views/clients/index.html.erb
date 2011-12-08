@@ -6,7 +6,7 @@
 
 <table>
   <tr>
-    <% [:company, :property, :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
+    <% [:company, "properties.code", :first_name, :last_name, :email, :salutation, :phone].each do |field| %>
         <th><%= sort_helper(:client, field) %></th>
     <% end %>
     <th>Commands</th>
