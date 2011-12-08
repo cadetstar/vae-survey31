@@ -203,7 +203,18 @@ class CifsController < ApplicationController
         @cif.update_attributes(params[:cif], :as => :public)
         @cif.completed_at = Time.now
         @cif.save
-        @cif.send_emails_if_necessary
+        begin
+          @cif.send_emails_if_necessary
+        rescue Exception => exception
+          SurveyMailer.error_message(exception,
+                                     ActiveSupport::BacktraceCleaner.new.clean(exception.backtrace),
+                                     session.instance_variable_get("@data"),
+                                     params,
+                                     request.env,
+                                     current_user,
+                                     request.env['HTTP_HOST'].match(/survey\.vaecorp\.com/)
+          ).deliver
+        end
       end
     end
   end
