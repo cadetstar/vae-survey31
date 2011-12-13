@@ -12,7 +12,7 @@
 <p>
   <strong>Emails:</strong> - (<%= link_to 'Create New Email', new_thank_you_card_path(:client_id => @client.id) %>)<br />
   <% @client.thank_you_cards.each do |tyc| %>
-      <%= tyc.season %> - Created at: <%= tyc.created_at.to_s(:date_time12) %> - <%= tyc.status %><br />
+      <%= tyc.season %> - Created at: <%= tyc.created_at.to_s(:date_time12) %> - <%= tyc.status %><% if tyc.sent_at.nil? %> - <%= link_to 'Destroy Email', tyc, :method => :delete, :confirm => 'Are you sure you want to destroy this email?' %><% end %><br />
   <% end %>
 </p>
 
