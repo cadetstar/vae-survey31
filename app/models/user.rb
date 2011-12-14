@@ -32,8 +32,8 @@ class User < ActiveRecord::Base
     (self.properties + self.managed_properties + self.all_supervised_properties).uniq
   end
 
-  def with_role(role)
-    User.where(['roles_mask & ? > 0', 2**ROLES.index(role.to-s)]).all
+  def self.with_role(role)
+    User.where(['roles_mask & ? > 0', 2**ROLES.index(role.to_s)]).all
   end
 
   def all_supervised_properties

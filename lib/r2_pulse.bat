@@ -1,2 +1,2 @@
 cd D:\vae-survey31
-rake process_r2
+rake RAILS_ENV=production process_r2
