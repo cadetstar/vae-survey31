@@ -1,6 +1,6 @@
 class CifsController < ApplicationController
   before_filter :authenticate_user!, :except => [:home, :access, :fill]
-  before_filter :is_administrator?, :except => [:home, :access, :fill, :index, :show, :edit, :update, :create]
+  before_filter :is_administrator?, :except => [:home, :access, :fill, :index, :show, :edit, :update, :create, :new]
 
   STATUSES = %w(unsent flagged sent captured completed all)
   SORT_MAPPING = {'DESC' => {:client => "clients.last_name DESC", :company => "companies.name DESC", :property => "properties.code DESC", :created_by => "users.last_name DESC, users.first_name DESC", :name => "clients.last_name DESC, clients.first_name DESC"},
@@ -92,15 +92,19 @@ class CifsController < ApplicationController
         if @cif.sent_at
           @message = "Survey was already sent at #{@cif.sent_at.to_s(:date_time12)}"
         else
-          begin
-            SurveyMailer.survey_email(@cif).deliver
-          rescue Net::SMTPFatalError => e
-            @message = "A permanent error occured while sending the survey to '#{@cif.client}'. Please check the e-mail address.<br/>Error is: #{e}<br />"
-          rescue Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError => e
-            @message = "An error occured while sending the survey to '#{@cif.client}'. Please check the e-mail address.<br/>Error is: #{e}<br />"
+          unless @cif.property.manager
+            @message = "Survey is attached to a property that does not have a manager set."
           else
-            @cif.update_attributes({:sent_at => Time.now, :approver_id => current_user.id, :flagged_until => Time.now, :contact_info => @cif.client.email}, :without_protection => true)
-            @message = 'Survey sent.'
+            begin
+              SurveyMailer.survey_email(@cif).deliver
+            rescue Net::SMTPFatalError => e
+              @message = "A permanent error occured while sending the survey to '#{@cif.client}'. Please check the e-mail address.<br/>Error is: #{e}<br />"
+            rescue Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError => e
+              @message = "An error occured while sending the survey to '#{@cif.client}'. Please check the e-mail address.<br/>Error is: #{e}<br />"
+            else
+              @cif.update_attributes({:sent_at => Time.now, :approver_id => current_user.id, :flagged_until => Time.now, :contact_info => @cif.client.email}, :without_protection => true)
+              @message = 'Survey sent.'
+            end
           end
         end
       end

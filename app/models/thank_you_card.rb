@@ -6,7 +6,7 @@ class ThankYouCard < ActiveRecord::Base
   belongs_to :prop_season
 
   delegate :property, :season, :to => :prop_season
-  delegate :company, :email, :to => :client
+  delegate :company, :email, :to => :client, :allow_nil => true
 
   before_save :generate_passcode
   after_save  :update_pdf_and_jpeg

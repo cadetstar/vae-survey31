@@ -7,7 +7,7 @@
       <%= link_to_function 'Select All', "return false;", :id => 'select_all' %><br />
       <%= link_to_function 'Unselect All', "return false;", :id => 'unselect_all' %><br />
       <% if current_user.admin? %>
-          <% Property.includes(:supervisor).collect{|r| r.supervisor}.uniq.sort_by{|r| [r.last_name, r.first_name]}.each do |s| %>
+          <% Property.includes(:supervisor).collect{|r| r.supervisor}.uniq.compact.sort_by{|r| [r.last_name, r.first_name]}.each do |s| %>
               <%= link_to_function "Select Properties for #{s}", "selectSet([#{s.supervised_properties.collect{|r| r.id.to_s}.join(",")}])" %><br />
           <% end %>
       <% end %>

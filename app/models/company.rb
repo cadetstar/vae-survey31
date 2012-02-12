@@ -6,7 +6,7 @@ class Company < ActiveRecord::Base
   belongs_to :property
 
   def self.search_field
-    "name"
+    "companies.name"
   end
 
   def to_s

@@ -58,7 +58,11 @@ class ApplicationController < ActionController::Base
         build_it = build_it.where(["LOWER(#{model.search_field}) like ?", "%#{session[controller_sym][:name].downcase}%"])
       end
     end
-
+    if model == Client
+      build_it = build_it.joins(:company)
+    end
+    build_it = build_it.joins(:property)
+    
     unless session[controller_sym][:property_id] == 0
       if current_user.admin? or current_user.all_properties.collect{|r| r.id}.include?(session[controller_sym][:property_id])
         build_it = build_it.where({:property_id => session[controller_sym][:property_id]})

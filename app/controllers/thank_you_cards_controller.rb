@@ -105,7 +105,7 @@ class ThankYouCardsController < ApplicationController
     unless @thank_you_card = ThankYouCard.find_by_id(params[:id])
       flash[:error] = 'I could not find a thank you card with that ID.'
     else
-      if current_user.admin or current_user.all_properties.include? @thank_you_card.property
+      if current_user.admin? or current_user.all_properties.include? @thank_you_card.property
         flash[:notice] = 'Thank You Card destroyed.'
         @thank_you_card.destroy
       end

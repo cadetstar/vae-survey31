@@ -15,6 +15,7 @@ class Cif < ActiveRecord::Base
   validates_presence_of :start_date, :end_date, :client_id
 
   before_create :set_defaults
+  after_create  :check_dns
   before_save :calculate_average_score
 
   attr_accessible :answers, :client_comments, :number_of_meetings, :next_meeting, :please_contact, :submittor, :contact_info, :had_si, :had_ar, :had_ptt,
@@ -26,7 +27,15 @@ class Cif < ActiveRecord::Base
   delegate :survey_users, :caring_users, :to => :property
 
   FORMS = %w(vae vae_conventions vae_french csi)
-
+  
+  def check_dns
+    if !self.sent_at and self.property.do_not_send_surveys_for_property
+      self.captured_at = Time.now
+      self.sent_at = Time.now
+      self.save
+    end
+  end
+  
   def send_emails_if_necessary
     self.survey_users.each do |user|
       if user.send_survey_response?(self)

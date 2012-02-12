@@ -129,9 +129,22 @@ module ApplicationHelper
         {'Name' => :name, 'Subject Line' => :subject, 'First Paragraph of Email' => :pre_text, 'Last Paragraph of Email' => :post_text, 'Property Character Limit' => :property_char_limit, 'HTML Template' => :email_template, 'Plain Template' => :email_template_plain}
     end
   end
-
+  
+  def singularize_title(raw_title)
+    raw_title = raw_title.to_s.gsub(/\./, ' ')
+    first = true
+    raw_title.split(' ').collect do |j|
+      if first
+        first = false
+        j.singularize
+      else
+        j
+      end
+    end.join(' ').titleize
+  end
+  
   def sort_helper(model_sym, field_sym, title = nil)
-    title ||= field_sym.to_s.gsub(/\./,' ').titleize
+    title ||= singularize_title(field_sym)
     session[:sorters] ||= {}
     session[:sorters][model_sym] ||= {}
     link_to title, url_for({:controller => model_sym.to_s.pluralize, :action => :index, :sort_by => field_sym, :sort_order => (session[:sorters][model_sym][:field] == field_sym ? (session[:sorters][model_sym][:order] == 'ASC' ? 'DESC' : 'ASC') : 'ASC')})

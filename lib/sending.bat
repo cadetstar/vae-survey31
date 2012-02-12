@@ -1,2 +1,2 @@
 cd D:\vae-survey31
-rake send_emails
+rake RAILS_ENV=production send_emails

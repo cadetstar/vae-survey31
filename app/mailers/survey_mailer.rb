@@ -10,7 +10,9 @@ class SurveyMailer < ActionMailer::Base
             :domain => 'conferencesystems.com',
             :authentication => :login,
             :user_name => 'thankyou@conferencesystems.com',
-            :password => '129101701'
+            :password => '129101701',
+            :enable_starttls_auto => false,
+            :openssl_verify_mode => :none
         }
       else
         @@smtp_settings = {
@@ -84,7 +86,7 @@ class SurveyMailer < ActionMailer::Base
   def season_sent(user, name, number, list)
     mail(:to => user.email, :subject => "[VAE Survey System] Sent Emails Summary for #{name}") do |format|
       format.html {render :text => "<p>I have finished sending a set of emails for the #{name} season.  Total emails sent: #{number}</p><p>#{list.join("<br />")}</p>"}
-      format.text {render :text => "I have finished sending a set of emails for the #{name} season.  Total emails sent: #{number}\n\n#{list.join(/\n/)}"}
+      format.text {render :text => "I have finished sending a set of emails for the #{name} season.  Total emails sent: #{number}\n\n#{list.join('\n')}"}
     end
   end
 

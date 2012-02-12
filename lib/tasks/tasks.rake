@@ -192,23 +192,35 @@ desc "Send Emails for all Valid Seasons"
 task :send_emails => :environment do
   Season.where(:enabled => true).each do |season|
     list_of_people = []
-    ThankYouCard.where(:prop_season_id => season.prop_season_ids).where(["sent_at IS NULL AND updated_at < ?", season.when_email]).limit(100).each do |tyc|
-      if tyc.email.match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/)
-        begin
-          SurveyMailer.thank_you_email(tyc.property.manager, tyc).deliver
-          tyc.update_attribute(:sent_at, Time.now)
-          list_of_people << tyc.client.to_s
-        rescue Net::SMTPFatalError, Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError => e
-          User.with_role('email_admin').each do |user|
-            SurveyMailer.general_message(user, 'Problem with email address', "There was a problem with the following address: #{tyc.client.client_email} for client #{tyc.client.name_std}/#{tyc.client.id}.  I could not send their Holiday Card or Thank You Card.").deliver
+    begin
+      ThankYouCard.where(:prop_season_id => season.prop_season_ids).where(["sent_at IS NULL AND updated_at < ?", season.when_email]).limit(100).each do |tyc|
+        if tyc.email and tyc.email.match(/\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/)
+          begin
+            SurveyMailer.thank_you_email(tyc.property.manager, tyc).deliver
+            tyc.update_attribute(:sent_at, Time.now)
+            list_of_people << tyc.client.to_s
+          rescue Net::SMTPFatalError, Net::SMTPServerBusy, Net::SMTPUnknownError, Net::SMTPSyntaxError, TimeoutError => e
+            User.with_role('email_admin').each do |user|
+              SurveyMailer.general_message(user, 'Problem with email address', "There was a problem with the following address: #{tyc.client.client_email} for client #{tyc.client.name_std}/#{tyc.client.id}.  I could not send their Holiday Card or Thank You Card.").deliver
+            end
           end
         end
       end
-    end
-
-    if list_of_people.size > 0
-      User.with_role('email_admin').each do |user|
-        SurveyMailer.season_sent(user, season.name, list_of_people.size, list_of_people)
+    rescue Exception => e # Nothing to do in the rescue, but note it.
+      SurveyMailer.error_message(e,
+                                 ActiveSupport::BacktraceCleaner.new.clean(e.backtrace),
+                                 {},
+                                 {},
+                                 {},
+                                 User.first,
+                                 true
+      ).deliver
+      
+    ensure
+      if list_of_people.size > 0
+        User.with_role('email_admin').each do |user|
+          SurveyMailer.season_sent(user, season.name, list_of_people.size, list_of_people)
+        end
       end
     end
     puts "I ran for season #{season} at #{Time.now.to_s(:date_time12)}."

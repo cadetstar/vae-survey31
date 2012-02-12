@@ -142,7 +142,7 @@ class Report < ActiveRecord::Base
 
       Cif.order('end_date, completed_at').where({:property_id => group.property_ids, :count_survey => true, :cif_captured => false, :end_date => (start_date..end_date)}).where('completed_at is not null').each_with_index do |cif, a|
         COMMENTS.each_with_index do |c,i|
-          sheet[a+1,i] = cif.send(c[3])
+          sheet[a+1,i] = cif.send(c[3]).to_s
           sheet.row(a+1).set_format(i, FORMATS[c[1]])
         end
       end
@@ -169,7 +169,7 @@ class Report < ActiveRecord::Base
 
     sheet[0,0] = 'Property'
 
-    groups = Property.find_all_by_id_and_cif_include(properties, true).collect{|r| r.group}.uniq.sort_by{|g| g.name.downcase}
+    groups = Property.find_all_by_id_and_cif_include(properties, true).collect{|r| r.group}.uniq.sort_by{|g| g.name.downcase.gsub('-',' ')}
 
     offset = 2
     groups.each_with_index do |g, i|
