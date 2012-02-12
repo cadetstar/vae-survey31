@@ -1,4 +1,13 @@
-A survey for your property has been flagged.  Please click on the following link to edit the survey: <%= edit_cif_url(@cif, :only_path => false) %>
+A survey for your property has been flagged.
+
+Property:
+<%= @cif.property %>
+
+Client:
+<%= @cif.client %>
 
 Note from administrator:
 <%= @cif.flag_comment %>
+
+Edit Link:
+<%= edit_cif_url(@cif, :only_path => false) %>
